@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:51 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/06 20:48:47 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/08 21:31:49 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,29 @@ typedef struct	s_scenedata
 	int			error;
 }				t_scenedata;
 
-typedef struct	s_map
-{
-				
-}				t_map;
-
-
 /*
 ** read_scene_description_file.c
 */
-t_scenedata *get_scenedata(char *filename);
+t_scenedata		*get_scenedata(char *filename);
+void			pscene_error(char *errordesc);
 
+
+/*
+**  scene_description_processing.c
+*/
+t_bool			scenedesc_process_resolution(t_scenedata *scenedata,
+					char *line);
+t_bool			scenedesc_process_textures(t_scenedata *scenedata,
+					char *line);
+t_bool			scenedesc_process_colors(t_scenedata *scenedata, char *line);
+t_bool			scenedesc_process_map(t_scenedata *scenedata, char *line);
+
+/*
+** scene_description_verification.c
+*/
+t_bool			scenedesc_verify_resolution(t_scenedata *scenedata);
+t_bool			scenedesc_verify_textures(t_scenedata *scenedata);
+t_bool			scenedesc_verify_colors(t_scenedata *scenedata);
+t_bool			scenedesc_verify_map(t_scenedata *scenedata);
 
 #endif

@@ -6,11 +6,14 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/06 16:50:22 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/06 20:45:48 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/08 20:42:13 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
+
+# build variables
+BUFFER_SIZE=10 # buffer size used when using 'read' syscall
 
 # directories
 SRC_D = src
@@ -78,7 +81,9 @@ SRC =	$(SRC_D)/libft/ft_atoi												\
 		$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/get_next_line/get_next_line_utils							\
 		$(SRC_D)/cub3d														\
-		$(SRC_D)/read_scene_description_file
+		$(SRC_D)/scene_description_read_from_file							\
+		$(SRC_D)/scene_description_processing								\
+		$(SRC_D)/scene_description_verification
 
 SRC := $(SRC:%=%.c)
 
