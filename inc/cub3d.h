@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:51 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/09 21:51:35 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/10 16:41:58 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "ft_printf.h"
 
 # ifndef MAP_APROX_LINE_COUNT
-#  define MAP_APROX_LINE_COUNT 2
+#  define MAP_APROX_LINE_COUNT 20
 # endif
 
 typedef struct	s_vector2
@@ -69,7 +69,6 @@ t_bool			scenedesc_process_textures(t_scenedata *scenedata,
 					char *line);
 t_bool			scenedesc_process_colors(t_scenedata *scenedata, char *line);
 t_bool			scenedesc_process_map(t_scenedata *scenedata, char *line);
-void			destroy_scenedata(t_scenedata *scenedata);
 
 /*
 ** scene_description_verification.c
@@ -78,5 +77,6 @@ t_bool			scenedesc_verify_resolution(t_scenedata *scenedata);
 t_bool			scenedesc_verify_textures(t_scenedata *scenedata);
 t_bool			scenedesc_verify_colors(t_scenedata *scenedata);
 t_bool			scenedesc_verify_map(t_scenedata *scenedata);
+void			destroy_scenedata(t_scenedata *scenedata);
 
 #endif

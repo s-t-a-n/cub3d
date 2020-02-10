@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/10 00:28:45 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/10 16:42:53 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ CC_FLAGS = -Werror -Wextra -Wall -g -fsanitize=address
 # make commands
 all: $(NAME)
 
-$(NAME): $(OBJ_D) $(OBJ) $(INC) $(LIBFT) $(LIBPRINTF)
+$(NAME): $(LIBFT) $(LIBPRINTF) $(OBJ_D) $(OBJ) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
 	@$(CC) $(CC_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
