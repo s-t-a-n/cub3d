@@ -6,18 +6,26 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/10 00:02:33 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/10 21:58:10 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <strings.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include "cub3d.h"
 
-void		pscene_error(char *errordesc)
+void		crit_error(char *head, char *body, char *tail)
 {
-	ft_putstr_fd("scenedesc: ", 2);
-	ft_putendl_fd(errordesc, 2);
+	ft_putstr_fd("\e[31mError!\e[39m\n", STDERR);
+	if (head)
+		ft_putstr_fd(head, STDERR);
+	if (body)
+		ft_putstr_fd(body, STDERR);
+	if (tail)
+		ft_putstr_fd(tail, STDERR);
+	ft_putchar_fd('\n', STDERR);
+	exit(98);
 }
 
 t_scenedata	*init_scenedata()
@@ -67,23 +75,42 @@ t_scenedata	*verify_scenedata(t_scenedata *scenedata)
 			|| !scenedesc_verify_colors(scenedata)
 			|| !scenedesc_verify_map(scenedata))
 	{
-		ft_printf("verification failed!\n");
 		destroy_scenedata(scenedata);
 		return (NULL);
 	}
 	return (scenedata);
 }
 
+static void		dump_scenedata_map_printl(char *line)
+{
+	while (*line)
+	{
+		if (*line == MAP_PATH_DESIGNATOR)
+			ft_printf(" \e[101m%c\e[49m", *line);
+		else if (*line == '0')
+			ft_printf(" \e[41m%c\e[49m", *line);
+		else if (*line == '1')
+			ft_printf(" \e[44m%c\e[49m", *line);
+		else if (*line == '2')
+			ft_printf(" \e[104m%c\e[49m", *line);
+		else
+			ft_printf(" \e[103m%c\e[49m", *line);
+		line++;
+	}
+	ft_printf("\n");
+}
+
 void			dump_scenedata_map(t_scenedata *scenedata)
 {
 	size_t	ctr;
-	
+	ft_printf("---------------------------------------\n");
 	ctr = 0;
 	while (ctr < scenedata->map->element_count)
 	{
-		ft_printf("map:\t\t\t\t%s\n", scenedata->map->mem[ctr]);
+		dump_scenedata_map_printl((char *)scenedata->map->mem[ctr]);
 		ctr++;
 	}
+	ft_printf("---------------------------------------\n");
 }
 
 void			dump_scenedata(t_scenedata *scenedata)
@@ -101,7 +128,7 @@ void			dump_scenedata(t_scenedata *scenedata)
 
 t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 {
-	if (line[0] == '1' || line[0] == '0')
+	if (line[0] == '1' || line[0] == '0' || line[0] == '2')
 		return(scenedesc_process_map(scenedata, line));
 	else if (line[0] == 'R')
 		return(scenedesc_process_resolution(scenedata, line));
@@ -110,7 +137,7 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 	else if (line[0] == 'F' || line[0] == 'C')
 		return(scenedesc_process_colors(scenedata, line));
 	else
-		pscene_error("bogus information in scenedescription file!");
+		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);
 }
 
@@ -135,7 +162,7 @@ t_scenedata *build_scenedata(int fd)
 		free(line);
 	}
 	else
-		perror("scenedata file");
+		crit_error("MALLOC", strerror(errno), NULL);
 	dump_scenedata(scenedata);
 	return (verify_scenedata(scenedata));
 }
@@ -148,13 +175,11 @@ t_scenedata	*get_scenedata(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("scenedata file");
+		crit_error("Scene description:", "file open error:", strerror(errno));
 		return (NULL);
 	}
 	scenedata = build_scenedata(fd);
-	if (!scenedata)
-		pscene_error("file appears to be malformed!");
 	if (close(fd) < 0)
-		perror("scenedata file");
+		crit_error("Scene description:", "file close error:", strerror(errno));
 	return(scenedata);
 }

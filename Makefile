@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/10 16:42:53 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/10 17:49:42 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/cub3d														\
 		$(SRC_D)/scene_description_read_from_file							\
 		$(SRC_D)/scene_description_processing								\
-		$(SRC_D)/scene_description_verification
+		$(SRC_D)/scene_description_verification								\
+		$(SRC_D)/scene_description_verification_map
 
 SRC := $(SRC:%=%.c)
 
@@ -73,7 +74,7 @@ CC_FLAGS = -Werror -Wextra -Wall -g -fsanitize=address
 # make commands
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(LIBPRINTF) $(OBJ_D) $(OBJ) $(INC)
+$(NAME): $(LIBFT) $(LIBPRINTF) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
 	@$(CC) $(CC_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
