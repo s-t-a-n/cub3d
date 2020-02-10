@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_strrev.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/12/10 22:49:28 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/12/21 19:39:22 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include "libft.h"
 
-typedef enum		e_bool
+char	*ft_strrev(char *str)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	size_t str_len;
+	size_t ctr;
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	ctr = 0;
+	if (!*str)
+		return (str);
+	str_len = ft_strlen(str);
+	while (ctr < str_len / 2)
+	{
+		ft_swap(&str[ctr], &str[str_len - 1 - ctr]);
+		ctr++;
+	}
+	return (str);
+}

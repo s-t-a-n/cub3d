@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_isspace.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/11/13 11:34:05 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/13 12:54:24 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
-
-typedef enum		e_bool
+int	ft_isspace(int c)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	return (c == ' '
+			|| c == '\n'
+			|| c == '\t'
+			|| c == '\v'
+			|| c == '\f'
+			|| c == '\r');
+}

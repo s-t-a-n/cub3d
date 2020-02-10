@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_memchr.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/10/31 20:03:49 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/15 18:55:43 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stddef.h>
 
-typedef enum		e_bool
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	while (n > 0)
+	{
+		if (*(unsigned char *)s == (unsigned char)c)
+			return ((void *)s);
+		s++;
+		n--;
+	}
+	return (NULL);
+}

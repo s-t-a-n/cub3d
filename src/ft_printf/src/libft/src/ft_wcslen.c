@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_wcslen.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2020/01/04 22:17:41 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/01/05 00:04:13 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <wchar.h>
+#include "libft.h"
 
-typedef enum		e_bool
+/*
+** check how long a wchar_t string is
+*/
+
+size_t	ft_wcslen(wchar_t *ws)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	const wchar_t *ws_orig = ws;
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	while (*ws)
+		ws++;
+	return ((size_t)ws - (size_t)ws_orig);
+}

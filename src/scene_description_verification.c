@@ -58,10 +58,24 @@ t_bool			scenedesc_verify_textures(t_scenedata *scenedata)
 			&& file_exists(scenedata->f_sprite_texture));
 }
 
+t_bool			check_colorcode(int colorcode)
+{
+	t_bool error;
+
+	error = (colorcode >= 0 && colorcode <= 255);
+	if (error == err)
+		pscene_error("colorcode invalid");
+	return (error);
+}
+
 t_bool			scenedesc_verify_colors(t_scenedata *scenedata)
 {
-	return (noerr);
-	return (scenedata == NULL);
+	return (check_colorcode(scenedata->floor_color.r)
+				&& check_colorcode(scenedata->floor_color.g)
+				&& check_colorcode(scenedata->floor_color.b)
+				&& check_colorcode(scenedata->ceiling_color.r)
+				&& check_colorcode(scenedata->ceiling_color.b)
+				&& check_colorcode(scenedata->ceiling_color.r));
 }
 
 t_bool			scenedesc_verify_map(t_scenedata *scenedata)

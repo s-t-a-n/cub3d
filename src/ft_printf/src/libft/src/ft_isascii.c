@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_isascii.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/10/29 20:11:12 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/05 20:12:18 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
-
-typedef enum		e_bool
+int	ft_isascii(int c)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	return (c >= 0 && c <= 127);
+}

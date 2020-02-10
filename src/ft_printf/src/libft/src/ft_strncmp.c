@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_strncmp.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/10/29 16:50:19 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/23 04:31:27 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stddef.h>
 
-typedef enum		e_bool
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	if (n == 0)
+		return (0);
+	while (*s1 == *s2 && *s1 && n > 1)
+	{
+		n--;
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.c                                            :+:    :+:            */
+/*   ft_issymbol.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/08 20:27:38 by sverschu      ########   odam.nl         */
+/*   Created: 2019/11/13 20:05:03 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/13 20:05:10 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+/*
+** ft_issymbol concerns all characters which are not alphanumeric but printable
+** like !@#$%^&* and stuff
+*/
 
-int		main(int argc, char **argv)
+int		ft_issymbol(int c)
 {
-	t_scenedata *scenedata;
-
-	scenedata = get_scenedata(argv[1]);
-	destroy_scenedata(scenedata);
-	return (argc);
+	return ((c >= 32 && c <= 47) || (c >= 58 && c <= 64) ||
+			(c >= 91 && c <= 96) || (c >= 123 && c <= 126));
 }

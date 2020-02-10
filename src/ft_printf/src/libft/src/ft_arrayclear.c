@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_ptr_array_clear.c                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/11/04 17:41:26 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/02/10 00:08:17 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stdlib.h>
 
-typedef enum		e_bool
+void	*ft_arrayclear(void **ptr_array, size_t len)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	if (!ptr_array)
+		return (NULL);
+	while (len > 0)
+	{
+		free(ptr_array[len - 1]);
+		len--;
+	}
+	free(ptr_array);
+	return (NULL);
+}

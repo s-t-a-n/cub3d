@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_putnbr_base_fd.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/12/11 20:26:57 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/12/11 20:37:27 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include "libft.h"
 
-typedef enum		e_bool
+void	ft_putnbr_base_fd(unsigned long nb, int base, int fd)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	const char ctab[36] = "0123456789abcdefghijklmnopqrstuvwxyz";
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	if (base < 2 || base > 36)
+		return ;
+	if (nb > (unsigned long)(base - 1))
+		ft_putnbr_base_fd(nb / base, base, fd);
+	ft_putchar_fd(ctab[nb % base], fd);
+}

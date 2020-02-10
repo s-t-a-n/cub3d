@@ -25,7 +25,6 @@ void			dynmem_destroy(t_dynmem *dym)
 		free((dym->mem)[ctr]);
 		ctr++;
 	}
-	free(dym->mem);
 	free(dym);
 }
 

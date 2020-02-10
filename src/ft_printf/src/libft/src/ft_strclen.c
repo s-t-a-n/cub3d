@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_strclen.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/11/12 18:21:03 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/18 20:39:40 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stddef.h>
 
-typedef enum		e_bool
+size_t	ft_strclen(const char *s, char c)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	const char	*s_orig = s;
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	while (*s && *s != c)
+		s++;
+	return ((size_t)s - (size_t)s_orig);
+}

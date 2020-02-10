@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_putwstr_fd.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2020/01/04 21:55:14 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/01/04 21:59:45 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <unistd.h>
+#include "libft.h"
+#include <wchar.h>
 
-typedef enum		e_bool
+/*
+** not optimized: calls write for every wchar_t
+*/
+
+void	ft_putwstr_fd(wchar_t *ws, int fd)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
-
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	if (!ws)
+		return ;
+	while (*ws)
+	{
+		ft_putwchar_fd(*ws, fd);
+		ws++;
+	}
+}

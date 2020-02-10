@@ -55,7 +55,7 @@ void		destroy_scenedata(t_scenedata *scenedata)
 		free(scenedata->f_texture_south);
 		free(scenedata->f_texture_west);
 		free(scenedata->f_sprite_texture);
-		free(scenedata->map);
+		dynmem_destroy(scenedata->map);
 	}
 	free(scenedata);
 }
@@ -132,6 +132,7 @@ t_scenedata *build_scenedata(int fd)
 			if (error == err)
 				break;
 		}
+		free(line);
 	}
 	else
 		perror("scenedata file");

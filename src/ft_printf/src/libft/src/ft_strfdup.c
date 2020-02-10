@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_strfilter.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2020/02/09 23:44:08 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/02/10 00:02:05 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stdlib.h>
+#include "libft.h"
 
-typedef enum		e_bool
+char			*ft_strfdup(const char *s1, char c)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	const size_t	dst_len = ft_strlen((char *)s1) + 1;
+	char			*dst;
+	size_t			ctr;
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	dst = malloc(sizeof(char) * (dst_len - ft_strcount(s1, c) + 1));
+	if (!dst)
+		return (NULL);
+	ctr = 0;
+	while (*s1)
+	{
+		if (*s1 != c)
+		{
+			dst[ctr] = *s1;
+			ctr++;
+		}
+		s1++;
+	}
+	dst[ctr] = '\0';
+	return (dst);
+}

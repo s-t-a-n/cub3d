@@ -73,7 +73,7 @@ CC_FLAGS = -Werror -Wextra -Wall -g -fsanitize=address
 # make commands
 all: $(NAME)
 
-$(NAME): $(OBJ_D) $(OBJ) $(INC) $(LIBPRINTF) $(LIBFT)
+$(NAME): $(OBJ_D) $(OBJ) $(INC) $(LIBFT) $(LIBPRINTF)
 	@$(ECHO) "Linking $(NAME)..."
 	@$(CC) $(CC_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\

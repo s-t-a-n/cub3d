@@ -23,7 +23,7 @@
 # include "ft_printf.h"
 
 # ifndef MAP_APROX_LINE_COUNT
-#  define MAP_APROX_LINE_COUNT 20
+#  define MAP_APROX_LINE_COUNT 2
 # endif
 
 typedef struct	s_vector2
@@ -69,6 +69,7 @@ t_bool			scenedesc_process_textures(t_scenedata *scenedata,
 					char *line);
 t_bool			scenedesc_process_colors(t_scenedata *scenedata, char *line);
 t_bool			scenedesc_process_map(t_scenedata *scenedata, char *line);
+void			destroy_scenedata(t_scenedata *scenedata);
 
 /*
 ** scene_description_verification.c

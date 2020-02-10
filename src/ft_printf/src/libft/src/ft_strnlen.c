@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_std.h                                           :+:    :+:            */
+/*   ft_strnlen.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Created: 2019/11/22 21:49:04 by sverschu      #+#    #+#                 */
+/*   Updated: 2019/11/23 21:26:01 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STD_H
-# define FT_STD_H
+#include <stddef.h>
 
-typedef enum		e_bool
+size_t	ft_strnlen(const char *s, size_t maxlen)
 {
-	false = 0,
-	err = 0,
-	true = 1,
-	noerr = 1
-}					t_bool;
+	const char	*s_orig = s;
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-#endif
+	while (*s && maxlen > 0)
+	{
+		s++;
+		maxlen--;
+	}
+	return ((size_t)s - (size_t)s_orig);
+}
