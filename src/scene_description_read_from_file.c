@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/10 21:58:10 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/12 22:05:40 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,60 +15,36 @@
 #include <unistd.h>
 #include "cub3d.h"
 
-void		crit_error(char *head, char *body, char *tail)
+void	init_scenedata(t_scenedata *scenedata)
 {
-	ft_putstr_fd("\e[31mError!\e[39m\n", STDERR);
-	if (head)
-		ft_putstr_fd(head, STDERR);
-	if (body)
-		ft_putstr_fd(body, STDERR);
-	if (tail)
-		ft_putstr_fd(tail, STDERR);
-	ft_putchar_fd('\n', STDERR);
-	exit(98);
-}
-
-t_scenedata	*init_scenedata()
-{
-	t_scenedata *scenedata;
-
-	scenedata = malloc(sizeof(t_scenedata));
-	if (scenedata)
-	{
-		scenedata->resolution.x = -1;
-		scenedata->resolution.y = -1;
-		scenedata->f_texture_north = NULL;
-		scenedata->f_texture_east = NULL;
-		scenedata->f_texture_south = NULL;
-		scenedata->f_texture_west = NULL;
-		scenedata->f_sprite_texture = NULL;
-		scenedata->floor_color.r = -1;
-		scenedata->floor_color.g = -1;
-		scenedata->floor_color.b = -1;
-		scenedata->ceiling_color.b = -1;
-		scenedata->ceiling_color.b = -1;
-		scenedata->ceiling_color.b = -1;
-		scenedata->map = NULL;
-		scenedata->error = 0;
-	}
-	return (scenedata);
+	scenedata->resolution.x = -1;
+	scenedata->resolution.y = -1;
+	scenedata->f_texture_north = NULL;
+	scenedata->f_texture_east = NULL;
+	scenedata->f_texture_south = NULL;
+	scenedata->f_texture_west = NULL;
+	scenedata->f_sprite_texture = NULL;
+	scenedata->floor_color.r = -1;
+	scenedata->floor_color.g = -1;
+	scenedata->floor_color.b = -1;
+	scenedata->ceiling_color.b = -1;
+	scenedata->ceiling_color.b = -1;
+	scenedata->ceiling_color.b = -1;
+	scenedata->map = NULL;
+	scenedata->error = 0;
 }
 
 void		destroy_scenedata(t_scenedata *scenedata)
 {
-	if (scenedata)
-	{
-		free(scenedata->f_texture_north);
-		free(scenedata->f_texture_east);
-		free(scenedata->f_texture_south);
-		free(scenedata->f_texture_west);
-		free(scenedata->f_sprite_texture);
-		dynmem_destroy(scenedata->map);
-	}
-	free(scenedata);
+	free(scenedata->f_texture_north);
+	free(scenedata->f_texture_east);
+	free(scenedata->f_texture_south);
+	free(scenedata->f_texture_west);
+	free(scenedata->f_sprite_texture);
+	dynmem_destroy(scenedata->map);
 }
 
-t_scenedata	*verify_scenedata(t_scenedata *scenedata)
+t_bool		verify_scenedata(t_scenedata *scenedata)
 {
 	if (!scenedesc_verify_resolution(scenedata)
 			|| !scenedesc_verify_textures(scenedata)
@@ -76,9 +52,9 @@ t_scenedata	*verify_scenedata(t_scenedata *scenedata)
 			|| !scenedesc_verify_map(scenedata))
 	{
 		destroy_scenedata(scenedata);
-		return (NULL);
+		return (err);
 	}
-	return (scenedata);
+	return (noerr);
 }
 
 static void		dump_scenedata_map_printl(char *line)
@@ -141,45 +117,39 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 	return (err);
 }
 
-t_scenedata *build_scenedata(int fd)
+t_bool	build_scenedata(t_scenedata *scenedata, int fd)
 {
 	char		*line;
-	t_scenedata	*scenedata;
 	int			error;
 
 	error = noerr;
-	scenedata = init_scenedata();
-	if (scenedata)
+	init_scenedata(scenedata);
+	while (get_next_line(fd, &line) > 0)
 	{
-		while (get_next_line(fd, &line) > 0)
-		{
-			if (line[0])
-				error = extract_scenedata_from_line(scenedata, line);
-			free(line);
-			if (error == err)
-				break;
-		}
+		if (line[0])
+			error = extract_scenedata_from_line(scenedata, line);
 		free(line);
+		if (error == err)
+			break;
 	}
-	else
-		crit_error("MALLOC", strerror(errno), NULL);
+	free(line);
 	dump_scenedata(scenedata);
 	return (verify_scenedata(scenedata));
 }
 
-t_scenedata	*get_scenedata(char *filename)
+t_bool	construct_scenedata(t_scenedata *scenedata, char *filename)
 {
-	int fd;
-	t_scenedata *scenedata;
+	int 	fd;
+	t_bool	error;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
 		crit_error("Scene description:", "file open error:", strerror(errno));
-		return (NULL);
+		return (err);
 	}
-	scenedata = build_scenedata(fd);
+	error = build_scenedata(scenedata, fd);
 	if (close(fd) < 0)
 		crit_error("Scene description:", "file close error:", strerror(errno));
-	return(scenedata);
+	return(error);
 }

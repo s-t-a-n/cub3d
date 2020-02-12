@@ -5,12 +5,12 @@
 #                                                      +:+                     #
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
-#    Created: 2020/02/10 00:13:08 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/12 18:37:45 by sverschu      ########   odam.nl          #
+#    Created: 2020/02/11 18:23:48 by sverschu      #+#    #+#                  #
+#    Updated: 2020/02/11 18:24:04 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME = libmlx.dylib
 
 # directories
 SRC_D = src
@@ -18,71 +18,24 @@ OBJ_D = obj
 INC_D = inc
 
 # C source and header files
-SRC =	$(SRC_D)/ft_atoi												\
-		$(SRC_D)/ft_strtol												\
-		$(SRC_D)/ft_strtoull											\
-		$(SRC_D)/ft_bzero												\
-		$(SRC_D)/ft_calloc												\
-		$(SRC_D)/ft_isupper												\
-		$(SRC_D)/ft_islower												\
-		$(SRC_D)/ft_isalnum												\
-		$(SRC_D)/ft_isalpha												\
-		$(SRC_D)/ft_isascii												\
-		$(SRC_D)/ft_isdigit												\
-		$(SRC_D)/ft_isprint												\
-		$(SRC_D)/ft_itoa												\
-		$(SRC_D)/ft_dtoa_sc1											\
-		$(SRC_D)/ft_dtoa_sc2											\
-		$(SRC_D)/ft_ltoa_base											\
-		$(SRC_D)/ft_lltoa_base											\
-		$(SRC_D)/ft_ultoa_base											\
-		$(SRC_D)/ft_ulltoa_base											\
-		$(SRC_D)/ft_ldtoa1												\
-		$(SRC_D)/ft_ldtoa2												\
-		$(SRC_D)/ft_memccpy												\
-		$(SRC_D)/ft_memchr												\
-		$(SRC_D)/ft_memcmp												\
-		$(SRC_D)/ft_memcpy												\
-		$(SRC_D)/ft_memmove												\
-		$(SRC_D)/ft_memset												\
-		$(SRC_D)/ft_putchar_fd											\
-		$(SRC_D)/ft_putwchar_fd											\
-		$(SRC_D)/ft_putendl_fd											\
-		$(SRC_D)/ft_putnbr_fd											\
-		$(SRC_D)/ft_putstr_fd											\
-		$(SRC_D)/ft_putwstr_fd											\
-		$(SRC_D)/ft_strsplit											\
-		$(SRC_D)/ft_strchr												\
-		$(SRC_D)/ft_strdup												\
-		$(SRC_D)/ft_strjoin												\
-		$(SRC_D)/ft_strlcat												\
-		$(SRC_D)/ft_strlcpy												\
-		$(SRC_D)/ft_strlen												\
-		$(SRC_D)/ft_wcslen												\
-		$(SRC_D)/ft_wclen												\
-		$(SRC_D)/ft_strmapi												\
-		$(SRC_D)/ft_strncmp												\
-		$(SRC_D)/ft_strnstr												\
-		$(SRC_D)/ft_strrchr												\
-		$(SRC_D)/ft_strtrim												\
-		$(SRC_D)/ft_strsub												\
-		$(SRC_D)/ft_tolower												\
-		$(SRC_D)/ft_toupper												\
-		$(SRC_D)/ft_arrayclear											\
-		$(SRC_D)/ft_strclen												\
-		$(SRC_D)/ft_isspace												\
-		$(SRC_D)/ft_issymbol											\
-		$(SRC_D)/ft_strndup												\
-		$(SRC_D)/ft_strnlen												\
-		$(SRC_D)/ft_strfdup												\
-		$(SRC_D)/ft_strcount											\
-		$(SRC_D)/ft_swap												\
-		$(SRC_D)/ft_dynmem
+SRC =	$(SRC_D)/get_next_line/get_next_line								\
+		$(SRC_D)/get_next_line/get_next_line_utils							\
+		$(SRC_D)/cub3d														\
+		$(SRC_D)/scene_description_read_from_file							\
+		$(SRC_D)/scene_description_processing								\
+		$(SRC_D)/scene_description_verification								\
+		$(SRC_D)/scene_description_verification_map
+
 SRC := $(SRC:%=%.c)
 
-INC =	$(INC_D)/libft.h
-
+INC =	$(INC_D)/libft.h													\
+		$(INC_D)/get_next_line.h											\
+		$(INC_D)/cub3d.h
 OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
+
+
+LIBFT = $(SRC_D)/libft/libft.a
+LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
 
 # outputting
 CC_LOG=./.cc.log
@@ -118,10 +71,9 @@ CC_FLAGS = -Werror -Wextra -Wall -g -fsanitize=address
 # make commands
 all: $(NAME)
 
-
-$(NAME): $(OBJ_D)  $(OBJ) $(INC)
+$(NAME): $(LIBFT) $(LIBPRINTF) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
-	@ar -rcs $(NAME) $(OBJ) 2>$(CC_LOG) || touch $(CC_ERROR)
+	@$(CC) $(CC_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
 	elif test -s $(CC_LOG); then											\
@@ -132,7 +84,8 @@ $(NAME): $(OBJ_D)  $(OBJ) $(INC)
 	@$(RM) -f $(CC_LOG) $(CC_ERROR)
 
 $(OBJ_D):
-	@mkdir -p $(OBJ_D)
+	@mkdir -p $(OBJ_D)/libft
+	@mkdir -p $(OBJ_D)/get_next_line
 
 $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	@$(ECHO) "Compiling $<..."
@@ -147,13 +100,23 @@ $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	fi
 	@$(RM) -f $(CC_LOG) $(CC_ERROR)
 
+$(LIBPRINTF):
+	@make -C $(SRC_D)/ft_printf
+
+$(LIBFT):
+	@make -C $(SRC_D)/libft
+
 clean:
 	@$(RM) $(OBJ)
 	@$(RM) -r $(OBJ_D)
+	@make -C $(SRC_D)/ft_printf clean
+	@make -C $(SRC_D)/libft clean
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) bonus
+	@make -C $(SRC_D)/ft_printf fclean
+	@make -C $(SRC_D)/libft fclean
 
 re: fclean all
 
