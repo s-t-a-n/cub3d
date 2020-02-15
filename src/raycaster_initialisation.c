@@ -1,0 +1,111 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   raycaster_initialisation.c                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/02/15 19:43:00 by sverschu      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+static t_flvector2	vectorize_edirection(t_direction dir)
+{
+	t_flvector2	vdir;
+
+	if (dir == north)
+	{
+		vdir.x = 0;
+		vdir.y = -1;
+	}
+	else if (dir == east)
+	{
+		vdir.x = -1;
+		vdir.y = 0;
+	}
+	else if (dir == south)
+	{
+		vdir.x = 0;
+		vdir.y = 1;
+	}
+	else
+	{
+		vdir.x = 1;
+		vdir.y = 0;
+	}
+
+	/*
+	if (dir == north)
+	{
+		vdir.x = 0;
+		vdir.y = 1;
+	}
+	else if (dir == east)
+	{
+		vdir.x = 1;
+		vdir.y = 0;
+	}
+	else if (dir == south)
+	{
+		vdir.x = 0;
+		vdir.y = -1;
+	}
+	else
+	{
+		vdir.x = -1;
+		vdir.y = 0;
+	}
+	*/
+	return (vdir);
+}
+
+static t_flvector2 calculate_initial_camplane(t_direction dir)
+{
+	t_flvector2 camplane;
+
+	if (dir == north)
+	{
+    	camplane.x = -0.66;
+    	camplane.y = 0.0;
+	}
+	else if (dir == east)
+	{
+    	camplane.x = 0.0;
+    	camplane.y = -0.66;
+	}
+	else if (dir == south)
+	{
+    	camplane.x = -0.66;
+    	camplane.y = 0.0;
+	}
+	else
+	{
+    	camplane.x = 0.0;
+    	camplane.y = -0.66;
+	}
+
+	return(camplane);
+}
+
+void	first_init_raycast(t_raycast *raycast, t_cub3d *cub3d)
+{
+	cub3d->player->vdir =
+		vectorize_edirection(cub3d->scenedata->player_orientation);
+	raycast->camplane = calculate_initial_camplane(cub3d->scenedata->player_orientation);
+	cub3d->player->dpos.x = 0.5;
+	cub3d->player->dpos.y = 0.5;
+}
+
+void    init_raycast(t_raycast *raycast, t_cub3d *cub3d)
+{
+	if (cub3d->first_render)
+	{
+		first_init_raycast(raycast, cub3d);
+		cub3d->first_render = false;
+	}
+	raycast->phaser.x = 0;
+	raycast->phaser.y = 0;
+}

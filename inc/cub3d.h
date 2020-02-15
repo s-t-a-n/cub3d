@@ -6,19 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/13 00:22:00 by sverschu      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   cub3d.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/02/06 17:16:51 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/12 16:01:50 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/15 19:39:04 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +15,7 @@
 
 # include <stdlib.h>
 # include <errno.h>
+# include <math.h>
 
 // DONT FUCKING FORGET TO REMOVE THIS LIB
 # include <stdio.h>
@@ -51,8 +40,9 @@
 #define SELF_ERROR 1
 
 /*
-** graphical defines
+** raycasting defines
 */
+#define PLAYER_ROT_SPEED 5.0
 #define VW_ANGLE 66.0
 #define VW_ANGLE_INC 1.0
 
@@ -84,14 +74,32 @@ typedef struct	s_flvector2
 	float		y;
 }				t_flvector2;
 
+/*
+** raycasting related dataypes
+*/
+typedef struct  s_raycast
+{
+    t_flvector2 dir;    //direction of ray
+    t_vector2   pos;    // pos of current ray
+  	t_flvector2	camplane;
+  	t_flvector2 campos;
+    t_vector2   tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
+    t_flvector2 intercept; //delta x and y from player
+    t_flvector2 delta_intercept; //delta x and y from player
+    t_bool      hit;
+    int 		side;
+    float       distance; // distance till hit
+    t_vector2   phaser; //counts one up for every pixel
+}               t_raycast;
 
 /*
 ** game datatypes
 */
 typedef struct	s_player
 {
-	t_flvector2	pos;
-	t_flvector2	viewdir;
+	t_vector2	pos;
+	t_flvector2	dpos;
+	t_flvector2	vdir;
 }				t_player;
 
 /*
@@ -108,9 +116,9 @@ typedef struct	s_mlx_image
 {
 	void		*img;
 	char		*addr;
-	int			bpp;
-	int			line_size;
-	int			endian;
+	int		bpp;
+	int		line_size;
+	int		endian;
 	t_bool		active;
 }				t_mlx_image;
 
@@ -123,8 +131,8 @@ typedef struct	s_mlx
 	void		*window;
 	int			keystate;
 	int			exposestate;
+	t_vector2	resolution;
 }				t_mlx;
-
 
 typedef struct	s_scenedata
 {
@@ -142,6 +150,14 @@ typedef struct	s_scenedata
 	int			error;
 }				t_scenedata;
 
+typedef struct	s_cub3d
+{
+	t_scenedata	*scenedata;
+	t_mlx		*mlx;
+	t_player	*player;
+	t_bool		save_frame;
+	t_bool		first_render;
+}				t_cub3d;
 
 /*
 **	cub3d.h
@@ -182,7 +198,7 @@ t_bool			check_if_player_is_enclosed(t_scenedata *scenedata);
 /*
 ** game.c
 */
-t_bool  construct_game(t_scenedata *scenedata, t_player *player);
+t_bool  construct_game(t_cub3d *cub3d, t_scenedata *scenedata);
 
 /*
 ** game_meta.c
@@ -205,9 +221,25 @@ int     keyhook(int keycode, t_mlx *mlx);
 int		exposehook(int exposecode, t_mlx *mlx);
 
 /*
+** mlx_rendering.c
+*/
+int		render_frame(t_cub3d *cub3d);
+void	clear_image(t_mlx *mlx);
+
+/*
 ** mlx_generic.c
 */
 
 unsigned int    trgb(int t, int r, int g, int b);
 int				shutdown(int code, void *ptr);
+
+/*
+** raycaster.c
+*/
+t_bool	raycaster(t_cub3d *cub3d);
+
+/*
+** raycaster_initialisation.c
+*/
+void	init_raycast(t_raycast *raycast, t_cub3d *cub3d);
 #endif

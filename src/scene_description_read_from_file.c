@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <strings.h>
+#include <string.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include "cub3d.h"

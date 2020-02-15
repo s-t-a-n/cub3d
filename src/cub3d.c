@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/13 00:08:18 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/15 19:39:40 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,20 @@ void        crit_error(char *head, char *body, char *tail)
     exit(SELF_ERROR);
 }
 
-int	execute_rendering(t_scenedata *scenedata, t_player *player,
-		t_bool save_frame)
+int	execute_rendering(t_cub3d *cub3d)
 {
 	t_mlx	mlx;
-	if(!mlx_construct(&mlx, scenedata->resolution, SELF_NAME))
-		return (err);
 
-	mlx_key_hook(mlx.window, &keyhook, &mlx);
-	mlx_expose_hook(mlx.window, &exposehook, &mlx);
-	mlx_hook(mlx.window, 17, 0L, &shutdown, NULL);
-	return(mlx_loop(mlx.backend));
+	cub3d->mlx = &mlx;
+	if(!mlx_construct(cub3d->mlx, cub3d->scenedata->resolution, SELF_NAME))
+		return (err);
+	mlx_key_hook(cub3d->mlx->window, &keyhook, &cub3d->mlx);
+	mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
+	mlx_hook(cub3d->mlx->window, 17, 0L, &shutdown, NULL);
+	//mlx_loop_hook(cub3d->mlx->backend, &render_frame, cub3d);
+	cub3d->first_render = true;
+	render_frame(cub3d);
+	return(mlx_loop(cub3d->mlx->backend));
 }
 
 /*
@@ -53,16 +56,19 @@ int		main(int argc, char **argv)
 {
 	t_scenedata	scenedata;
 	t_player	player;
-	t_bool		save_frame;
+	t_cub3d		cub3d;
 
-	save_frame = false;
+	cub3d.player = &player;
+	cub3d.scenedata = &scenedata;
+
+	cub3d.save_frame = false;
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7) == 0)
-		save_frame = true;
+		cub3d.save_frame = true;
 	else if (argc != 2)
 		crit_error("Cube3d:", "Come back later with better arguments", NULL);
 	if (construct_scenedata(&scenedata, argv[1]) == noerr
-			&& construct_game(&scenedata, &player) == noerr)
-			return (execute_rendering(&scenedata, &player, save_frame));
+			&& construct_game(&cub3d, &scenedata) == noerr)
+			return (execute_rendering(&cub3d));
 	else
 		return (SELF_ERROR);
 }

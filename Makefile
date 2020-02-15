@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/13 00:23:24 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/13 19:41:14 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = cub3d
 
 # build variables
 BUFFER_SIZE=10 # buffer size used when using 'read' syscall
+
 
 # directories
 SRC_D = src
@@ -33,7 +34,7 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/mlx_generic												\
 		$(SRC_D)/mlx_rendering												\
 		$(SRC_D)/game														\
-		$(SRC_D)/game_meta													\
+		$(SRC_D)/raycaster_initialisation									\
 		$(SRC_D)/raycaster													\
 
 
@@ -46,10 +47,6 @@ INC =	$(INC_D)/libft.h													\
 		$(INC_D)/cub3d.h
 OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
 
-# dependencies
-LIBFT = $(SRC_D)/libft/libft.a
-LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
-MINILIBX = libmlx.dylib
 
 # outputting
 CC_LOG=./.cc.log
@@ -74,7 +71,7 @@ CC = clang
 # compile flags
 DEBUG_FLAGS = -g -fsanitize=address
 CC_FLAGS = -Werror -Wextra -Wall $(DEBUG_FLAGS)
-CCL_FLAGS = -Werror -Wextra -Wall -framework OpenGL -framework AppKit  $(DEBUG_FLAGS)
+CCL_FLAGS = -Werror -Wextra -Wall $(DEBUG_FLAGS)
 #CC_FLAGS =	-Werror -Wextra -Wall	\
 			-ftrapv					\
 			-Wunreachable-code		\
@@ -84,12 +81,33 @@ CCL_FLAGS = -Werror -Wextra -Wall -framework OpenGL -framework AppKit  $(DEBUG_F
 			-fstack-protector-all	\
 			-fstack-check
 
+# dependencies
+LIBFT = $(SRC_D)/libft/libft.a
+LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
+
+# os variables
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+    OS = LINUX
+    CC_FLAGS += -D LINUX
+    CCL_FLAGS += -lXext -lX11
+    MINILIBX = libmlx.a
+    MINILIBX_D = minilibx_linux
+endif
+ifeq ($(UNAME_S),Darwin)
+    OS = OSX
+    CC_FLAGS += -D OSX 
+    CCL_FLAGS += -framework AppKit -framework OpenGL
+    MINILIBX = libmlx.dylib
+    MINILIBX_D = minilibx
+endif
+
 # make commands
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) $(CCL_FLAGS) -framework OpenGL -framework AppKit -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
+	@$(CC) -v $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
 	elif test -s $(CC_LOG); then											\
@@ -123,22 +141,22 @@ $(LIBFT):
 	@make -C $(SRC_D)/libft
 
 $(MINILIBX):
-	@make -C $(SRC_D)/minilibx
-	@ln -s $(SRC_D)/minilibx/libmlx.dylib ./
+	@make -C $(SRC_D)/$(MINILIBX_D)
+	@ln -s $(SRC_D)/$(MINILIBX_D)/$(MINILIBX) ./
 
 clean:
 	@$(RM) $(OBJ)
 	@$(RM) -r $(OBJ_D)
 	@make -C $(SRC_D)/ft_printf clean
 	@make -C $(SRC_D)/libft clean
-	@make -C $(SRC_D)/minilibx clean
+	@make -C $(SRC_D)/$(MINILIBX_D) clean
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) bonus
 	@make -C $(SRC_D)/ft_printf fclean
 	@make -C $(SRC_D)/libft fclean
-	@make -C $(SRC_D)/minilibx fclean
+	@make -C $(SRC_D)/$(MINILIBX_D)/ fclean
 	@$(RM) -f $(MINILIBX)
 
 re: fclean all

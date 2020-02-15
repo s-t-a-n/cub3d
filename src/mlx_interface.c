@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 15:55:32 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/12 22:12:18 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/13 18:49:21 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_mlx	*mlx_destruct(t_mlx *mlx)
 
 t_bool		mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name)
 {
-
 	mlx->backend = mlx_init();
+	mlx->resolution = resolution;
 	if (mlx->backend)
 	{
 		mlx->window = mlx_new_window(mlx->backend, resolution.x, resolution.y,

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/10 22:02:25 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/11 17:38:35 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/15 19:23:23 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ static t_bool		smafpp_sub(t_scenedata *scenedata, size_t xctr, size_t yctr,
 					"multiple player positions!", NULL);
 		scenedata->player_position.x = xctr;
 		scenedata->player_position.y = yctr;
+		if (ch == 'N')
+			scenedata->player_orientation = north;
+		if (ch == 'E')
+			scenedata->player_orientation = east;
+		if (ch == 'S')
+			scenedata->player_orientation = south;
+		if (ch == 'W')
+			scenedata->player_orientation = west;
 		return (true);
 	}
 	return (false);
