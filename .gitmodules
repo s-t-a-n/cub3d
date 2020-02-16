@@ -1,0 +1,3 @@
+[submodule "src/minilibx_linux"]
+	path = src/minilibx_linux
+	url = https://github.com/ttshivhula/minilibx.git
