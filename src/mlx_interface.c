@@ -76,6 +76,7 @@ t_bool		mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name)
 			mlx->image_b.addr = mlx_get_data_addr(mlx->image_b.img,
 		&mlx->image_b.bpp, &mlx->image_b.line_size, &mlx->image_b.endian);
 			mlx->image_act = &mlx->image_a;
+			mlx->image_nact = &mlx->image_b;
 			if (mlx->image_a.addr && mlx->image_b.addr)
 				return (noerr);
 			else

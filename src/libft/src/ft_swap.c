@@ -19,3 +19,12 @@ void	ft_swap(char *a, char *b)
 		*a = (int)*a - (int)*b;
 	}
 }
+
+void	ft_pswap(void **a, void **b)
+{
+	void *tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = *a;
+}

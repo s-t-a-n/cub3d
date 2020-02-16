@@ -32,13 +32,19 @@ int	execute_rendering(t_cub3d *cub3d)
 	cub3d->mlx = &mlx;
 	if(!mlx_construct(cub3d->mlx, cub3d->scenedata->resolution, SELF_NAME))
 		return (err);
-	mlx_key_hook(cub3d->mlx->window, &keyhook, &cub3d->mlx);
+	//mlx_key_hook(cub3d->mlx->window, &keyhook, &cub3d);
 	mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
-	mlx_hook(cub3d->mlx->window, 17, 0L, &shutdown, NULL);
+	//mlx_hook(cub3d->mlx->window, X_EVENT_EXIT, 0L, &shutdown, NULL);
+	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, 1L<<0, &keydown, cub3d);
+	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, 1L<<1, &keyrelease, cub3d);
+
 	//mlx_loop_hook(cub3d->mlx->backend, &render_frame, cub3d);
 	cub3d->first_render = true;
 	render_frame(cub3d);
-	return(mlx_loop(cub3d->mlx->backend));
+	printf("calling mlx_loop!\n");
+	mlx_loop(cub3d->mlx->backend);
+	ft_printf("------------exiting loop!\n");
+	return (noerr);
 }
 
 /*

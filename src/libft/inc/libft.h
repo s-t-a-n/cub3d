@@ -56,6 +56,7 @@ int					ft_isspace(int c);
 int					ft_issymbol(int c);
 
 void				ft_swap(char *a, char *b);
+void				ft_pswap(void **a, void **b);
 
 int					ft_atoi(const char *str);
 long				ft_strtol(const char *str, char **endptr, int base);

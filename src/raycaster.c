@@ -147,7 +147,7 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 {
 	float lineheight = (float)cub3d->mlx->resolution.y / raycast->distance;
 
-	printf("lineheight : %f\n", lineheight);
+	//printf("lineheight : %f\n", lineheight);
 	t_vector2 pos;
 
 	pos.y = (cub3d->mlx->resolution.y / 2) - ((int)lineheight / 2);
@@ -157,22 +157,12 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 
 	size.y = (int)lineheight;
 	size.x = 1;
-	//printf("pos.y: %i\n", pos.y);
-	mlx_wrect(*(cub3d->mlx->image_act), pos, size, 0x00FFFFFF);
-	//return;
-	size.x = 10;
-	size.y = 10;
-	pos.x = 10;
-	pos.y = 10;
-	//pos.x = (cub3d->mlx->resolution.x / 2) - size.x;
-	//pos.y = (cub3d->mlx->resolution.y / 2) - size.y;
-	//mlx_wrect(*(cub3d->mlx->image_act), pos, size, 0x00FFFFFF);
-
-	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window, cub3d->mlx->image_act->img, 0, 0);
-
+	//printf("pos.x: %i x %i\n", pos.x, pos.y);
+	if (raycast->side)
+		mlx_wrect(*(cub3d->mlx->image_nact), pos, size, 0x00FFFFFF);
+	else
+		mlx_wrect(*(cub3d->mlx->image_nact), pos, size, 0x000F0F0F);
 }
-
-
 
 #include "unistd.h"
 
@@ -201,6 +191,8 @@ t_bool	raycaster(t_cub3d *cub3d)
 		//sleep (1);
 	}
 		dump_scenedata_map(cub3d->scenedata);
+	
+	ft_pswap((void **)&cub3d->mlx->image_act, (void **)&cub3d->mlx->image_nact);
 	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window, cub3d->mlx->image_act->img, 0, 0);
 	return (false);
 }

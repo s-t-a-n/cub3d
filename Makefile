@@ -89,14 +89,14 @@ LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
-    CC_FLAGS += -D LINUX
+    CC_FLAGS += -D OS=LINUX
     CCL_FLAGS += -lXext -lX11
     MINILIBX = libmlx.a
     MINILIBX_D = minilibx_linux
 endif
 ifeq ($(UNAME_S),Darwin)
     OS = OSX
-    CC_FLAGS += -D OSX 
+    CC_FLAGS += -D OS=OSX 
     CCL_FLAGS += -framework AppKit -framework OpenGL
     MINILIBX = libmlx.dylib
     MINILIBX_D = minilibx
@@ -156,8 +156,15 @@ fclean: clean
 	@$(RM) bonus
 	@make -C $(SRC_D)/ft_printf fclean
 	@make -C $(SRC_D)/libft fclean
-	@make -C $(SRC_D)/$(MINILIBX_D)/ fclean
+	@make -C $(SRC_D)/$(MINILIBX_D)/ clean
 	@$(RM) -f $(MINILIBX)
+
+lre:
+	@$(RM) $(NAME)
+	@$(RM) bonus
+	@$(RM) $(OBJ)
+	@$(RM) -r $(OBJ_D)
+	@make
 
 re: fclean all
 

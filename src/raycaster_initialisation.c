@@ -23,7 +23,7 @@ static t_flvector2	vectorize_edirection(t_direction dir)
 	}
 	else if (dir == east)
 	{
-		vdir.x = -1;
+		vdir.x = 1;
 		vdir.y = 0;
 	}
 	else if (dir == south)
@@ -33,7 +33,7 @@ static t_flvector2	vectorize_edirection(t_direction dir)
 	}
 	else
 	{
-		vdir.x = 1;
+		vdir.x = -1;
 		vdir.y = 0;
 	}
 

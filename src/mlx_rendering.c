@@ -27,6 +27,7 @@ void	clear_image(t_mlx *mlx)
 
 int		render_frame(t_cub3d *cub3d)
 {
-	sleep (1);
+	//sleep (1);
+	printf("render!\n");
 	return(raycaster(cub3d));
 }

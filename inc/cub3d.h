@@ -47,9 +47,42 @@
 #define VW_ANGLE_INC 1.0
 
 /*
-** keycodes
+** keycodes and X events
 */
-# define KB_ESC 53
+
+# define KB_DEFAULT -1
+
+# if OS == OSX
+
+#  define X_EVENT_KEYDOWN 2
+#  define X_EVENT_KEYRELEASE 3
+#  define X_EVENT_MOUSEDOWN 4
+#  define X_EVENT_MOUSERELEASE 5
+#  define X_EVENT_MOUSEMOVE 6
+#  define X_EVENT_EXIT 1
+
+#  define KB_ESC 53
+#  define KB_W 119
+#  define KB_A 97
+#  define KB_S 115
+#  define KB_D 100
+
+# elif OS == LINUX
+
+#  define X_EVENT_KEYDOWN 2
+#  define X_EVENT_KEYRELEASE 3
+#  define X_EVENT_MOUSEDOWN 4
+#  define X_EVENT_MOUSERELEASE 5
+#  define X_EVENT_MOUSEMOVE 6
+#  define X_EVENT_EXIT 1
+
+#  define KB_ESC 65307
+#  define KB_W 119
+#  define KB_A 97
+#  define KB_S 115
+#  define KB_D 100
+
+# endif
 
 /*
 ** general datatypes
@@ -127,6 +160,7 @@ typedef struct	s_mlx
 	t_mlx_image	image_a;
 	t_mlx_image	image_b;
 	t_mlx_image	*image_act;
+	t_mlx_image	*image_nact;
 	void		*backend;
 	void		*window;
 	int			keystate;
@@ -218,6 +252,8 @@ t_mlx   *mlx_destruct(t_mlx *mlx);
 ** mlx_hooks.c
 */
 int     keyhook(int keycode, t_mlx *mlx);
+int	keydown(int keycode, t_cub3d *cub3d);
+int	keyrelease(int keycode, t_cub3d *cub3d);
 int		exposehook(int exposecode, t_mlx *mlx);
 
 /*
