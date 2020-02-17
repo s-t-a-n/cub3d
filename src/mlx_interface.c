@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 15:55:32 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/13 18:49:21 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 17:14:45 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	mlx_wrect(t_mlx_image mlximage, t_vector2 pos,
 			t_vector2 size, int color)
 {
 	int		xctr;
+
 	while (size.y > 0)
 	{
 		xctr = 0;
@@ -61,6 +62,7 @@ t_bool		mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name)
 {
 	mlx->backend = mlx_init();
 	mlx->resolution = resolution;
+	mlx->keystate = KB_DEFAULT;
 	if (mlx->backend)
 	{
 		mlx->window = mlx_new_window(mlx->backend, resolution.x, resolution.y,

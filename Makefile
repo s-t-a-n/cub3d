@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/13 19:41:14 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/17 20:07:47 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,9 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/mlx_generic												\
 		$(SRC_D)/mlx_rendering												\
 		$(SRC_D)/game														\
+		$(SRC_D)/keyhandling														\
 		$(SRC_D)/raycaster_initialisation									\
+		$(SRC_D)/raycaster_keyhandling									\
 		$(SRC_D)/raycaster													\
 
 
@@ -69,9 +71,8 @@ CC = clang
 #CC = gcc
 
 # compile flags
-DEBUG_FLAGS = -g -fsanitize=address
-CC_FLAGS = -Werror -Wextra -Wall $(DEBUG_FLAGS)
-CCL_FLAGS = -Werror -Wextra -Wall $(DEBUG_FLAGS)
+CC_FLAGS = -Werror -Wextra -Wall
+CCL_FLAGS = -Werror -Wextra -Wall
 #CC_FLAGS =	-Werror -Wextra -Wall	\
 			-ftrapv					\
 			-Wunreachable-code		\
@@ -81,6 +82,14 @@ CCL_FLAGS = -Werror -Wextra -Wall $(DEBUG_FLAGS)
 			-fstack-protector-all	\
 			-fstack-check
 
+ifeq ($(DEBUG),1)
+	CC_FLAGS += -g -fsanitize=address -DDEBUG
+	CCL_FLAGS += -g -fsanitize=address -DDEBUG
+else
+	CC_FLAGS += -O3
+	CCL_FLAGS += -O3
+endif
+
 # dependencies
 LIBFT = $(SRC_D)/libft/libft.a
 LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
@@ -89,14 +98,14 @@ LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
-    CC_FLAGS += -D OS=LINUX
+    CC_FLAGS += -D LINUX
     CCL_FLAGS += -lXext -lX11
     MINILIBX = libmlx.a
     MINILIBX_D = minilibx_linux
 endif
 ifeq ($(UNAME_S),Darwin)
     OS = OSX
-    CC_FLAGS += -D OS=OSX 
+    CC_FLAGS += -D OSX 
     CCL_FLAGS += -framework AppKit -framework OpenGL
     MINILIBX = libmlx.dylib
     MINILIBX_D = minilibx
@@ -104,6 +113,7 @@ endif
 
 # make commands
 all: $(NAME)
+
 
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."

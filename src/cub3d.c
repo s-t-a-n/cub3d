@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/15 19:39:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 19:35:13 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	execute_rendering(t_cub3d *cub3d)
 		return (err);
 	//mlx_key_hook(cub3d->mlx->window, &keyhook, &cub3d);
 	mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
-	//mlx_hook(cub3d->mlx->window, X_EVENT_EXIT, 0L, &shutdown, NULL);
-	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, 1L<<0, &keydown, cub3d);
-	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, 1L<<1, &keyrelease, cub3d);
+	//mlx_hook(cub3d->mlx->window, X_EVENT_EXIT, 1L<<5, &shutdown, NULL);
+	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN, &keydown, cub3d);
+	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, X_MASK_KEYRELEASE, &keyrelease, cub3d);
 
-	//mlx_loop_hook(cub3d->mlx->backend, &render_frame, cub3d);
+	mlx_loop_hook(cub3d->mlx->backend, &game_update, cub3d);
 	cub3d->first_render = true;
 	render_frame(cub3d);
 	printf("calling mlx_loop!\n");
@@ -47,26 +47,16 @@ int	execute_rendering(t_cub3d *cub3d)
 	return (noerr);
 }
 
-/*
-	save_frame = 0;
-	t_vector2 pos; pos.x = 100; pos.y = 100;
-	t_vector2 size; size.x = 20; size.y = 200;
-	int	color = trgb(0, 255, 0, 0);
-
-	//mlx_wpixel(mlx.image_a, pos, color);
-	mlx_wrect(mlx.image_a, pos, size, color);
-	mlx_put_image_to_window(mlx.backend, mlx.window, mlx.image_a.img,0,0);
-*/
-
 int		main(int argc, char **argv)
 {
 	t_scenedata	scenedata;
 	t_player	player;
 	t_cub3d		cub3d;
+	t_raycast	raycast;
 
 	cub3d.player = &player;
 	cub3d.scenedata = &scenedata;
-
+	cub3d.raycast	= &raycast;
 	cub3d.save_frame = false;
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7) == 0)
 		cub3d.save_frame = true;

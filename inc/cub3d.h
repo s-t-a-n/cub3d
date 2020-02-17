@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/15 19:39:04 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 20:13:25 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,30 @@
 # include "ft_printf.h"
 # include "mlx.h"
 
-# ifndef MAP_APROX_LINE_COUNT
-#  define MAP_APROX_LINE_COUNT 20
-# endif
-
-# ifndef MAP_PATH_DESIGNATOR
-#  define MAP_PATH_DESIGNATOR 'X'
-# endif
 
 /*
 ** global defines
 */
-#define SELF_NAME "Stan's Cub3d"
-#define SELF_ERROR 1
+# define SELF_NAME "Stan's Cub3d"
+# define SELF_ERROR 1
 
 /*
 ** raycasting defines
 */
-#define PLAYER_ROT_SPEED 5.0
-#define VW_ANGLE 66.0
-#define VW_ANGLE_INC 1.0
+# define PLAYER_DEF_ROT_SPEED 0.05
+# define PLAYER_DEF_MOVE_SPEED 0.1
+# define VW_ANGLE 66.0
+
+/*
+** map defines
+*/
+# define MAP_APROX_LINE_COUNT 20
+
+# define MAP_RAYHIT '*'
+# define MAP_WALKABLE 'X'
+# define MAP_EMPTY '0'
+# define MAP_WALL '1'
+# define MAP_ITEM '2'
 
 /*
 ** keycodes and X events
@@ -52,36 +56,31 @@
 
 # define KB_DEFAULT -1
 
-# if OS == OSX
 
-#  define X_EVENT_KEYDOWN 2
-#  define X_EVENT_KEYRELEASE 3
-#  define X_EVENT_MOUSEDOWN 4
-#  define X_EVENT_MOUSERELEASE 5
-#  define X_EVENT_MOUSEMOVE 6
-#  define X_EVENT_EXIT 1
+# define X_EVENT_KEYDOWN 2
+# define X_EVENT_KEYRELEASE 3
+# define X_EVENT_MOUSEDOWN 4
+# define X_EVENT_MOUSERELEASE 5
+# define X_EVENT_MOUSEMOVE 6
+# define X_EVENT_EXIT 1
 
+# define X_MASK_KEYDOWN 1L<<0
+# define X_MASK_KEYRELEASE 1L<<1
+
+# ifdef OSX
+#  define KB_W 13
+#  define KB_A 0
+#  define KB_S 1
+#  define KB_D 2
 #  define KB_ESC 53
+# endif
+
+# ifdef LINUX
 #  define KB_W 119
 #  define KB_A 97
 #  define KB_S 115
 #  define KB_D 100
-
-# elif OS == LINUX
-
-#  define X_EVENT_KEYDOWN 2
-#  define X_EVENT_KEYRELEASE 3
-#  define X_EVENT_MOUSEDOWN 4
-#  define X_EVENT_MOUSERELEASE 5
-#  define X_EVENT_MOUSEMOVE 6
-#  define X_EVENT_EXIT 1
-
 #  define KB_ESC 65307
-#  define KB_W 119
-#  define KB_A 97
-#  define KB_S 115
-#  define KB_D 100
-
 # endif
 
 /*
@@ -103,8 +102,8 @@ typedef struct	s_vector2
 
 typedef struct	s_flvector2
 {
-	float		x;
-	float		y;
+	double		x;
+	double		y;
 }				t_flvector2;
 
 /*
@@ -114,15 +113,17 @@ typedef struct  s_raycast
 {
     t_flvector2 dir;    //direction of ray
     t_vector2   pos;    // pos of current ray
-  	t_flvector2	camplane;
-  	t_flvector2 campos;
+    t_flvector2	camplane;
+    t_flvector2 campos;
     t_vector2   tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
     t_flvector2 intercept; //delta x and y from player
     t_flvector2 delta_intercept; //delta x and y from player
     t_bool      hit;
     int 		side;
-    float       distance; // distance till hit
+    double       distance; // distance till hit
     t_vector2   phaser; //counts one up for every pixel
+    double	mov_speed;
+    double	rot_speed;
 }               t_raycast;
 
 /*
@@ -130,8 +131,7 @@ typedef struct  s_raycast
 */
 typedef struct	s_player
 {
-	t_vector2	pos;
-	t_flvector2	dpos;
+	t_flvector2	pos;
 	t_flvector2	vdir;
 }				t_player;
 
@@ -149,9 +149,9 @@ typedef struct	s_mlx_image
 {
 	void		*img;
 	char		*addr;
-	int		bpp;
-	int		line_size;
-	int		endian;
+	int			bpp;
+	int			line_size;
+	int			endian;
 	t_bool		active;
 }				t_mlx_image;
 
@@ -189,6 +189,7 @@ typedef struct	s_cub3d
 	t_scenedata	*scenedata;
 	t_mlx		*mlx;
 	t_player	*player;
+	t_raycast	*raycast;
 	t_bool		save_frame;
 	t_bool		first_render;
 }				t_cub3d;
@@ -232,7 +233,8 @@ t_bool			check_if_player_is_enclosed(t_scenedata *scenedata);
 /*
 ** game.c
 */
-t_bool  construct_game(t_cub3d *cub3d, t_scenedata *scenedata);
+t_bool			construct_game(t_cub3d *cub3d, t_scenedata *scenedata);
+int			game_update(t_cub3d *cub3d);
 
 /*
 ** game_meta.c
@@ -251,10 +253,9 @@ t_mlx   *mlx_destruct(t_mlx *mlx);
 /*
 ** mlx_hooks.c
 */
-int     keyhook(int keycode, t_mlx *mlx);
 int	keydown(int keycode, t_cub3d *cub3d);
 int	keyrelease(int keycode, t_cub3d *cub3d);
-int		exposehook(int exposecode, t_mlx *mlx);
+int	exposehook(int exposecode, t_mlx *mlx);
 
 /*
 ** mlx_rendering.c
@@ -272,10 +273,24 @@ int				shutdown(int code, void *ptr);
 /*
 ** raycaster.c
 */
-t_bool	raycaster(t_cub3d *cub3d);
+t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d);
 
 /*
 ** raycaster_initialisation.c
 */
 void	init_raycast(t_raycast *raycast, t_cub3d *cub3d);
+
+/*
+** raycaster_keyhandling.c
+*/
+void    move_forward(t_raycast *raycast, t_cub3d *cub3d);
+void    move_backward(t_raycast *raycast, t_cub3d *cub3d);
+void    rotate_left(t_raycast *raycast, t_cub3d *cub3d);
+void    rotate_right(t_raycast *raycast, t_cub3d *cub3d);
+
+/*
+** keyhandler.c
+*/
+t_bool	keyhandler(int keystate, t_cub3d *cub3d);
+
 #endif

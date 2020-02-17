@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/12 22:05:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 19:50:05 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void		dump_scenedata_map_printl(char *line)
 {
 	while (*line)
 	{
-		if (*line == MAP_PATH_DESIGNATOR)
+		if (*line == MAP_WALKABLE)
 			ft_printf(" \e[101m%c\e[49m", *line);
 		else if (*line == '0')
 			ft_printf(" \e[41m%c\e[49m", *line);
@@ -71,6 +71,8 @@ static void		dump_scenedata_map_printl(char *line)
 			ft_printf(" \e[104m%c\e[49m", *line);
 		else
 			ft_printf(" \e[103m%c\e[49m", *line);
+		if (*line == MAP_RAYHIT)
+			*line = MAP_WALL;
 		line++;
 	}
 	ft_printf("\n");

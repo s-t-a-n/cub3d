@@ -6,7 +6,7 @@
 /*   By: sverschu </var/mail/sverschu>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/07/05 13:33:56 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/21 19:38:52 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 19:41:14 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	ft_pswap(void **a, void **b)
 
 	tmp = *a;
 	*a = *b;
-	*b = *a;
+	*b = tmp;
 }

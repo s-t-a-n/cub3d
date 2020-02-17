@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 00:08:40 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/13 18:50:55 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/17 18:31:36 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,17 @@ t_bool	construct_game(t_cub3d *cub3d, t_scenedata *scenedata)
 {
 	cub3d->scenedata = scenedata;
 	construct_player(cub3d);
+	return (noerr);
+}
+
+int	game_update(t_cub3d *cub3d)
+{
+	int render;
+
+	render = false;
+	if (cub3d->mlx->keystate != KB_DEFAULT)
+		render += keyhandler(cub3d->mlx->keystate, cub3d);
+	if (render == true)
+		render_frame(cub3d);
 	return (noerr);
 }

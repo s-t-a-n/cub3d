@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/01/04 23:06:10 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/12 18:37:35 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/17 20:10:01 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,15 +73,14 @@ CC = clang
 #CC = gcc
 
 # compile flags
-CC_FLAGS = -Werror -Wextra -Wall -g -fsanitize=address
-#CC_FLAGS =	-Werror -Wextra -Wall	\
-			-ftrapv					\
-			-Wunreachable-code		\
-			-fsanitize=undefined	\
-			-fsanitize=address		\
-			-fno-omit-frame-pointer	\
-			-fstack-protector-all	\
-			-fstack-check
+CC_FLAGS = -Werror -Wextra -Wall
+
+# debugging or optimization flags
+ifeq ($(DEBUG),1)
+    CC_FLAGS += -g -fsanitize=address -DDEBUG
+else
+    CC_FLAGS += -O3
+endif
 
 # make commands
 all: $(NAME)
