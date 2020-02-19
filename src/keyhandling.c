@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/18 12:08:25 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/18 18:46:32 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 16:07:08 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 t_bool	keyhandler(int keystate, t_cub3d *cub3d)
 {
 	if (keystate & kb_w_flag)
-		move_forward(cub3d->raycast, cub3d);
+		move_forward((char **)cub3d->scenedata->map->mem, cub3d->player);
 	else if (keystate & kb_s_flag)
-		move_backward(cub3d->raycast, cub3d);
+		move_backward((char **)cub3d->scenedata->map->mem, cub3d->player);
 	if (keystate & kb_a_flag)
-		rotate_left(cub3d->raycast, cub3d);
+		move_left((char **)cub3d->scenedata->map->mem, cub3d->player);
 	else if (keystate & kb_d_flag)
-		rotate_right(cub3d->raycast, cub3d);
-	else if (keystate & kb_arr_left_flag)
-		move_left(cub3d);
+		move_right((char **)cub3d->scenedata->map->mem, cub3d->player);
+	if (keystate & kb_arr_left_flag)
+		rotate_left(cub3d->raycast, cub3d->player);
 	else if (keystate & kb_arr_right_flag)
-		move_right(cub3d);
+		rotate_right(cub3d->raycast, cub3d->player);
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/01/04 23:06:10 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/17 20:10:01 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/19 21:57:49 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ CC_FLAGS = -Werror -Wextra -Wall
 ifeq ($(DEBUG),1)
     CC_FLAGS += -g -fsanitize=address -DDEBUG
 else
-    CC_FLAGS += -O3
+    CC_FLAGS += -O3 -march=native
 endif
 
 # make commands

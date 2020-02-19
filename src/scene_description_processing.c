@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/10 22:01:41 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 21:05:49 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ t_bool	scenedesc_process_textures(t_scenedata *scenedata, char *line)
 	if (elements && count_elements(elements) == 2)
 	{
 		if (ft_strncmp(elements[0], "NO", 3) == 0)
-			scenedata->f_texture_north = ft_strdup(elements[1]);
+			scenedata->f_textures[TEXT_N] = ft_strdup(elements[1]);
 		else if (ft_strncmp(elements[0], "EA", 3) == 0)
-			scenedata->f_texture_east = ft_strdup(elements[1]);
+			scenedata->f_textures[TEXT_E] = ft_strdup(elements[1]);
 		else if (ft_strncmp(elements[0], "SO", 3) == 0)
-			scenedata->f_texture_south = ft_strdup(elements[1]);
+			scenedata->f_textures[TEXT_S] = ft_strdup(elements[1]);
 		else if (ft_strncmp(elements[0], "WE", 3) == 0)
-			scenedata->f_texture_west = ft_strdup(elements[1]);
+			scenedata->f_textures[TEXT_W] = ft_strdup(elements[1]);
 		else if (ft_strncmp(elements[0], "S", 2) == 0)
-			scenedata->f_sprite_texture = ft_strdup(elements[1]);
+			scenedata->f_textures[TEXT_SP] = ft_strdup(elements[1]);
 		else
 			crit_error("Scene description:", "bogus info on line:", line);
 		destroy_elements(elements);

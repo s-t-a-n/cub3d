@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/18 18:07:43 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 21:16:40 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,6 @@ static t_flvector2	vectorize_edirection(t_direction dir)
 		vdir.x = -1;
 		vdir.y = 0;
 	}
-
-	/*
-	if (dir == north)
-	{
-		vdir.x = 0;
-		vdir.y = 1;
-	}
-	else if (dir == east)
-	{
-		vdir.x = 1;
-		vdir.y = 0;
-	}
-	else if (dir == south)
-	{
-		vdir.x = 0;
-		vdir.y = -1;
-	}
-	else
-	{
-		vdir.x = -1;
-		vdir.y = 0;
-	}
-	*/
 	return (vdir);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 18:36:50 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/10 22:00:39 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 21:11:32 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,16 @@ static t_bool	file_exists(char *filename)
 
 t_bool			scenedesc_verify_textures(t_scenedata *scenedata)
 {
-	return (file_exists(scenedata->f_texture_north)
-			&& file_exists(scenedata->f_texture_east)
-			&& file_exists(scenedata->f_texture_south)
-			&& file_exists(scenedata->f_texture_west)
-			&& file_exists(scenedata->f_sprite_texture));
+	int i;
+
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		if (!file_exists(scenedata->f_textures[i]))
+			return(err);
+		i++;
+	}
+	return(noerr);
 }
 
 static t_bool	check_colorcode(int colorcode)
@@ -72,12 +77,21 @@ static t_bool	check_colorcode(int colorcode)
 
 t_bool			scenedesc_verify_colors(t_scenedata *scenedata)
 {
-	return (check_colorcode(scenedata->floor_color.r)
+	t_bool errors;
+
+	errors =  (check_colorcode(scenedata->floor_color.r)
 				&& check_colorcode(scenedata->floor_color.g)
 				&& check_colorcode(scenedata->floor_color.b)
 				&& check_colorcode(scenedata->ceiling_color.r)
 				&& check_colorcode(scenedata->ceiling_color.b)
 				&& check_colorcode(scenedata->ceiling_color.r));
+	if (errors == noerr)
+	{
+		scenedata->floor_trgb = trgb(0, scenedata->floor_color.r, scenedata->floor_color.g, scenedata->floor_color.b);
+		scenedata->ceiling_trgb = trgb(0, scenedata->ceiling_color.r, scenedata->ceiling_color.g, scenedata->ceiling_color.b);
+		return (noerr);
+	}
+	return (err);
 }
 
 t_bool			scenedesc_verify_map(t_scenedata *scenedata)

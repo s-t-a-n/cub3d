@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 19:50:05 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 17:44:53 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@
 
 void	init_scenedata(t_scenedata *scenedata)
 {
+	int i;
+
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		scenedata->f_textures[i] = NULL;
+		i++;
+	}
 	scenedata->resolution.x = -1;
 	scenedata->resolution.y = -1;
-	scenedata->f_texture_north = NULL;
-	scenedata->f_texture_east = NULL;
-	scenedata->f_texture_south = NULL;
-	scenedata->f_texture_west = NULL;
-	scenedata->f_sprite_texture = NULL;
 	scenedata->floor_color.r = -1;
 	scenedata->floor_color.g = -1;
 	scenedata->floor_color.b = -1;
@@ -36,11 +39,14 @@ void	init_scenedata(t_scenedata *scenedata)
 
 void		destroy_scenedata(t_scenedata *scenedata)
 {
-	free(scenedata->f_texture_north);
-	free(scenedata->f_texture_east);
-	free(scenedata->f_texture_south);
-	free(scenedata->f_texture_west);
-	free(scenedata->f_sprite_texture);
+	int i;
+
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		free(scenedata->f_textures[i]);
+		i++;
+	}
 	dynmem_destroy(scenedata->map);
 }
 
@@ -93,12 +99,15 @@ void			dump_scenedata_map(t_scenedata *scenedata)
 
 void			dump_scenedata(t_scenedata *scenedata)
 {
+	int i;
+
 	ft_printf("resolution:\t\t\t%i by %i\n",scenedata->resolution.x, scenedata->resolution.y);
-	ft_printf("texture north:\t\t\t%s\n",scenedata->f_texture_north);
-	ft_printf("texture east:\t\t\t%s\n",scenedata->f_texture_east);
-	ft_printf("texture south:\t\t\t%s\n",scenedata->f_texture_south);
-	ft_printf("texture west:\t\t\t%s\n",scenedata->f_texture_west);
-	ft_printf("texture sprite:\t\t\t%s\n",scenedata->f_sprite_texture);
+	i = 0;
+	while (i < TEXTURE_COUNT)
+	{
+		ft_printf("texture[%i]: %s\n", i, scenedata->f_textures[i]);
+		i++;
+	}
 	ft_printf("color ceiling:\t\t\t%i:%i:%i\n",scenedata->ceiling_color.r,scenedata->ceiling_color.g,scenedata->ceiling_color.b);
 	ft_printf("color floor:\t\t\t%i:%i:%i\n",scenedata->floor_color.r,scenedata->floor_color.g,scenedata->floor_color.b);
 	dump_scenedata_map(scenedata);

@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/17 20:07:47 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/19 21:57:04 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,11 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/mlx_hooks													\
 		$(SRC_D)/mlx_generic												\
 		$(SRC_D)/mlx_rendering												\
+		$(SRC_D)/mlx_initialisation											\
 		$(SRC_D)/game														\
-		$(SRC_D)/keyhandling														\
+		$(SRC_D)/keyhandling												\
 		$(SRC_D)/raycaster_initialisation									\
-		$(SRC_D)/raycaster_keyhandling									\
+		$(SRC_D)/raycaster_keyhandling										\
 		$(SRC_D)/raycaster													\
 
 
@@ -86,8 +87,8 @@ ifeq ($(DEBUG),1)
 	CC_FLAGS += -g -fsanitize=address -DDEBUG
 	CCL_FLAGS += -g -fsanitize=address -DDEBUG
 else
-	CC_FLAGS += -O3
-	CCL_FLAGS += -O3
+	CC_FLAGS += -O3 -march=native
+	CCL_FLAGS += -O3 -march=native
 endif
 
 # dependencies
@@ -114,10 +115,9 @@ endif
 # make commands
 all: $(NAME)
 
-
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) -v $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
+	@$(CC) $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
 	elif test -s $(CC_LOG); then											\

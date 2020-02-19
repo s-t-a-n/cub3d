@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/18 18:38:16 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/19 21:59:41 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,23 @@
 # define SELF_ERROR 1
 
 /*
+** texture defines
+*/
+# define TEXTURE_COUNT 5
+# define TEXT_N 0
+# define TEXT_E 1
+# define TEXT_S 2
+# define TEXT_W 3
+# define TEXT_SP 4
+
+/*
 ** raycasting defines
 */
-# define PLAYER_DEF_ROT_SPEED 0.03
-# define PLAYER_DEF_MOVE_SPEED 0.05
+# define PLAYER_DEF_ROT_SPEED 0.05
+# define PLAYER_DEF_MOVE_SPEED 0.1
+# define WALL_SIZE_MP 1.3
 # define COLLISION_WALL_MP 1.7
-# define COLLISION_WALL_SLIDE 0.5
+
 /*
 ** map defines
 */
@@ -131,8 +142,9 @@ typedef struct  s_raycast
     t_flvector2 intercept; //delta x and y from player
     t_flvector2 delta_intercept; //delta x and y from player
     t_bool      hit;
-    int 		side;
-    float       distance; // distance till hit
+    t_bool 		side;
+	int			item;
+    double       distance; // distance till hit
     t_vector2   phaser; //counts one up for every pixel
 }               t_raycast;
 
@@ -143,8 +155,8 @@ typedef struct	s_player
 {
 	t_flvector2	pos;
 	t_flvector2	vdir;
-    float	mov_speed;
-    float	rot_speed;
+    double	mov_speed;
+    double	rot_speed;
 }				t_player;
 
 /*
@@ -167,10 +179,29 @@ typedef struct	s_mlx_image
 	t_bool		active;
 }				t_mlx_image;
 
+typedef struct	s_mlx_text_image
+{
+	void		*img;
+	char		*addr;
+	int			bpp;
+	int			line_size;
+	int			endian;
+	t_vector2	size;
+}				t_mlx_text_image;
+
+typedef struct	s_texture_draw_op
+{
+	t_vector2	image_pos;
+	t_vector2	texture_pos;
+	t_vector2	size;
+	t_flvector2	step;
+}				t_texture_draw_op;
+
 typedef struct	s_mlx
 {
 	t_mlx_image	image_a;
 	t_mlx_image	image_b;
+	t_mlx_text_image textures[TEXTURE_COUNT];
 	t_mlx_image	*image_act;
 	t_mlx_image	*image_nact;
 	void		*backend;
@@ -183,13 +214,11 @@ typedef struct	s_mlx
 typedef struct	s_scenedata
 {
 	t_vector2	resolution;
-	char 		*f_texture_north;
-	char		*f_texture_east;
-	char		*f_texture_south;
-	char		*f_texture_west;
-	char		*f_sprite_texture;
+	char 		*f_textures[TEXTURE_COUNT];
 	t_color		floor_color;
 	t_color		ceiling_color;
+	int			floor_trgb;
+	int			ceiling_trgb;
 	t_dynmem	*map;
 	t_vector2	player_position;
 	t_direction	player_orientation;
@@ -250,12 +279,23 @@ void			convert_edirection_to_flvector2(t_direction dir,
 					t_flvector2 *vdir);
 
 /*
+** mlx_initialisation.c
+*/
+t_mlx			*mlx_destruct(t_mlx *mlx);
+void			mlx_initialise(t_mlx *mlx, t_scenedata *scenedata,
+					char *window_name);
+
+/*
 ** mlx_interface.c
 */
-void			 mlx_wpixel(t_mlx_image mlximage, t_vector2 pos, int color);
-void			 mlx_wrect(t_mlx_image mlximage, t_vector2 pos, t_vector2 size, int color);
-t_bool			 mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name);
-t_mlx			 *mlx_destruct(t_mlx *mlx);
+unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_image texture);
+
+void			mlx_wrect_texture(t_mlx_image mlximage, t_vector2 pos,
+					t_vector2 size, t_mlx_text_image texture);
+
+void			mlx_wpixel(t_mlx_image *mlximage, t_vector2 pos, int color);
+void			mlx_wrect(t_mlx_image *mlximage, t_vector2 pos, t_vector2 size,
+					int color);
 
 /*
 ** mlx_hooks.c
@@ -289,12 +329,12 @@ void			init_raycast(t_raycast *raycast, t_cub3d *cub3d);
 /*
 ** raycaster_keyhandling.c
 */
-void			move_forward(t_raycast *raycast, t_cub3d *cub3d);
-void			move_backward(t_raycast *raycast, t_cub3d *cub3d);
-void			move_left(t_cub3d *cub3d);
-void			move_right(t_cub3d *cub3d);
-void			rotate_left(t_raycast *raycast, t_cub3d *cub3d);
-void			rotate_right(t_raycast *raycast, t_cub3d *cub3d);
+void			move_forward(char **map, t_player *player);
+void			move_backward(char **map, t_player *player);
+void			move_left(char **map, t_player *player);
+void			move_right(char **map, t_player *player);
+void			rotate_left(t_raycast *raycast, t_player *player);
+void			rotate_right(t_raycast *raycast, t_player *player);
 
 /*
 ** keyhandler.c
