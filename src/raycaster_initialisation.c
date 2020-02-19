@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 18:18:20 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/18 18:07:43 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,11 @@ static t_flvector2 calculate_initial_camplane(t_direction dir)
 
 void	first_init_raycast(t_raycast *raycast, t_cub3d *cub3d)
 {
-	printf("initial raycast!\n");
 	cub3d->player->vdir =
 		vectorize_edirection(cub3d->scenedata->player_orientation);
 	cub3d->player->pos.x += 0.5;
 	cub3d->player->pos.y += 0.5;
 	raycast->camplane = calculate_initial_camplane(cub3d->scenedata->player_orientation);
-	raycast->mov_speed = PLAYER_DEF_MOVE_SPEED;
-	raycast->rot_speed = PLAYER_DEF_ROT_SPEED;
 }
 
 void    init_raycast(t_raycast *raycast, t_cub3d *cub3d)

@@ -99,7 +99,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
     CC_FLAGS += -D LINUX
-    CCL_FLAGS += -lXext -lX11
+    CCL_FLAGS += -lXext -lX11 -lm
     MINILIBX = libmlx.a
     MINILIBX_D = minilibx_linux
 endif

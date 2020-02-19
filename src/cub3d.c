@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 19:35:13 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/18 13:35:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ void        crit_error(char *head, char *body, char *tail)
         ft_putstr_fd(tail, STDERR);
     ft_putchar_fd('\n', STDERR);
     exit(SELF_ERROR);
+}
+
+void		clean_shutdown(t_cub3d *cub3d)
+{
+	// clear cub3d
+	cub3d = NULL;
+	exit (0);
 }
 
 int	execute_rendering(t_cub3d *cub3d)
@@ -63,7 +70,7 @@ int		main(int argc, char **argv)
 	else if (argc != 2)
 		crit_error("Cube3d:", "Come back later with better arguments", NULL);
 	if (construct_scenedata(&scenedata, argv[1]) == noerr
-			&& construct_game(&cub3d, &scenedata) == noerr)
+			&& construct_game(&cub3d) == noerr)
 			return (execute_rendering(&cub3d));
 	else
 		return (SELF_ERROR);

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/22 19:17:23 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/18 12:22:43 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@ typedef enum		e_bool
 	true = 1,
 	noerr = 1
 }					t_bool;
+
+typedef struct  s_vector2
+{
+	int         x;
+	int         y;
+}               t_vector2;
+
+typedef struct  s_flvector2
+{
+	float       x;
+	float       y;
+}               t_flvector2;
+
 
 # define STDIN 0
 # define STDOUT 1

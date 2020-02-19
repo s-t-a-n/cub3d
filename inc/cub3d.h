@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 20:13:25 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/18 18:38:16 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@
 /*
 ** raycasting defines
 */
-# define PLAYER_DEF_ROT_SPEED 0.05
-# define PLAYER_DEF_MOVE_SPEED 0.1
-# define VW_ANGLE 66.0
-
+# define PLAYER_DEF_ROT_SPEED 0.03
+# define PLAYER_DEF_MOVE_SPEED 0.05
+# define COLLISION_WALL_MP 1.7
+# define COLLISION_WALL_SLIDE 0.5
 /*
 ** map defines
 */
@@ -54,8 +54,7 @@
 ** keycodes and X events
 */
 
-# define KB_DEFAULT -1
-
+# define KB_DEFAULT 0
 
 # define X_EVENT_KEYDOWN 2
 # define X_EVENT_KEYRELEASE 3
@@ -72,6 +71,10 @@
 #  define KB_A 0
 #  define KB_S 1
 #  define KB_D 2
+#  define KB_ARR_UP 126
+#  define KB_ARR_LEFT 123
+#  define KB_ARR_DOWN 125
+#  define KB_ARR_RIGHT 124
 #  define KB_ESC 53
 # endif
 
@@ -80,12 +83,33 @@
 #  define KB_A 97
 #  define KB_S 115
 #  define KB_D 100
+#  define KB_ARR_UP 65362
+#  define KB_ARR_LEFT 65361
+#  define KB_ARR_DOWN 65364
+#  define KB_ARR_RIGHT 65363
 #  define KB_ESC 65307
 # endif
 
 /*
-** general datatypes
+** keyhandling related datatypes
 */
+
+typedef enum	e_key_flag
+{
+	kb_w_flag = 1<<0,
+	kb_a_flag = 1<<1,
+	kb_s_flag = 1<<2,
+	kb_d_flag = 1<<3,
+	kb_arr_up_flag = 1<<4,
+	kb_arr_left_flag = 1<<5,
+	kb_arr_down_flag = 1<<6,
+	kb_arr_right_flag = 1<<7
+}				t_key_flag;
+
+/*
+** scenedata related datatypes
+*/
+
 typedef enum	e_direction
 {
 	north = 0,
@@ -93,18 +117,6 @@ typedef enum	e_direction
 	south = 2,
 	west = 3
 }				t_direction;
-
-typedef struct	s_vector2
-{
-	int			x;
-	int			y;
-}				t_vector2;
-
-typedef struct	s_flvector2
-{
-	double		x;
-	double		y;
-}				t_flvector2;
 
 /*
 ** raycasting related dataypes
@@ -120,10 +132,8 @@ typedef struct  s_raycast
     t_flvector2 delta_intercept; //delta x and y from player
     t_bool      hit;
     int 		side;
-    double       distance; // distance till hit
+    float       distance; // distance till hit
     t_vector2   phaser; //counts one up for every pixel
-    double	mov_speed;
-    double	rot_speed;
 }               t_raycast;
 
 /*
@@ -133,6 +143,8 @@ typedef struct	s_player
 {
 	t_flvector2	pos;
 	t_flvector2	vdir;
+    float	mov_speed;
+    float	rot_speed;
 }				t_player;
 
 /*
@@ -163,7 +175,7 @@ typedef struct	s_mlx
 	t_mlx_image	*image_nact;
 	void		*backend;
 	void		*window;
-	int			keystate;
+	unsigned int	keystate;
 	int			exposestate;
 	t_vector2	resolution;
 }				t_mlx;
@@ -193,11 +205,6 @@ typedef struct	s_cub3d
 	t_bool		save_frame;
 	t_bool		first_render;
 }				t_cub3d;
-
-/*
-**	cub3d.h
-*/
-void			crit_error(char *head, char *body, char *tail);
 
 /*
 ** read_scene_description_file.c
@@ -233,8 +240,8 @@ t_bool			check_if_player_is_enclosed(t_scenedata *scenedata);
 /*
 ** game.c
 */
-t_bool			construct_game(t_cub3d *cub3d, t_scenedata *scenedata);
-int			game_update(t_cub3d *cub3d);
+t_bool			construct_game(t_cub3d *cub3d);
+int				game_update(t_cub3d *cub3d);
 
 /*
 ** game_meta.c
@@ -245,52 +252,60 @@ void			convert_edirection_to_flvector2(t_direction dir,
 /*
 ** mlx_interface.c
 */
-void    mlx_wpixel(t_mlx_image mlximage, t_vector2 pos, int color);
-void    mlx_wrect(t_mlx_image mlximage, t_vector2 pos, t_vector2 size, int color);
-t_bool	mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name);
-t_mlx   *mlx_destruct(t_mlx *mlx);
+void			 mlx_wpixel(t_mlx_image mlximage, t_vector2 pos, int color);
+void			 mlx_wrect(t_mlx_image mlximage, t_vector2 pos, t_vector2 size, int color);
+t_bool			 mlx_construct(t_mlx *mlx, t_vector2 resolution, char *window_name);
+t_mlx			 *mlx_destruct(t_mlx *mlx);
 
 /*
 ** mlx_hooks.c
 */
-int	keydown(int keycode, t_cub3d *cub3d);
-int	keyrelease(int keycode, t_cub3d *cub3d);
-int	exposehook(int exposecode, t_mlx *mlx);
+int				keydown(int keycode, t_cub3d *cub3d);
+int				keyrelease(int keycode, t_cub3d *cub3d);
+int				exposehook(int exposecode, t_mlx *mlx);
 
 /*
 ** mlx_rendering.c
 */
-int		render_frame(t_cub3d *cub3d);
-void	clear_image(t_mlx *mlx);
+int				render_frame(t_cub3d *cub3d);
+void			clear_image(t_mlx *mlx);
 
 /*
 ** mlx_generic.c
 */
 
 unsigned int    trgb(int t, int r, int g, int b);
-int				shutdown(int code, void *ptr);
 
 /*
 ** raycaster.c
 */
-t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d);
+t_bool			raycaster(t_raycast *raycast, t_cub3d *cub3d);
 
 /*
 ** raycaster_initialisation.c
 */
-void	init_raycast(t_raycast *raycast, t_cub3d *cub3d);
+void			init_raycast(t_raycast *raycast, t_cub3d *cub3d);
 
 /*
 ** raycaster_keyhandling.c
 */
-void    move_forward(t_raycast *raycast, t_cub3d *cub3d);
-void    move_backward(t_raycast *raycast, t_cub3d *cub3d);
-void    rotate_left(t_raycast *raycast, t_cub3d *cub3d);
-void    rotate_right(t_raycast *raycast, t_cub3d *cub3d);
+void			move_forward(t_raycast *raycast, t_cub3d *cub3d);
+void			move_backward(t_raycast *raycast, t_cub3d *cub3d);
+void			move_left(t_cub3d *cub3d);
+void			move_right(t_cub3d *cub3d);
+void			rotate_left(t_raycast *raycast, t_cub3d *cub3d);
+void			rotate_right(t_raycast *raycast, t_cub3d *cub3d);
 
 /*
 ** keyhandler.c
 */
-t_bool	keyhandler(int keystate, t_cub3d *cub3d);
+t_bool			keyhandler(int keystate, t_cub3d *cub3d);
+void			keystate_setflag(unsigned int *keystate, int keycode);
+void			keystate_unsetflag(unsigned int *keystate, int keycode);
+/*
+** cub3d.c
+*/
+void			crit_error(char *head, char *body, char *tail);
+void			clean_shutdown(t_cub3d *cub3d);
 
 #endif

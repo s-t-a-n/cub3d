@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 23:39:42 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 20:19:10 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/18 18:12:36 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 
 void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 {
-	double lineheight;
+	float lineheight;
 	t_vector2 pos;
 	t_vector2 size;
 	
@@ -130,17 +130,11 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		calc_ray_position_and_direction(raycast, cub3d);
 		calc_tilestep_and_intercept(raycast, cub3d);
 		calc_delta_intercept(raycast, cub3d);
-		//printf("intercept: %f x %f\n", raycast.intercept.x, raycast.intercept.y);
-		//printf("dir: %f x %f\n", raycast.dir.x, raycast.dir.y);
-		//printf("vdir: %f x %f\n", cub3d->player->vdir.x, cub3d->player->vdir.y);
 		perform_dda(raycast, cub3d);
 		calc_distance(raycast, cub3d);
-		//printf("distance: %f\n", raycast.distance);
 		//cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x] = '*';
 		draw_line(raycast, cub3d);
-		//printf("this is where we draw! for box: %i x %i\n", raycast.pos.x, raycast.pos.y);
 		(raycast->phaser.x)++;
-		//sleep (1);
 	}
 	//dump_scenedata_map(cub3d->scenedata);
 	return (noerr);
