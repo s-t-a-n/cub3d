@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/17 17:08:23 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 20:49:14 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/20 18:34:22 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,22 @@ void	move_backward(char **map, t_player *player)
 
 void	move_left(char **map, t_player *player)
 {
-	t_flvector2 delta;
-
-	delta.x = player->vdir.y * player->mov_speed;
-	delta.y = -player->vdir.x * player->mov_speed;
-	if (map[(int)(player->pos.y + delta.y * COLLISION_WALL_MP)]
-		[(int)(player->pos.x + delta.x * COLLISION_WALL_MP)] == MAP_WALKABLE)
-	{
-		player->pos.x += delta.x;
-		player->pos.y += delta.y;
-	}
+	if (map[(int)(player->pos.y)][(int)(player->pos.x + player->vdir.y *
+				player->mov_speed)] == MAP_WALKABLE)
+		player->pos.x += player->vdir.y * player->mov_speed;
+	if (map[(int)(player->pos.y + -player->vdir.x * player->mov_speed *
+				COLLISION_WALL_MP)][(int)(player->pos.x)] == MAP_WALKABLE)
+		player->pos.y += -player->vdir.x * player->mov_speed;
 }
 
 void	move_right(char **map, t_player *player)
 {
-	t_flvector2 delta;
-
-	delta.x = -player->vdir.y * player->mov_speed;
-	delta.y = player->vdir.x * player->mov_speed;
-	if (map[(int)(player->pos.y + delta.y * COLLISION_WALL_MP)]
-		[(int)(player->pos.x + delta.x * COLLISION_WALL_MP)] == MAP_WALKABLE)
-	{
-		player->pos.x += delta.x;
-		player->pos.y += delta.y;
-	}
+	if (map[(int)(player->pos.y)][(int)(player->pos.x + -player->vdir.y *
+				player->mov_speed)] == MAP_WALKABLE)
+		player->pos.x += -player->vdir.y * player->mov_speed;
+	if (map[(int)(player->pos.y + player->vdir.x * player->mov_speed * 
+				COLLISION_WALL_MP)][(int)(player->pos.x)] == MAP_WALKABLE)
+		player->pos.y += player->vdir.x * player->mov_speed;
 }
 
 void	rotate_left(t_raycast *raycast, t_player *player)

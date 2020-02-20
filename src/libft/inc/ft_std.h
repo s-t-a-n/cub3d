@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/03 18:44:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/18 12:22:43 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/20 18:51:10 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct  s_vector2
 
 typedef struct  s_flvector2
 {
-	float       x;
-	float       y;
+	double		x;
+	double		y;
 }               t_flvector2;
 
 

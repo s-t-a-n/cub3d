@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/19 21:57:04 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/20 19:07:29 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,8 +87,8 @@ ifeq ($(DEBUG),1)
 	CC_FLAGS += -g -fsanitize=address -DDEBUG
 	CCL_FLAGS += -g -fsanitize=address -DDEBUG
 else
-	CC_FLAGS += -O3 -march=native
-	CCL_FLAGS += -O3 -march=native
+	CC_FLAGS += -Ofast -march=native
+	CCL_FLAGS += -Ofast -march=native
 endif
 
 # dependencies

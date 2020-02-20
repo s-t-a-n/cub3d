@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 23:39:42 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 21:52:32 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/20 20:07:03 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	calc_tilestep_and_intercept(t_raycast *raycast, t_cub3d *cub3d)
 	{
 		//right quadrants
 		raycast->tilestep.x = 1;
-		raycast->intercept.x = (raycast->pos.x + 1 - cub3d->player->pos.x) * raycast->delta_intercept.x;
+		raycast->intercept.x = (raycast->pos.x + 1.0 - cub3d->player->pos.x) * raycast->delta_intercept.x;
 	}
 	if (raycast->dir.y < 0)
 	{
@@ -50,7 +50,7 @@ void	calc_tilestep_and_intercept(t_raycast *raycast, t_cub3d *cub3d)
 	{
 		//lower quadrants
 		raycast->tilestep.y = 1;
-		raycast->intercept.y = (raycast->pos.y + 1 - cub3d->player->pos.y) * raycast->delta_intercept.y;
+		raycast->intercept.y = (raycast->pos.y + 1.0 - cub3d->player->pos.y) * raycast->delta_intercept.y;
 	}
 }
 
@@ -73,7 +73,9 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 {
 	while(!raycast->hit)
 	{
-		if (raycast->intercept.x <= raycast->intercept.y)
+		if (raycast->intercept.y == raycast->intercept.x)
+			printf("sameee\n");
+		if (raycast->intercept.x < raycast->intercept.y)
 		{
 			raycast->intercept.x += raycast->delta_intercept.x;
 			raycast->pos.x += raycast->tilestep.x;
@@ -114,8 +116,6 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 	t_vector2 size;
 	
 	lineheight = WALL_SIZE_MP * ((double)cub3d->mlx->resolution.y / raycast->distance);
-//	if ((long)lineheight - lineheight > 0.5)
-//		lineheight += 0.2;
 	if (lineheight > cub3d->mlx->resolution.y)
 		lineheight = cub3d->mlx->resolution.y;
 	pos.y = ((double)(cub3d->mlx->resolution.y / 2.0)) - (lineheight / 2.0);
@@ -134,8 +134,8 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		raycast->hit = false;
 		calc_pos_in_cameraplane(raycast, cub3d);
 		calc_ray_position_and_direction(raycast, cub3d->player);
-		calc_tilestep_and_intercept(raycast, cub3d);
 		calc_delta_intercept(raycast);
+		calc_tilestep_and_intercept(raycast, cub3d);
 		perform_dda(raycast, cub3d);
 		calc_distance(raycast, cub3d);
 		//cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x] = '*';

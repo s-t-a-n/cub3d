@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 21:16:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/20 19:21:05 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,23 @@ static t_flvector2 calculate_initial_camplane(t_direction dir)
 
 	if (dir == north)
 	{
-    	camplane.x = -0.66;
+    	camplane.x = VW_ANGLE;
     	camplane.y = 0.0;
 	}
 	else if (dir == east)
 	{
     	camplane.x = 0.0;
-    	camplane.y = -0.66;
+    	camplane.y = VW_ANGLE;
 	}
 	else if (dir == south)
 	{
-    	camplane.x = -0.66;
+    	camplane.x = -VW_ANGLE;
     	camplane.y = 0.0;
 	}
 	else
 	{
     	camplane.x = 0.0;
-    	camplane.y = -0.66;
+    	camplane.y = -VW_ANGLE;
 	}
 
 	return(camplane);

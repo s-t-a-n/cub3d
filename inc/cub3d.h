@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 21:59:41 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/20 20:09:19 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@
 */
 # define PLAYER_DEF_ROT_SPEED 0.05
 # define PLAYER_DEF_MOVE_SPEED 0.1
-# define WALL_SIZE_MP 1.3
+# define WALL_SIZE_MP 1.0
 # define COLLISION_WALL_MP 1.7
+# define VW_ANGLE 0.66
 
 /*
 ** map defines
@@ -134,18 +135,18 @@ typedef enum	e_direction
 */
 typedef struct  s_raycast
 {
-    t_flvector2 dir;    //direction of ray
+    t_vector2   phaser; //counts one up for every pixel on x-axis
     t_vector2   pos;    // pos of current ray
+    t_vector2   tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
+    t_flvector2 dir;    //direction of ray
     t_flvector2	camplane;
     t_flvector2 campos;
-    t_vector2   tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
     t_flvector2 intercept; //delta x and y from player
     t_flvector2 delta_intercept; //delta x and y from player
     t_bool      hit;
     t_bool 		side;
 	int			item;
     double       distance; // distance till hit
-    t_vector2   phaser; //counts one up for every pixel
 }               t_raycast;
 
 /*
