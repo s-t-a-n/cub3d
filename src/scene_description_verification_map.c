@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/10 22:02:25 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 16:59:15 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 18:44:19 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ static t_vector2	adjust_position(t_direction dir, t_vector2 pos)
 static t_bool		breachfinder(char **map, int ymax,
 		t_vector2 pos, t_direction dir)
 {
+	if (dir != nodir)
+	{
 	pos = adjust_position(dir, pos);
 	if (pos.y < 0 || pos.y >= ymax || pos.x < 0
 			|| pos.x >= (int)ft_strlen(map[pos.y]))
@@ -100,6 +102,7 @@ static t_bool		breachfinder(char **map, int ymax,
 		return (false);
 	else if (map[pos.y][pos.x] == '0')
 		map[pos.y][pos.x] = MAP_WALKABLE;
+	}
 	if (breachfinder(map, ymax, pos, north))
 		return (true);
 	if (breachfinder(map, ymax, pos, east))
@@ -124,7 +127,9 @@ t_bool				check_if_player_is_enclosed(t_scenedata *scenedata)
 			scenedata->player_position.y);
 	pos = scenedata->player_position;
 	if (breachfinder((char **)scenedata->map->mem,
-				scenedata->map->element_count, pos, north))
+				scenedata->map->element_count, pos, nodir))
 		crit_error("Scene validation, map:", "breach in wall found!", NULL);
+
+	dump_scenedata_map(scenedata);
 	return (true);
 }

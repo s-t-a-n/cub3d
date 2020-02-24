@@ -5,24 +5,29 @@
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/24 13:14:01 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 16:35:11 by sverschu      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/02/12 23:39:42 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 13:13:07 by sverschu      ########   odam.nl         */
+/*   Created: 2020/02/24 17:44:20 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/02/24 18:51:44 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	dump_raycast(t_raycast *raycast)
+{
+	printf("phaser:\t\t%i x %i\n",raycast->phaser.x, raycast->phaser.y);
+	printf("pos:\t\t%i x %i\n",raycast->pos.x, raycast->pos.y);
+	printf("tilestep:\t\t%i x %i\n",raycast->tilestep.x, raycast->tilestep.y);
+	printf("phaser:\t\t%i x %i\n",raycast->phaser.x, raycast->phaser.y);
+	printf("dir:\t\t%f x %f\n",raycast->dir.x, raycast->dir.y);
+	printf("camplane:\t\t%f x %f\n",raycast->camplane.x, raycast->camplane.y);
+	printf("campos:\t\t%f x %f\n",raycast->campos.x, raycast->campos.y);
+	printf("intercept:\t\t%f x %f\n",raycast->intercept.x, raycast->intercept.y);
+	printf("delta_intercept:\t\t%f x %f\n",raycast->delta_intercept.x, raycast->delta_intercept.y);
+	printf("hit:\t\t%i\n",raycast->hit);
+	printf("side:\t\t%i\n",raycast->side);
+	printf("item:\t\t%i\n",raycast->item);
+	printf("distance:\t\t%f\n",raycast->distance);
+}
 
 void	calc_pos_in_cameraplane(t_raycast *raycast, t_cub3d *cub3d)
 {
@@ -98,7 +103,7 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 			raycast->side = 1;
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x];
-		if (raycast->item != MAP_WALKABLE)
+		if (raycast->item != MAP_WALKABLE && raycast->item)
 			raycast->hit = true;
 	}
 }
@@ -275,10 +280,8 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		calc_tilestep_and_intercept(raycast, cub3d);
 		perform_dda(raycast, cub3d);
 		calc_distance(raycast, cub3d);
-		//cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x] = '*';
 		draw_line(raycast, cub3d);
 		(raycast->phaser.x)++;
 	}
-	//dump_scenedata_map(cub3d->scenedata);
 	return (noerr);
 }

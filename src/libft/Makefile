@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:13:08 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/20 19:08:13 by sverschu      ########   odam.nl          #
+#    Updated: 2020/02/24 17:21:23 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,7 +135,7 @@ $(OBJ_D):
 
 $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	@$(ECHO) "Compiling $<..."
-	@$(CC) -I$(INC_D) -I$(SRC_D)/libft $(CC_FLAGS) -c $< -o $@ 2>$(CC_LOG) 	\
+	@$(CC) $(CC_FLAGS) -I$(INC_D) -I$(SRC_D)/libft -c $< -o $@ 2>$(CC_LOG) 	\
 		|| touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
@@ -152,8 +152,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
-	@$(RM) bonus
 
 re: fclean all
 
-.PHONY = all clean fclean re bonus
+.PHONY = all clean fclean re

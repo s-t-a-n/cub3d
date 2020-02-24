@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 17:05:11 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 18:57:03 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 /*
 ** graphical defines
 */
-# define IMAGE_COUNT 10
+# define IMAGE_COUNT 100
 
 /*
 ** texture defines
@@ -132,7 +132,8 @@ typedef enum	e_direction
 	north = 0,
 	east = 1,
 	south = 2,
-	west = 3
+	west = 3,
+	nodir = 4
 }				t_direction;
 
 /*
