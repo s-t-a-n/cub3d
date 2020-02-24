@@ -39,7 +39,7 @@ void	move_backward(char **map, t_player *player)
 void	move_left(char **map, t_player *player)
 {
 	if (map[(int)(player->pos.y)][(int)(player->pos.x + player->vdir.y *
-				player->mov_speed)] == MAP_WALKABLE)
+				player->mov_speed * COLLISION_WALL_MP)] == MAP_WALKABLE)
 		player->pos.x += player->vdir.y * player->mov_speed;
 	if (map[(int)(player->pos.y + -player->vdir.x * player->mov_speed *
 				COLLISION_WALL_MP)][(int)(player->pos.x)] == MAP_WALKABLE)
@@ -49,7 +49,7 @@ void	move_left(char **map, t_player *player)
 void	move_right(char **map, t_player *player)
 {
 	if (map[(int)(player->pos.y)][(int)(player->pos.x + -player->vdir.y *
-				player->mov_speed)] == MAP_WALKABLE)
+				player->mov_speed * COLLISION_WALL_MP)] == MAP_WALKABLE)
 		player->pos.x += -player->vdir.y * player->mov_speed;
 	if (map[(int)(player->pos.y + player->vdir.x * player->mov_speed * 
 				COLLISION_WALL_MP)][(int)(player->pos.x)] == MAP_WALKABLE)

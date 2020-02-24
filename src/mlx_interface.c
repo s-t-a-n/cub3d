@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 15:55:32 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 19:35:36 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/23 17:00:10 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	mlx_wrect(t_mlx_image *mlximage, t_vector2 pos,
 ** read pixel color from texture
 */
 
-unsigned int	mlx_rpixel_texture(t_vector2 pos, t_mlx_text_image *texture)
+unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_text_image *texture)
 {
 	return(*(unsigned int *)(texture->addr + (pos.x * (texture->bpp / 8) + pos.y * texture->line_size)));
 }

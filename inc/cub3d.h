@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/20 20:09:19 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/23 18:14:56 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@
 /*
 ** raycasting defines
 */
-# define PLAYER_DEF_ROT_SPEED 0.05
-# define PLAYER_DEF_MOVE_SPEED 0.1
+# define PLAYER_DEF_ROT_SPEED 0.1
+# define PLAYER_DEF_MOVE_SPEED 0.2
 # define WALL_SIZE_MP 1.0
-# define COLLISION_WALL_MP 1.7
+# define COLLISION_WALL_MP 2.5
 # define VW_ANGLE 0.66
 
 /*
@@ -135,16 +135,16 @@ typedef enum	e_direction
 */
 typedef struct  s_raycast
 {
-    t_vector2   phaser; //counts one up for every pixel on x-axis
-    t_vector2   pos;    // pos of current ray
-    t_vector2   tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
-    t_flvector2 dir;    //direction of ray
-    t_flvector2	camplane;
-    t_flvector2 campos;
-    t_flvector2 intercept; //delta x and y from player
-    t_flvector2 delta_intercept; //delta x and y from player
-    t_bool      hit;
-    t_bool 		side;
+    t_vector2			phaser; //counts one up for every pixel on x-axis
+    t_vector2			pos;    // pos of current ray
+    t_vector2			tilestep; //dependent on quadrant either 1 or -1 to get to next intersection
+    t_flvector2			dir;    //direction of ray
+    t_flvector2			camplane;
+    t_flvector2			campos;
+    t_flvector2			intercept; //delta x and y from player
+    t_flvector2			delta_intercept; //delta x and y from player
+    t_bool			hit;
+    t_bool			side;
 	int			item;
     double       distance; // distance till hit
 }               t_raycast;
@@ -154,10 +154,10 @@ typedef struct  s_raycast
 */
 typedef struct	s_player
 {
-	t_flvector2	pos;
-	t_flvector2	vdir;
-    double	mov_speed;
-    double	rot_speed;
+	t_flvector2		pos;
+	t_flvector2		vdir;
+	double			mov_speed;
+	double			rot_speed;
 }				t_player;
 
 /*
@@ -172,18 +172,18 @@ typedef struct	s_color
 
 typedef struct	s_mlx_image
 {
-	void		*img;
-	char		*addr;
+	void			*img;
+	char			*addr;
 	int			bpp;
 	int			line_size;
 	int			endian;
-	t_bool		active;
+	t_bool			active;
 }				t_mlx_image;
 
 typedef struct	s_mlx_text_image
 {
-	void		*img;
-	char		*addr;
+	void			*img;
+	char			*addr;
 	int			bpp;
 	int			line_size;
 	int			endian;
@@ -192,24 +192,24 @@ typedef struct	s_mlx_text_image
 
 typedef struct	s_texture_draw_op
 {
-	t_vector2	image_pos;
-	t_vector2	texture_pos;
-	t_vector2	size;
-	t_flvector2	step;
+	t_vector2		image_pos;
+	t_vector2		texture_pos;
+	t_vector2		size;
+	t_flvector2		step;
 }				t_texture_draw_op;
 
 typedef struct	s_mlx
 {
-	t_mlx_image	image_a;
-	t_mlx_image	image_b;
-	t_mlx_text_image textures[TEXTURE_COUNT];
-	t_mlx_image	*image_act;
-	t_mlx_image	*image_nact;
-	void		*backend;
-	void		*window;
-	unsigned int	keystate;
+	t_mlx_image		image_a;
+	t_mlx_image		image_b;
+	t_mlx_text_image	textures[TEXTURE_COUNT];
+	t_mlx_image		*image_act;
+	t_mlx_image		*image_nact;
+	void			*backend;
+	void			*window;
+	unsigned int		keystate;
 	int			exposestate;
-	t_vector2	resolution;
+	t_vector2		resolution;
 }				t_mlx;
 
 typedef struct	s_scenedata
@@ -289,7 +289,7 @@ void			mlx_initialise(t_mlx *mlx, t_scenedata *scenedata,
 /*
 ** mlx_interface.c
 */
-unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_image texture);
+unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_text_image *texture);
 
 void			mlx_wrect_texture(t_mlx_image mlximage, t_vector2 pos,
 					t_vector2 size, t_mlx_text_image texture);

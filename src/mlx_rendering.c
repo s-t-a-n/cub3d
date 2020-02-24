@@ -40,7 +40,7 @@ void	draw_colored_floors_and_ceiling(t_mlx *mlx, t_scenedata *scenedata)
 int		render_frame(t_cub3d *cub3d)
 {
 	//clear_image(cub3d->mlx);
-	draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
+	//draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
 	raycaster(cub3d->raycast, cub3d);
 	ft_pswap((void **)&cub3d->mlx->image_act, (void **)&cub3d->mlx->image_nact);
 	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window, cub3d->mlx->image_act->img, 0, 0);
