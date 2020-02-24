@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/19 16:55:29 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 17:46:47 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 17:04:31 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,32 @@ void		mlx_initialise_textures(t_mlx *mlx, t_scenedata *scenedata)
 
 void		mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 {
+	int		i;
+
+	i = 0;
+	while (i < IMAGE_COUNT)
+	{
+		mlx->images[i].img = mlx_new_image(mlx->backend, scenedata->resolution.x, scenedata->resolution.y);
+		if (mlx->images[i].img)
+		{
+			mlx->images[i].addr = mlx_get_data_addr(mlx->images[i].img,
+				&mlx->images[i].bpp, &mlx->images[i].line_size,
+				&mlx->images[i].endian);
+			if (!mlx->images[i].addr)
+				crit_error("mlx:", "failed to get image address for image buffer",
+						NULL);
+		}
+		else
+			crit_error("mlx:", "failed to create image buffer:",
+						NULL);
+		i++;
+	}
+	mlx->image_nact_i = 0;
+	mlx->image_nact = &mlx->images[mlx->image_nact_i];
+}
+/*
+void		mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
+{
 	mlx->image_a.img = mlx_new_image(mlx->backend, scenedata->resolution.x,
 			scenedata->resolution.y);
 	mlx->image_b.img = mlx_new_image(mlx->backend, scenedata->resolution.x,
@@ -62,14 +88,19 @@ void		mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 			&mlx->image_a.bpp, &mlx->image_a.line_size, &mlx->image_a.endian);
 		mlx->image_b.addr = mlx_get_data_addr(mlx->image_b.img,
 			&mlx->image_b.bpp, &mlx->image_b.line_size, &mlx->image_b.endian);
-		mlx->image_act = &mlx->image_a;
-		mlx->image_nact = &mlx->image_b;
+		mlx->image_nact = &mlx->image_a;
+		mlx->image_act = &mlx->image_b;
 		if (mlx->image_a.addr && mlx->image_b.addr)
 			mlx_initialise_textures(mlx, scenedata);
 		else
 			crit_error("mlx:", "failed to create images!", NULL);
 	}
+
+	// testing
+	mlx->image_c.img = mlx_new_image(mlx->backend, scenedata->resolution.x, scenedata->resolution.y);
+	mlx->image_c.addr = mlx_get_data_addr(mlx->image_c.img, &mlx->image_c.bpp, &mlx->image_c.line_size, &mlx->image_c.endian);
 }
+*/
 
 void      mlx_initialise(t_mlx *mlx, t_scenedata *scenedata, char *window_name)
 {
@@ -81,7 +112,10 @@ void      mlx_initialise(t_mlx *mlx, t_scenedata *scenedata, char *window_name)
 		mlx->window = mlx_new_window(mlx->backend, scenedata->resolution.x, scenedata->resolution.y,
 				window_name);
 		if (mlx->window)
+		{
 			mlx_initialise_images(mlx, scenedata);
+			mlx_initialise_textures(mlx, scenedata);
+		}
 		else
 			crit_error("mlx:", "failed to create window!", NULL);
 	}

@@ -9,6 +9,7 @@ OBJ=$(SRC:.swift=.o)
 
 C_SRC= mlx_xpm.c mlx_png.c mlx_string_put.c
 C_OBJ=$(C_SRC:.c=.o)
+CFLAGS=-O3
 
 INC=-I.
 
@@ -28,11 +29,18 @@ WARN_STRING=$(WARN_COLOR)[WARNINGS]$(NO_COLOR)
 ECHO=printf
 CAT=cat
 
+
+ifeq ($(DEBUG),1)
+    CC_FLAGS = -g
+else
+    CC_FLAGS = -Ounchecked
+endif
+
 all: $(NAME)
 
 $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 	@$(ECHO) "Linking $(NAME)..."
-	@swiftc $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz 2>$(CC_LOG) || touch $(CC_ERROR)
+	@swiftc $(CC_FLAGS) $(INC) -o $(NAME) -emit-library $(OBJ) $(C_OBJ) -lz 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then                                           \
         $(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);                    \
     elif test -s $(CC_LOG); then                                            \
@@ -44,7 +52,7 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 
 %.o: %.swift
 	@$(ECHO) "Compiling $<..."
-	@swiftc $(INC) -parse-as-library -c $< -o $@ 2>$(CC_LOG) || touch $(CC_ERROR)
+	@swiftc $(CC_FLAGS) $(INC) -parse-as-library -c $< -o $@ 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then                                           \
         $(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);                    \
     elif test -s $(CC_LOG); then                                            \
@@ -56,7 +64,7 @@ $(NAME): $(MODULE_OBJ) $(OBJ) $(C_OBJ)
 
 %.swiftmodule: %.swift
 	@$(ECHO) "Compiling $<..."
-	@swiftc $(INC) -parse-as-library -c $< -o $@ -emit-module -module-name $(patsubst %.swift,%,$<) -module-link-name $(patsubst %.swift,%,$<)
+	@swiftc $(CC_FLAGS) $(INC) -parse-as-library -c $< -o $@ -emit-module -module-name $(patsubst %.swift,%,$<) -module-link-name $(patsubst %.swift,%,$<) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then                                           \
         $(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);                    \
     elif test -s $(CC_LOG); then                                            \
@@ -74,4 +82,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY = all clean fclean re bonus
+.PHONY = all clean fclean re

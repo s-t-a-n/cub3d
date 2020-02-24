@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 17:51:18 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 16:26:07 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	execute_rendering(t_cub3d *cub3d)
 	t_mlx	mlx;
 
 	cub3d->mlx = &mlx;
+	cub3d->lock = 0;
 	mlx_initialise(cub3d->mlx, cub3d->scenedata, SELF_NAME);
 	//mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN, &keydown, cub3d);

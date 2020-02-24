@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/23 18:14:56 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 17:05:11 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 */
 # define SELF_NAME "Stan's Cub3d"
 # define SELF_ERROR 1
+
+/*
+** graphical defines
+*/
+# define IMAGE_COUNT 10
 
 /*
 ** texture defines
@@ -200,17 +205,17 @@ typedef struct	s_texture_draw_op
 
 typedef struct	s_mlx
 {
-	t_mlx_image		image_a;
-	t_mlx_image		image_b;
+	t_mlx_image			images[IMAGE_COUNT];
 	t_mlx_text_image	textures[TEXTURE_COUNT];
-	t_mlx_image		*image_act;
-	t_mlx_image		*image_nact;
-	void			*backend;
-	void			*window;
+	t_mlx_image			*image_act;
+	t_mlx_image			*image_nact;
+	int					image_nact_i;
+	void				*backend;
+	void				*window;
 	unsigned int		keystate;
-	int			exposestate;
-	t_vector2		resolution;
-}				t_mlx;
+	int					exposestate;
+	t_vector2			resolution;
+}						t_mlx;
 
 typedef struct	s_scenedata
 {
@@ -228,6 +233,7 @@ typedef struct	s_scenedata
 
 typedef struct	s_cub3d
 {
+	t_bool		lock;
 	t_scenedata	*scenedata;
 	t_mlx		*mlx;
 	t_player	*player;
@@ -321,6 +327,7 @@ unsigned int    trgb(int t, int r, int g, int b);
 ** raycaster.c
 */
 t_bool			raycaster(t_raycast *raycast, t_cub3d *cub3d);
+void			draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d);
 
 /*
 ** raycaster_initialisation.c

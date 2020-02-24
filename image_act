@@ -1,0 +1,79 @@
+Binary file ./src/.game.c.swp matches
+Binary file ./src/.mlx_rendering.c.swp matches
+Binary file ./src/.raycaster.c.swp matches
+./src/cub3d.c:	//mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
+./src/cub3d.c:	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN, &keydown, cub3d);
+./src/cub3d.c:	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, X_MASK_KEYRELEASE, &keyrelease, cub3d);
+./src/cub3d.c:	mlx_loop_hook(cub3d->mlx->backend, &game_update, cub3d);
+./src/cub3d.c:	mlx_loop(cub3d->mlx->backend);
+./src/game.c:	if (cub3d->mlx->keystate != KB_DEFAULT)
+./src/game.c:		render += keyhandler(cub3d->mlx->keystate, cub3d);
+./src/minilibx_linux/README:   test/mlx-test binary is also created.
+./src/minilibx_linux/README.md:   test/mlx-test binary is also created.
+./src/minilibx_linux/test/Makefile.gen:NAME= mlx-test
+./src/minilibx_linux/test/Makefile.mk:NAME= mlx-test
+./src/mlx_hooks.c:		keystate_setflag(&cub3d->mlx->keystate, keycode);
+./src/mlx_hooks.c:	keystate_unsetflag(&cub3d->mlx->keystate, keycode);
+./src/mlx_hooks.c:	mlx->exposestate = exposecode;
+./src/mlx_initialisation.c:	//  if (mlx->image_a)
+./src/mlx_initialisation.c:	//      mlx_destroy_image(mlx->backend, mlx->image_a);
+./src/mlx_initialisation.c:	//  if (mlx->image_b)
+./src/mlx_initialisation.c:	//      mlx_destroy_image(mlx->backend, mlx->image_b);
+./src/mlx_initialisation.c:	//  if (mlx->window)
+./src/mlx_initialisation.c:	//      mlx_destroy_window(mlx->backend, mlx->window);
+./src/mlx_initialisation.c:		mlx->textures[i].img = mlx_xpm_file_to_image(mlx->backend,
+./src/mlx_initialisation.c:			scenedata->f_textures[i], &mlx->textures[i].size.x,
+./src/mlx_initialisation.c:			&mlx->textures[i].size.y);
+./src/mlx_initialisation.c:		if (mlx->textures[i].img)
+./src/mlx_initialisation.c:			mlx->textures[i].addr = mlx_get_data_addr(mlx->textures[i].img,
+./src/mlx_initialisation.c:				&mlx->textures[i].bpp, &mlx->textures[i].line_size,
+./src/mlx_initialisation.c:				&mlx->textures[i].endian);
+./src/mlx_initialisation.c:			if (!mlx->textures[i].addr)
+./src/mlx_initialisation.c:	mlx->image_a.img = mlx_new_image(mlx->backend, scenedata->resolution.x,
+./src/mlx_initialisation.c:	mlx->image_b.img = mlx_new_image(mlx->backend, scenedata->resolution.x,
+./src/mlx_initialisation.c:	if (mlx->image_a.img && mlx->image_b.img)
+./src/mlx_initialisation.c:		mlx->image_a.addr = mlx_get_data_addr(mlx->image_a.img,
+./src/mlx_initialisation.c:			&mlx->image_a.bpp, &mlx->image_a.line_size, &mlx->image_a.endian);
+./src/mlx_initialisation.c:		mlx->image_b.addr = mlx_get_data_addr(mlx->image_b.img,
+./src/mlx_initialisation.c:			&mlx->image_b.bpp, &mlx->image_b.line_size, &mlx->image_b.endian);
+./src/mlx_initialisation.c:		mlx->image_act = &mlx->image_a;
+./src/mlx_initialisation.c:		mlx->image_nact = &mlx->image_b;
+./src/mlx_initialisation.c:		if (mlx->image_a.addr && mlx->image_b.addr)
+./src/mlx_initialisation.c:	mlx->backend = mlx_init();
+./src/mlx_initialisation.c:	mlx->resolution = scenedata->resolution;
+./src/mlx_initialisation.c:	mlx->keystate = KB_DEFAULT;
+./src/mlx_initialisation.c:	if (mlx->backend)
+./src/mlx_initialisation.c:		mlx->window = mlx_new_window(mlx->backend, scenedata->resolution.x, scenedata->resolution.y,
+./src/mlx_initialisation.c:		if (mlx->window)
+./src/mlx_rendering.c:	mlx_wrect(mlx->image_nact, pos, mlx->resolution, 0x00000000);
+./src/mlx_rendering.c:	size.x = mlx->resolution.x;
+./src/mlx_rendering.c:	size.y = mlx->resolution.y / 2;
+./src/mlx_rendering.c:	mlx_wrect(mlx->image_nact, pos, size, scenedata->ceiling_trgb);
+./src/mlx_rendering.c:	mlx_wrect(mlx->image_nact, pos, size, scenedata->floor_trgb);
+./src/mlx_rendering.c:	ft_pswap((void **)&cub3d->mlx->image_act, (void **)&cub3d->mlx->image_nact);
+./src/mlx_rendering.c:	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window, cub3d->mlx->image_act->img, 0, 0);
+./src/raycaster.c:	raycast->campos.x = 2.0 * raycast->phaser.x / cub3d->mlx->resolution.x - 1;
+./src/raycaster.c:		return (&cub3d->mlx->textures[select_texture_for_wall(raycast)]);
+./src/raycaster.c:		return (&cub3d->mlx->textures[TEXT_SP]);
+./src/raycaster.c:	floor_texture = &cub3d->mlx->textures[4];
+./src/raycaster.c:	ceiling_texture = &cub3d->mlx->textures[4];
+./src/raycaster.c:	camera_y = cub3d->mlx->resolution.y / 2;
+./src/raycaster.c:	ctr.y = cub3d->mlx->resolution.y / 2 + 1;
+./src/raycaster.c:	while (ctr.y < cub3d->mlx->resolution.y)
+./src/raycaster.c:		cur_y = ctr.y - cub3d->mlx->resolution.y / 2;
+./src/raycaster.c:		floor_step.x = camera_y_rel * (ray_dir_right.x - ray_dir_left.x) / cub3d->mlx->resolution.x;
+./src/raycaster.c:		floor_step.y = camera_y_rel * (ray_dir_right.y - ray_dir_left.y) / cub3d->mlx->resolution.x;
+./src/raycaster.c:		while (ctr.x < cub3d->mlx->resolution.x)
+./src/raycaster.c:			mlx_wpixel(cub3d->mlx->image_nact, ctr, mlx_rpixel(text_pos, floor_texture));
+./src/raycaster.c:			nctr.y = cub3d->mlx->resolution.y - ctr.y -1;
+./src/raycaster.c:			mlx_wpixel(cub3d->mlx->image_nact, nctr, mlx_rpixel(text_pos, ceiling_texture));
+./src/raycaster.c:	tex_jump = fabs(pos.y - cub3d->mlx->resolution.y / 2 + lineheight / 2) * tex_jump_step;
+./src/raycaster.c:	while(yctr < pos.y + ((lineheight > cub3d->mlx->resolution.y) ? cub3d->mlx->resolution.y : (int)lineheight))
+./src/raycaster.c:		mlx_wpixel(cub3d->mlx->image_nact, image_pos, mlx_rpixel(tex_pos, texture));
+./src/raycaster.c:	if (lineheight > cub3d->mlx->resolution.y)
+./src/raycaster.c:		lineheight = cub3d->mlx->resolution.y;
+./src/raycaster.c:		mlx_wrect(cub3d->mlx->image_nact, pos, size, 0x00C74D0F);
+./src/raycaster.c:		mlx_wrect(cub3d->mlx->image_nact, pos, size, 0x00A9410D);
+./src/raycaster.c:	lineheight = WALL_SIZE_MP * ((double)cub3d->mlx->resolution.y / raycast->distance);
+./src/raycaster.c:	pos.y = ((double)(cub3d->mlx->resolution.y / 2.0)) - (lineheight / 2.0);
+./src/raycaster.c:	while (raycast->phaser.x < cub3d->mlx->resolution.x)

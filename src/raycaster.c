@@ -5,8 +5,20 @@
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
+/*   Created: 2020/02/24 13:14:01 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/02/24 16:35:11 by sverschu      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   raycaster.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
+/*                                                   +#+                      */
 /*   Created: 2020/02/12 23:39:42 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/23 18:48:44 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/02/24 13:13:07 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,38 +132,47 @@ t_mlx_text_image *select_texture(t_cub3d *cub3d, t_raycast *raycast, int num)
 
 void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 {
-	t_vector2		ctr;
-	t_flvector2		ray_dir_left;
-	t_flvector2		ray_dir_right;
-	int			cur_y; //p
-	double			camera_y; //posZ
-	double			camera_y_rel; //rowDistance
-	t_flvector2		floor_step;
-	t_flvector2		floor;
-	t_vector2		text_pos;
+	t_vector2			ctr;
+	t_flvector2			ray_dir_left;
+	t_flvector2			ray_dir_right;
+	int					cur_y; //p
+	double				camera_y; //posZ
+	double				camera_y_rel; //rowDistance
+	t_flvector2			floor_step;
+	t_flvector2			floor;
+	t_vector2			text_pos;
 	t_mlx_text_image	*floor_texture;
 	t_mlx_text_image	*ceiling_texture;
 
 	// change later
-	floor_texture = &cub3d->mlx->textures[0];
-	ceiling_texture = &cub3d->mlx->textures[0];
+	floor_texture = &cub3d->mlx->textures[4];
+	ceiling_texture = &cub3d->mlx->textures[4];
 
 	ray_dir_left.x = cub3d->player->vdir.x - raycast->camplane.x;
 	ray_dir_left.y = cub3d->player->vdir.y - raycast->camplane.y;
 	ray_dir_right.x = cub3d->player->vdir.x + raycast->camplane.x;
-	ray_dir_left.y = cub3d->player->vdir.y + raycast->camplane.y;
+	ray_dir_right.y = cub3d->player->vdir.y + raycast->camplane.y;
 
+	//printf("ray_dir_left : %f x %f\n", ray_dir_left.x, ray_dir_left.y);
+	//printf("ray_dir_right : %f x %f\n", ray_dir_right.x, ray_dir_right.y);
 	camera_y = cub3d->mlx->resolution.y / 2;
-	ctr.y = 0;
+	ctr.y = cub3d->mlx->resolution.y / 2 ;
 	while (ctr.y < cub3d->mlx->resolution.y)
 	{
 		cur_y = ctr.y - cub3d->mlx->resolution.y / 2;
-		camera_y_rel = cur_y == 0 ? 0 : camera_y / cur_y;
+		camera_y_rel = cur_y == 0.0 ? 0.0 : camera_y / cur_y;
 		floor_step.x = camera_y_rel * (ray_dir_right.x - ray_dir_left.x) / cub3d->mlx->resolution.x;
 		floor_step.y = camera_y_rel * (ray_dir_right.y - ray_dir_left.y) / cub3d->mlx->resolution.x;
+		
+
+		//double t = ray_dir_right.y - ray_dir_left.y;
+		//printf("t: %f\n", t);
 
 		floor.x = cub3d->player->pos.x + camera_y_rel * ray_dir_left.x;
 		floor.y = cub3d->player->pos.y + camera_y_rel * ray_dir_left.y;
+		//printf("floor : %f x %f\n", floor.x, floor.y);
+		//printf("floor_step : %f x %f\n", floor_step.x, floor_step.y);
+		//printf("camera_y_rel : %f\n", camera_y_rel);
 		ctr.x = 0;
 		while (ctr.x < cub3d->mlx->resolution.x)
 		{
