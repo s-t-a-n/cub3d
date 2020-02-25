@@ -37,7 +37,6 @@ int	execute_rendering(t_cub3d *cub3d)
 	t_mlx	mlx;
 
 	cub3d->mlx = &mlx;
-	cub3d->lock = 0;
 	mlx_initialise(cub3d->mlx, cub3d->scenedata, SELF_NAME);
 	//mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN, &keydown, cub3d);

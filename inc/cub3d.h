@@ -53,7 +53,7 @@
 # define PLAYER_DEF_ROT_SPEED 0.1
 # define PLAYER_DEF_MOVE_SPEED 0.2
 # define WALL_SIZE_MP 1.0
-# define COLLISION_WALL_MP 2.5
+# define COLLISION_WALL_MP 1.7
 # define VW_ANGLE 0.66
 
 /*
@@ -234,7 +234,6 @@ typedef struct	s_scenedata
 
 typedef struct	s_cub3d
 {
-	t_bool		lock;
 	t_scenedata	*scenedata;
 	t_mlx		*mlx;
 	t_player	*player;

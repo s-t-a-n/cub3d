@@ -55,10 +55,6 @@ void	swap_image_buffers(t_mlx *mlx)
 
 int		render_frame(t_cub3d *cub3d)
 {
-	if (cub3d->lock)
-		return (1);
-	else
-		cub3d->lock = 1;
 	//draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
 	//draw_textured_floor_and_ceiling(cub3d->raycast, cub3d);
 	//clear_image(cub3d->mlx);
@@ -82,6 +78,5 @@ int		render_frame(t_cub3d *cub3d)
 	//mlx_clear_window(cub3d->mlx->backend, cub3d->mlx->window);
 	swap_image_buffers(cub3d->mlx);
 	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window, cub3d->mlx->image_act->img, 0, 0);
-	cub3d->lock = 0;
 	return (noerr);
 }

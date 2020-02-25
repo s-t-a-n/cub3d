@@ -64,11 +64,11 @@ void		mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 				&mlx->images[i].bpp, &mlx->images[i].line_size,
 				&mlx->images[i].endian);
 			if (!mlx->images[i].addr)
-				crit_error("mlx:", "failed to get image address for image buffer",
+				crit_error("mlx:", "failed to get image address for image buffer!",
 						NULL);
 		}
 		else
-			crit_error("mlx:", "failed to create image buffer:",
+			crit_error("mlx:", "failed to create image buffer!",
 						NULL);
 		i++;
 	}
