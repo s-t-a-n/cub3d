@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 15:55:32 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 14:33:27 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/02 12:46:14 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** write a pixel to an image
 */
 
-void	mlx_wpixel(t_mlx_image *mlximage, t_vector2 pos, int color)
+void			mlx_wpixel(t_mlx_image *mlximage, t_vector2 pos, int color)
 {
 	*(unsigned int *)(mlximage->addr + (pos.x * (mlximage->bpp / 8) + pos.y
 				* mlximage->line_size)) = color;
@@ -26,8 +26,8 @@ void	mlx_wpixel(t_mlx_image *mlximage, t_vector2 pos, int color)
 ** write a rectangular to an image
 */
 
-void	mlx_wrect(t_mlx_image *mlximage, t_vector2 pos,
-		t_vector2 size, int color)
+void			mlx_wrect(t_mlx_image *mlximage, t_vector2 pos,
+					t_vector2 size, int color)
 {
 	int		xctr;
 
@@ -52,7 +52,8 @@ void	mlx_wrect(t_mlx_image *mlximage, t_vector2 pos,
 
 unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_text_image *texture)
 {
-	return(*(unsigned int *)(texture->addr + (pos.x * (texture->bpp / 8) + pos.y * texture->line_size)));
+	return (*(unsigned int *)(texture->addr + (pos.x * (texture->bpp / 8)
+				+ pos.y * texture->line_size)));
 }
 
 /*

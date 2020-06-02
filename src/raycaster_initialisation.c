@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 18:19:09 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/02 13:11:50 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,44 +39,44 @@ static t_flvector2	vectorize_edirection(t_direction dir)
 	return (vdir);
 }
 
-static t_flvector2 calculate_initial_camplane(t_direction dir)
+static t_flvector2	calculate_initial_camplane(t_direction dir)
 {
 	t_flvector2 camplane;
 
 	if (dir == north)
 	{
-    	camplane.x = VW_ANGLE;
-    	camplane.y = 0.0;
+		camplane.x = VW_ANGLE;
+		camplane.y = 0.0;
 	}
 	else if (dir == east)
 	{
-    	camplane.x = 0.0;
-    	camplane.y = VW_ANGLE;
+		camplane.x = 0.0;
+		camplane.y = VW_ANGLE;
 	}
 	else if (dir == south)
 	{
-    	camplane.x = -VW_ANGLE;
-    	camplane.y = 0.0;
+		camplane.x = -VW_ANGLE;
+		camplane.y = 0.0;
 	}
 	else
 	{
-    	camplane.x = 0.0;
-    	camplane.y = -VW_ANGLE;
+		camplane.x = 0.0;
+		camplane.y = -VW_ANGLE;
 	}
-
-	return(camplane);
+	return (camplane);
 }
 
-void	first_init_raycast(t_raycast *raycast, t_cub3d *cub3d)
+void				first_init_raycast(t_raycast *raycast, t_cub3d *cub3d)
 {
 	cub3d->player->vdir =
 		vectorize_edirection(cub3d->scenedata->player_orientation);
 	cub3d->player->pos.x += 0.5;
 	cub3d->player->pos.y += 0.5;
-	raycast->camplane = calculate_initial_camplane(cub3d->scenedata->player_orientation);
+	raycast->camplane = calculate_initial_camplane(
+			cub3d->scenedata->player_orientation);
 }
 
-void    init_raycast(t_raycast *raycast, t_cub3d *cub3d)
+void				init_raycast(t_raycast *raycast, t_cub3d *cub3d)
 {
 	if (cub3d->first_render)
 	{

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 17:44:53 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/02 13:06:25 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include "cub3d.h"
 
-void	init_scenedata(t_scenedata *scenedata)
+void		init_scenedata(t_scenedata *scenedata)
 {
 	int i;
 
@@ -87,6 +87,7 @@ static void		dump_scenedata_map_printl(char *line)
 void			dump_scenedata_map(t_scenedata *scenedata)
 {
 	size_t	ctr;
+
 	ft_printf("---------------------------------------\n");
 	ctr = 0;
 	while (ctr < scenedata->map->element_count)
@@ -101,34 +102,38 @@ void			dump_scenedata(t_scenedata *scenedata)
 {
 	int i;
 
-	ft_printf("resolution:\t\t\t%i by %i\n",scenedata->resolution.x, scenedata->resolution.y);
+	ft_printf("resolution:\t\t\t%i by %i\n", scenedata->resolution.x,
+				scenedata->resolution.y);
 	i = 0;
 	while (i < TEXTURE_COUNT)
 	{
 		ft_printf("texture[%i]: %s\n", i, scenedata->f_textures[i]);
 		i++;
 	}
-	ft_printf("color ceiling:\t\t\t%i:%i:%i\n",scenedata->ceiling_color.r,scenedata->ceiling_color.g,scenedata->ceiling_color.b);
-	ft_printf("color floor:\t\t\t%i:%i:%i\n",scenedata->floor_color.r,scenedata->floor_color.g,scenedata->floor_color.b);
+	ft_printf("color ceiling:\t\t\t%i:%i:%i\n", scenedata->ceiling_color.r,
+			scenedata->ceiling_color.g, scenedata->ceiling_color.b);
+	ft_printf("color floor:\t\t\t%i:%i:%i\n", scenedata->floor_color.r,
+			scenedata->floor_color.g, scenedata->floor_color.b);
 	dump_scenedata_map(scenedata);
 }
 
 t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 {
 	if (line[0] == '1' || line[0] == '0' || line[0] == '2')
-		return(scenedesc_process_map(scenedata, line));
+		return (scenedesc_process_map(scenedata, line));
 	else if (line[0] == 'R')
-		return(scenedesc_process_resolution(scenedata, line));
-	else if (line[0] == 'N' || line[0] == 'S' || line[0] == 'W' || line[0] == 'E')
-		return(scenedesc_process_textures(scenedata, line));
+		return (scenedesc_process_resolution(scenedata, line));
+	else if (line[0] == 'N' || line[0] == 'S' || line[0] == 'W'
+			|| line[0] == 'E')
+		return (scenedesc_process_textures(scenedata, line));
 	else if (line[0] == 'F' || line[0] == 'C')
-		return(scenedesc_process_colors(scenedata, line));
+		return (scenedesc_process_colors(scenedata, line));
 	else
 		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);
 }
 
-t_bool	build_scenedata(t_scenedata *scenedata, int fd)
+t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 {
 	char		*line;
 	int			error;
@@ -141,16 +146,16 @@ t_bool	build_scenedata(t_scenedata *scenedata, int fd)
 			error = extract_scenedata_from_line(scenedata, line);
 		free(line);
 		if (error == err)
-			break;
+			break ;
 	}
 	free(line);
 	dump_scenedata(scenedata);
 	return (verify_scenedata(scenedata));
 }
 
-t_bool	construct_scenedata(t_scenedata *scenedata, char *filename)
+t_bool			construct_scenedata(t_scenedata *scenedata, char *filename)
 {
-	int 	fd;
+	int		fd;
 	t_bool	error;
 
 	fd = open(filename, O_RDONLY);
@@ -162,5 +167,5 @@ t_bool	construct_scenedata(t_scenedata *scenedata, char *filename)
 	error = build_scenedata(scenedata, fd);
 	if (close(fd) < 0)
 		crit_error("Scene description:", "file close error:", strerror(errno));
-	return(error);
+	return (error);
 }

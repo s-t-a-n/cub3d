@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/19 21:05:49 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/02 13:02:26 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	destroy_elements(char **elements)
 	free(elements);
 }
 
-int	count_elements(char **elements)
+int		count_elements(char **elements)
 {
 	int ctr;
 
@@ -145,5 +145,6 @@ t_bool	scenedesc_process_map(t_scenedata *scenedata, char *line)
 		crit_error("MALLOC", strerror(errno), NULL);
 		return (err);
 	}
-	return (dynmem_pushback(&scenedata->map, (unsigned char *)ft_strfdup(line, ' ')));
+	return (dynmem_pushback(&scenedata->map,
+			(unsigned char *)ft_strfdup(line, ' ')));
 }
