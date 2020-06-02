@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/24 17:44:20 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/24 18:51:44 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/03/01 19:25:01 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 			raycast->side = 1;
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x];
-		if (raycast->item != MAP_WALKABLE && raycast->item)
+		if (raycast->item != MAP_WALKABLE)
 			raycast->hit = true;
 	}
 }
@@ -158,8 +158,6 @@ void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 	ray_dir_right.x = cub3d->player->vdir.x + raycast->camplane.x;
 	ray_dir_right.y = cub3d->player->vdir.y + raycast->camplane.y;
 
-	//printf("ray_dir_left : %f x %f\n", ray_dir_left.x, ray_dir_left.y);
-	//printf("ray_dir_right : %f x %f\n", ray_dir_right.x, ray_dir_right.y);
 	camera_y = cub3d->mlx->resolution.y / 2;
 	ctr.y = cub3d->mlx->resolution.y / 2 ;
 	while (ctr.y < cub3d->mlx->resolution.y)
@@ -168,16 +166,8 @@ void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 		camera_y_rel = cur_y == 0.0 ? 0.0 : camera_y / cur_y;
 		floor_step.x = camera_y_rel * (ray_dir_right.x - ray_dir_left.x) / cub3d->mlx->resolution.x;
 		floor_step.y = camera_y_rel * (ray_dir_right.y - ray_dir_left.y) / cub3d->mlx->resolution.x;
-		
-
-		//double t = ray_dir_right.y - ray_dir_left.y;
-		//printf("t: %f\n", t);
-
 		floor.x = cub3d->player->pos.x + camera_y_rel * ray_dir_left.x;
 		floor.y = cub3d->player->pos.y + camera_y_rel * ray_dir_left.y;
-		//printf("floor : %f x %f\n", floor.x, floor.y);
-		//printf("floor_step : %f x %f\n", floor_step.x, floor_step.y);
-		//printf("camera_y_rel : %f\n", camera_y_rel);
 		ctr.x = 0;
 		while (ctr.x < cub3d->mlx->resolution.x)
 		{
