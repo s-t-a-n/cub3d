@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/03/10 18:39:27 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/03 20:08:16 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,12 @@ typedef enum	e_direction
 	nodir = 4
 }				t_direction;
 
+typedef struct			s_sprite
+{
+	t_flvector2			pos;
+	int					item;
+}						t_sprite;
+
 /*
 ** raycasting related dataypes
 */
@@ -149,11 +155,14 @@ typedef struct  s_raycast
     t_flvector2			campos;
     t_flvector2			intercept; //delta x and y from player
     t_flvector2			delta_intercept; //delta x and y from player
-    t_bool			hit;
-    t_bool			side;
-	int			item;
-    double       distance; // distance till hit
-}               t_raycast;
+    t_bool				hit;
+    t_bool				side;
+	int					item;
+    double				distance; // distance till hit
+	double				zbuffer[2048]; // freaking random
+	int					spritecount;
+	t_sprite			sprites[100]; // even more so, freaking random
+}						t_raycast;
 
 /*
 ** game datatypes

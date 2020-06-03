@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/24 17:44:20 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/03/01 19:25:01 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/03 20:56:24 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,21 @@ void	calc_distance(t_raycast *raycast, t_cub3d *cub3d)
 		raycast->distance = (raycast->pos.x - cub3d->player->pos.x + (1 - raycast->tilestep.x) / 2.0) / raycast->dir.x;
 	else
 		raycast->distance = (raycast->pos.y - cub3d->player->pos.y + (1 - raycast->tilestep.y) / 2.0) / raycast->dir.y;
-	//printf("distance: %f\n", raycast->distance);
+	raycast->zbuffer[raycast->phaser.x] = raycast->distance;
+}
+
+t_bool		sprite_already_registered(t_raycast *raycast)
+{
+	int i;
+
+	i = 0;
+	while(i < raycast->spritecount)
+	{
+		if (raycast->sprites[i].pos.x == raycast->pos.x && raycast->sprites[i].pos.y == raycast->pos.y)
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
 void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
@@ -103,7 +117,16 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 			raycast->side = 1;
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x];
-		if (raycast->item != MAP_WALKABLE)
+		if (raycast->item == MAP_ITEM && !sprite_already_registered(raycast))
+		{
+			t_sprite sprite;
+			sprite.pos.x = raycast->pos.x;
+			sprite.pos.y = raycast->pos.y;
+			sprite.item = raycast->item;
+			raycast->sprites[raycast->spritecount] = sprite;
+			raycast->spritecount++;
+		}
+		if (raycast->item != MAP_WALKABLE && raycast->item != MAP_ITEM)
 			raycast->hit = true;
 	}
 }
@@ -257,6 +280,73 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 	//draw_colored_line(raycast, cub3d, pos, lineheight);
 }
 
+void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
+{
+	int i;
+
+	i = 0;
+	while (i < raycast->spritecount)
+	{
+		//translate sprite position to relative to camera
+		double spriteX = raycast->sprites[i].pos.x - cub3d->player->pos.x;
+		double spriteY = raycast->sprites[i].pos.y - cub3d->player->pos.y;
+
+		double invDet = 1.0 / (raycast->camplane.x * cub3d->player->vdir.y - cub3d->player->vdir.x * raycast->camplane.y); //required for correct matrix multiplication
+		
+		double transformX = invDet * (cub3d->player->vdir.y * spriteX - cub3d->player->vdir.x * spriteY);
+		double transformY = invDet * (-raycast->camplane.y * spriteX + raycast->camplane.x * spriteY); //this is actually the depth inside the screen, that what Z is in 3D
+
+		int spriteScreenX = (int)((cub3d->scenedata->resolution.x / 2) * (1 + transformX / transformY));
+
+		//calculate height of the sprite on screen
+		int spriteHeight = abs((int)(cub3d->scenedata->resolution.y / (transformY))); //using 'transformY' instead of the real distance prevents fisheye
+
+		//calculate lowest and highest pixel to fill in current stripe
+		int drawStartY = -spriteHeight / 2 + cub3d->scenedata->resolution.y / 2;
+		if(drawStartY < 0) drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + cub3d->scenedata->resolution.y / 2;
+		if(drawEndY >= cub3d->scenedata->resolution.y) drawEndY = cub3d->scenedata->resolution.y - 1;
+
+		//calculate width of the sprite
+		int spriteWidth = abs((int)(cub3d->scenedata->resolution.y / (transformY)));
+		int drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if(drawStartX < 0) drawStartX = 0;
+		int drawEndX = spriteWidth / 2 + spriteScreenX;
+		if(drawEndX >= cub3d->scenedata->resolution.x) drawEndX = cub3d->scenedata->resolution.x - 1;
+
+		const int texWidth = 50;
+		const int texHeight = 50;
+
+		 //loop through every vertical stripe of the sprite on screen
+		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+		  int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+		  //the conditions in the if are:
+		  //1) it's in front of camera plane so you don't see things behind you
+		  //2) it's on the screen (left)
+		  //3) it's on the screen (right)
+		  //4) ZBuffer, with perpendicular distance
+		  if(transformY > 0 && stripe > 0 && stripe < cub3d->scenedata->resolution.x && transformY < raycast->zbuffer[stripe])
+		  for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+		  {
+		    int d = (y) * 256 - cub3d->scenedata->resolution.y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+		    int texY = ((d * texHeight) / spriteHeight) / 256;
+			
+		    //Uint32 color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
+		    //if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
+			t_vector2 pos;
+			pos.x = stripe;
+			pos.y = y;
+		mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00FFFFFF);
+		(void)texX;
+		(void)texY;
+
+		  }
+		}
+		i++;
+	}
+}
+
 t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 {
 	init_raycast(raycast, cub3d);
@@ -271,6 +361,7 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		perform_dda(raycast, cub3d);
 		calc_distance(raycast, cub3d);
 		draw_line(raycast, cub3d);
+		draw_sprites(raycast, cub3d);
 		(raycast->phaser.x)++;
 	}
 	return (noerr);

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:02:26 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/03 16:52:07 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_bool	scenedesc_process_resolution(t_scenedata *scenedata, char *line)
 t_bool	scenedesc_process_textures(t_scenedata *scenedata, char *line)
 {
 	char	**elements;
-
+	// add index to sprite texture so you can add as many sprites as you want
 	elements = ft_strsplit(line, ' ');
 	if (elements && count_elements(elements) == 2)
 	{

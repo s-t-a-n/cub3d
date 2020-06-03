@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:11:50 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/03 19:51:44 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,5 @@ void				init_raycast(t_raycast *raycast, t_cub3d *cub3d)
 	}
 	raycast->phaser.x = 0;
 	raycast->phaser.y = 0;
+	raycast->spritecount = 0;
 }
