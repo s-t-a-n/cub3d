@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/24 17:44:20 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/03 20:56:24 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/06 17:58:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,72 @@ t_bool		sprite_already_registered(t_raycast *raycast)
 {
 	int i;
 
+	printf("count: %i\n", raycast->spritecount);
 	i = 0;
 	while(i < raycast->spritecount)
 	{
-		if (raycast->sprites[i].pos.x == raycast->pos.x && raycast->sprites[i].pos.y == raycast->pos.y)
+		printf("ray : %ix%i, sprite: %fx%f\n", raycast->pos.x, raycast->pos.y, raycast->sprites[i].pos.x, raycast->sprites[i].pos.y);
+		if ((int)raycast->sprites[i].pos.x == raycast->pos.x && (int)raycast->sprites[i].pos.y == raycast->pos.y)
 			return (true);
 		i++;
 	}
 	return (false);
+}
+
+int			sprite_player_distance(t_raycast *raycast, t_cub3d *cub3d)
+{
+
+	return (sqrt(pow((int)cub3d->player->pos.x - raycast->pos.x, 2) + pow((int)cub3d->player->pos.y - raycast->pos.y, 2)));
+	// fuck it, manhattan distance
+	return (abs((int)cub3d->player->pos.x - raycast->pos.x)
+			+ abs((int)cub3d->player->pos.y - raycast->pos.y));
+}
+
+void		sprite_swap(t_raycast *raycast, int a, int b)
+{
+	t_sprite tmp;
+	
+	tmp = raycast->sprites[a];
+	raycast->sprites[a] = raycast->sprites[b];
+	raycast->sprites[b] = tmp;
+}
+
+void		insert_sprite(t_raycast *raycast, t_cub3d *cub3d)
+{
+	t_sprite	sprite;
+
+	printf("inserting sprite!\n");
+	sprite.pos.x = raycast->pos.x;
+	sprite.pos.y = raycast->pos.y;
+	sprite.distance = sprite_player_distance(raycast, cub3d);
+	sprite.item = raycast->item;
+	if (raycast->spritecount == 1 && raycast->sprites[0].distance < sprite.distance)
+	{
+		raycast->sprites[1] = raycast->sprites[0];
+		raycast->sprites[0] = sprite;
+	}
+	else if (raycast->spritecount >= 2)
+	{
+		int i;
+
+		i = 0;
+		while (i + 1 < raycast->spritecount)
+		{
+			if (raycast->sprites[i + 1].distance > sprite.distance)
+			{
+				ft_memmove(&raycast->sprites[i + 1], &raycast->sprites[i], raycast->spritecount - i );
+				raycast->sprites[i] = sprite;
+				printf("inserting with memmove!\n");
+				break;
+			}
+			i++;
+		}
+	}
+	else
+	{
+		raycast->sprites[0] = sprite;
+	}
+	(raycast->spritecount)++;
 }
 
 void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
@@ -118,14 +176,7 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x];
 		if (raycast->item == MAP_ITEM && !sprite_already_registered(raycast))
-		{
-			t_sprite sprite;
-			sprite.pos.x = raycast->pos.x;
-			sprite.pos.y = raycast->pos.y;
-			sprite.item = raycast->item;
-			raycast->sprites[raycast->spritecount] = sprite;
-			raycast->spritecount++;
-		}
+			insert_sprite(raycast, cub3d);
 		if (raycast->item != MAP_WALKABLE && raycast->item != MAP_ITEM)
 			raycast->hit = true;
 	}
@@ -148,6 +199,7 @@ int				select_texture_for_wall(t_raycast *raycast)
 	}
 }
 
+// add multiple sprite opt?
 t_mlx_text_image *select_texture(t_cub3d *cub3d, t_raycast *raycast, int num)
 {
 	if (num == MAP_WALL)
@@ -283,6 +335,7 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	int i;
+	t_mlx_text_image	*texture = select_texture(cub3d, raycast, raycast->item);
 
 	i = 0;
 	while (i < raycast->spritecount)
@@ -314,37 +367,44 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
 		if(drawEndX >= cub3d->scenedata->resolution.x) drawEndX = cub3d->scenedata->resolution.x - 1;
 
-		const int texWidth = 10;
-		const int texHeight = 10;
+		const int texWidth = texture->size.x;
+		const int texHeight = texture->size.y;
 
 		printf("drawStartX : %i, drawEndX: %i\n", drawStartX, drawEndX);
 		 //loop through every vertical stripe of the sprite on screen
-		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+		for(int x = drawStartX; x < drawEndX; x++)
 		{
-		  int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
+		  int texX = (int)(256 * (x - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256;
 		  //the conditions in the if are:
 		  //1) it's in front of camera plane so you don't see things behind you
 		  //2) it's on the screen (left)
 		  //3) it's on the screen (right)
 		  //4) ZBuffer, with perpendicular distance
-		  if(transformY > 0 && stripe > 0 && stripe < cub3d->scenedata->resolution.x && transformY < raycast->zbuffer[stripe])
+		  if(transformY > 0 && x > 0 && x < cub3d->scenedata->resolution.x && transformY < raycast->zbuffer[x])
 		  {
-			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current x
 			{
 				int d = (y) * 256 - cub3d->scenedata->resolution.y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
 				int texY = ((d * texHeight) / spriteHeight) / 256;
 				
 				//Uint32 color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
-				//if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
+				//if((color & 0x00FFFFFF) != 0) buffer[y][x] = color; //paint pixel if it isn't black, black is the invisible color
 				t_vector2 pos;
-				pos.x = stripe;
+				pos.x = x;
 				pos.y = y;
-				//mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00FFFFFF);
-				mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00000000);
+
+				t_vector2 tex_pos;
+				tex_pos.x = texX;
+				tex_pos.y = texY;
+
+				unsigned int color = mlx_rpixel(tex_pos, texture);
+				mlx_wpixel(cub3d->mlx->image_nact, pos, color);
+				//mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00000000);
 				(void)texX;
 				(void)texY;
 			}
 		  }
+		  (void)texX; (void)texWidth; (void)texHeight;
 		}
 		i++;
 	}
@@ -364,8 +424,20 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		perform_dda(raycast, cub3d);
 		calc_distance(raycast, cub3d);
 		draw_line(raycast, cub3d);
-		draw_sprites(raycast, cub3d);
 		(raycast->phaser.x)++;
 	}
+
+	if (raycast->spritecount == 3)
+	{
+		printf("WEIRD:\n");
+		for (int i = 0; i < 3; i++)
+		{
+			printf("spr: %fx%f\n", raycast->sprites[i].pos.x, raycast->sprites[i].pos.y);
+		}
+		abort();
+	}
+
+
+	draw_sprites(raycast, cub3d);
 	return (noerr);
 }

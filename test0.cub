@@ -1,0 +1,21 @@
+R 512 512
+NO ./textures/hofmann.xpm
+SO ./textures/hofmann.xpm
+WE ./textures/hofmann.xpm
+EA ./textures/hofmann.xpm
+S ./textures/hofmann.xpm
+F 220,100,0
+
+C 255,30,255
+
+
+
+
+
+1 1 1 1 1 1 1
+1 0 0 0 0 0 1
+1 0 0 0 0 0 1
+1 0 0 E 0 1 1
+1 0 0 0 0 0 1
+1 0 0 0 0 0 1
+1 1 1 1 1 1 1

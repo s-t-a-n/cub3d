@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/03 20:08:16 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/06 17:02:04 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef enum	e_direction
 
 typedef struct			s_sprite
 {
+	int					distance;
 	t_flvector2			pos;
 	int					item;
 }						t_sprite;
