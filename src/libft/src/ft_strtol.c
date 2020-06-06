@@ -88,11 +88,13 @@ long		ft_strtol(const char *str, char **endptr, int base)
 	while (nbr >= 0)
 	{
 		retval = (nbr >= 0 ? retval * base + nbr : retval);
-		if (retval > cutoff
-			&& ft_numeric_value_for_base(*(str + 1), base) >= 0)
-			return (ft_strtol_handle_sign_and_overflow(ULONG_MAX,
-						sign, endptr, base));
-			str++;
+		if (retval > cutoff 
+				&& ft_numeric_value_for_base(*(str + 1), base) >= 0)
+		{
+			return (ft_strtol_handle_sign_and_overflow(ULONG_MAX, sign, endptr,
+					base));
+		}
+		str++;
 		nbr = ft_numeric_value_for_base(*str, base);
 	}
 	return (ft_strtol_handle_sign_and_overflow(retval, sign, endptr, base));

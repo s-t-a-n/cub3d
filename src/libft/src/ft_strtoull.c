@@ -82,9 +82,11 @@ unsigned long long			ft_strtoull(const char *str, char **endptr,
 		retval = (nbr >= 0 ? retval * base + nbr : retval);
 		if (retval > cutoff
 			&& ft_numeric_value_for_base(*(str + 1), base) >= 0)
+		{
 			return (ft_strtol_handle_overflow(ULLONG_MAX,
 						endptr, base));
-			str++;
+		}
+		str++;
 		nbr = ft_numeric_value_for_base(*str, base);
 	}
 	return (ft_strtol_handle_overflow(retval, endptr, base));

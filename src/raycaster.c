@@ -314,9 +314,10 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		int drawEndX = spriteWidth / 2 + spriteScreenX;
 		if(drawEndX >= cub3d->scenedata->resolution.x) drawEndX = cub3d->scenedata->resolution.x - 1;
 
-		const int texWidth = 50;
-		const int texHeight = 50;
+		const int texWidth = 10;
+		const int texHeight = 10;
 
+		printf("drawStartX : %i, drawEndX: %i\n", drawStartX, drawEndX);
 		 //loop through every vertical stripe of the sprite on screen
 		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
 		{
@@ -327,20 +328,22 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		  //3) it's on the screen (right)
 		  //4) ZBuffer, with perpendicular distance
 		  if(transformY > 0 && stripe > 0 && stripe < cub3d->scenedata->resolution.x && transformY < raycast->zbuffer[stripe])
-		  for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
 		  {
-		    int d = (y) * 256 - cub3d->scenedata->resolution.y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-		    int texY = ((d * texHeight) / spriteHeight) / 256;
-			
-		    //Uint32 color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
-		    //if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
-			t_vector2 pos;
-			pos.x = stripe;
-			pos.y = y;
-		mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00FFFFFF);
-		(void)texX;
-		(void)texY;
-
+			for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+			{
+				int d = (y) * 256 - cub3d->scenedata->resolution.y * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+				int texY = ((d * texHeight) / spriteHeight) / 256;
+				
+				//Uint32 color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
+				//if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
+				t_vector2 pos;
+				pos.x = stripe;
+				pos.y = y;
+				//mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00FFFFFF);
+				mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00000000);
+				(void)texX;
+				(void)texY;
+			}
 		  }
 		}
 		i++;
