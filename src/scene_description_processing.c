@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/03 16:52:07 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 17:51:59 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_bool	scenedesc_process_resolution(t_scenedata *scenedata, char *line)
 t_bool	scenedesc_process_textures(t_scenedata *scenedata, char *line)
 {
 	char	**elements;
-	// add index to sprite texture so you can add as many sprites as you want
+
 	elements = ft_strsplit(line, ' ');
 	if (elements && count_elements(elements) == 2)
 	{
@@ -77,8 +77,33 @@ t_bool	scenedesc_process_textures(t_scenedata *scenedata, char *line)
 			scenedata->f_textures[TEXT_S] = ft_strdup(elements[1]);
 		else if (ft_strncmp(elements[0], "WE", 3) == 0)
 			scenedata->f_textures[TEXT_W] = ft_strdup(elements[1]);
-		else if (ft_strncmp(elements[0], "S", 2) == 0)
+		else if (ft_strncmp(elements[0], "FL", 2) == 0)
+			scenedata->f_textures[TEXT_FL] = ft_strdup(elements[1]);
+		else if (ft_strncmp(elements[0], "CE", 2) == 0)
+			scenedata->f_textures[TEXT_CE] = ft_strdup(elements[1]);
+		else
+			crit_error("Scene description:", "bogus info on line:", line);
+		destroy_elements(elements);
+		return (noerr);
+	}
+	else
+		crit_error("MALLOC", strerror(errno), NULL);
+	return (err);
+}
+
+t_bool	scenedesc_process_textures_sprites(t_scenedata *scenedata, char *line)
+{
+	char	**elements;
+
+	elements = ft_strsplit(line, ' ');
+	if (elements && count_elements(elements) == 2)
+	{
+		if (ft_strncmp(elements[0], "S", 2) == 0)
 			scenedata->f_textures[TEXT_SP] = ft_strdup(elements[1]);
+		else if (ft_strncmp(elements[0], "S", 1) == 0 && ft_isdigit(elements[0][1]))
+		{
+			scenedata->f_textures[TEXT_SPE + ft_atoi(elements[0] + 1)] = ft_strdup(elements[1]);
+		}
 		else
 			crit_error("Scene description:", "bogus info on line:", line);
 		destroy_elements(elements);

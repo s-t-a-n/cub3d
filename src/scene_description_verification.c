@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 18:36:50 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:07:28 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 18:00:34 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_bool			scenedesc_verify_textures(t_scenedata *scenedata)
 	int i;
 
 	i = 0;
-	while (i < TEXTURE_COUNT)
+	while (i < TEXTURE_STOCK + (scenedata->textured_floor_and_ceiling ? 2 : 0)
+			+ scenedata->extra_sprites)
 	{
 		if (!file_exists(scenedata->f_textures[i]))
 			return (err);

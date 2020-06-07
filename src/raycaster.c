@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/24 17:44:20 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/06 17:58:28 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 19:22:27 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,78 +86,6 @@ void	calc_distance(t_raycast *raycast, t_cub3d *cub3d)
 	raycast->zbuffer[raycast->phaser.x] = raycast->distance;
 }
 
-t_bool		sprite_already_registered(t_raycast *raycast)
-{
-	int i;
-
-	printf("count: %i\n", raycast->spritecount);
-	i = 0;
-	while(i < raycast->spritecount)
-	{
-		printf("ray : %ix%i, sprite: %fx%f\n", raycast->pos.x, raycast->pos.y, raycast->sprites[i].pos.x, raycast->sprites[i].pos.y);
-		if ((int)raycast->sprites[i].pos.x == raycast->pos.x && (int)raycast->sprites[i].pos.y == raycast->pos.y)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-int			sprite_player_distance(t_raycast *raycast, t_cub3d *cub3d)
-{
-
-	return (sqrt(pow((int)cub3d->player->pos.x - raycast->pos.x, 2) + pow((int)cub3d->player->pos.y - raycast->pos.y, 2)));
-	// fuck it, manhattan distance
-	return (abs((int)cub3d->player->pos.x - raycast->pos.x)
-			+ abs((int)cub3d->player->pos.y - raycast->pos.y));
-}
-
-void		sprite_swap(t_raycast *raycast, int a, int b)
-{
-	t_sprite tmp;
-	
-	tmp = raycast->sprites[a];
-	raycast->sprites[a] = raycast->sprites[b];
-	raycast->sprites[b] = tmp;
-}
-
-void		insert_sprite(t_raycast *raycast, t_cub3d *cub3d)
-{
-	t_sprite	sprite;
-
-	printf("inserting sprite!\n");
-	sprite.pos.x = raycast->pos.x;
-	sprite.pos.y = raycast->pos.y;
-	sprite.distance = sprite_player_distance(raycast, cub3d);
-	sprite.item = raycast->item;
-	if (raycast->spritecount == 1 && raycast->sprites[0].distance < sprite.distance)
-	{
-		raycast->sprites[1] = raycast->sprites[0];
-		raycast->sprites[0] = sprite;
-	}
-	else if (raycast->spritecount >= 2)
-	{
-		int i;
-
-		i = 0;
-		while (i + 1 < raycast->spritecount)
-		{
-			if (raycast->sprites[i + 1].distance > sprite.distance)
-			{
-				ft_memmove(&raycast->sprites[i + 1], &raycast->sprites[i], raycast->spritecount - i );
-				raycast->sprites[i] = sprite;
-				printf("inserting with memmove!\n");
-				break;
-			}
-			i++;
-		}
-	}
-	else
-	{
-		raycast->sprites[0] = sprite;
-	}
-	(raycast->spritecount)++;
-}
-
 void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 {
 	while(!raycast->hit)
@@ -175,8 +103,6 @@ void		perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 			raycast->side = 1;
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y][raycast->pos.x];
-		if (raycast->item == MAP_ITEM && !sprite_already_registered(raycast))
-			insert_sprite(raycast, cub3d);
 		if (raycast->item != MAP_WALKABLE && raycast->item != MAP_ITEM)
 			raycast->hit = true;
 	}
@@ -210,6 +136,21 @@ t_mlx_text_image *select_texture(t_cub3d *cub3d, t_raycast *raycast, int num)
 		return (NULL);
 }
 
+void		draw_colored_floors_and_ceiling(t_mlx *mlx, t_scenedata *scenedata)
+{
+	t_vector2 pos;
+	t_vector2 size;
+	
+	size.x = mlx->resolution.x;
+	size.y = mlx->resolution.y / 2;
+	pos.x = 0;
+	pos.y = 0;
+	mlx_wrect(mlx->image_nact, pos, size, scenedata->ceiling_trgb);
+	pos.x = 0;
+	pos.y += size.y;
+	mlx_wrect(mlx->image_nact, pos, size, scenedata->floor_trgb);
+}
+
 void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 {
 	t_vector2			ctr;
@@ -225,8 +166,8 @@ void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 	t_mlx_text_image	*ceiling_texture;
 
 	// change later
-	floor_texture = &cub3d->mlx->textures[4];
-	ceiling_texture = &cub3d->mlx->textures[4];
+	floor_texture = &cub3d->mlx->textures[TEXT_FL];
+	ceiling_texture = &cub3d->mlx->textures[TEXT_CE];
 
 	ray_dir_left.x = cub3d->player->vdir.x - raycast->camplane.x;
 	ray_dir_left.y = cub3d->player->vdir.y - raycast->camplane.y;
@@ -246,14 +187,15 @@ void		draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d)
 		ctr.x = 0;
 		while (ctr.x < cub3d->mlx->resolution.x)
 		{
-			// needs seperate calculations for floor and ceiling
+			//floor
 			text_pos.x = (int)fabs(floor_texture->size.x * (floor.x - (int)floor.x));
 			text_pos.y = (int)fabs(floor_texture->size.y * (floor.y - (int)floor.y));
 			floor.x += floor_step.x;
 			floor.y += floor_step.y;
-			//floor
 			mlx_wpixel(cub3d->mlx->image_nact, ctr, mlx_rpixel(text_pos, floor_texture));
 			//ceiling
+			text_pos.x = (int)fabs(ceiling_texture->size.x * (floor.x - (int)floor.x));
+			text_pos.y = (int)fabs(ceiling_texture->size.y * (floor.y - (int)floor.y));
 			t_vector2 nctr;
 			nctr.x = ctr.x;
 			nctr.y = cub3d->mlx->resolution.y - ctr.y -1;
@@ -298,7 +240,20 @@ void		draw_textured_line(t_raycast *raycast, t_cub3d *cub3d, t_vector2 pos, doub
 		tex_jump += tex_jump_step;
 		image_pos.x = pos.x;
 		image_pos.y = yctr;
-		mlx_wpixel(cub3d->mlx->image_nact, image_pos, mlx_rpixel(tex_pos, texture));
+
+
+		// MAGIC
+		int darkness = (1080 / lineheight) * 25;
+		unsigned int color = mlx_rpixel(tex_pos, texture);
+		color += darkness << 8*0;
+		color += darkness << 8*1;
+		color += darkness << 8*2;
+		color += darkness << 8*3;
+		mlx_wpixel(cub3d->mlx->image_nact, image_pos, color);
+
+
+
+		//mlx_wpixel(cub3d->mlx->image_nact, image_pos, darkness + mlx_rpixel(tex_pos, texture));
 		yctr++;
 	}
 }
@@ -332,10 +287,66 @@ void		draw_line(t_raycast *raycast, t_cub3d *cub3d)
 	//draw_colored_line(raycast, cub3d, pos, lineheight);
 }
 
+
+void	swap_sprites(t_raycast *raycast, int a, int b)
+{
+	t_sprite tmp;
+	
+	tmp = raycast->sprites[a];
+	raycast->sprites[a] = raycast->sprites[b];
+	raycast->sprites[b] = tmp;
+}
+
+int			playerdistance_sprites(t_player *player, t_flvector2 pos)
+{
+	return (sqrt(pow(player->pos.x - pos.x, 2)
+				+ pow(player->pos.y - pos.y, 2)));
+}
+
+void	update_sprites(t_raycast *raycast, t_cub3d *cub3d)
+{
+	int			i;
+	t_sprite	*sprite;
+
+	i = 0;
+	while (i < raycast->spritecount)
+	{
+		sprite = &raycast->sprites[i];
+		sprite->distance = playerdistance_sprites(cub3d->player, sprite->pos);
+		i++;
+	}
+}
+
+/*
+** norm failure: should use do..while
+*/
+void	sort_sprites(t_raycast *raycast, t_cub3d *cub3d)
+{
+	int		i;
+	t_bool	changed;
+
+	update_sprites(raycast, cub3d);
+	changed = true;
+	while (changed)
+	{
+		changed = false;
+		i = 0;
+		while (i + 1 < raycast->spritecount)
+		{
+			if (raycast->sprites[i].distance < raycast->sprites[i + 1].distance)
+			{
+				swap_sprites(raycast, i, i + 1);
+				changed = true;
+			}
+			i++;
+		}
+	}
+}
+
 void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	int i;
-	t_mlx_text_image	*texture = select_texture(cub3d, raycast, raycast->item);
+	t_mlx_text_image	*texture = select_texture(cub3d, raycast, MAP_ITEM);
 
 	i = 0;
 	while (i < raycast->spritecount)
@@ -398,7 +409,8 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 				tex_pos.y = texY;
 
 				unsigned int color = mlx_rpixel(tex_pos, texture);
-				mlx_wpixel(cub3d->mlx->image_nact, pos, color);
+				if (color != 0x00000000)
+					mlx_wpixel(cub3d->mlx->image_nact, pos, color);
 				//mlx_wpixel(cub3d->mlx->image_nact, pos, 0x00000000);
 				(void)texX;
 				(void)texY;
@@ -413,7 +425,10 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 {
 	init_raycast(raycast, cub3d);
-	draw_textured_floor_and_ceiling(raycast, cub3d);
+	if (cub3d->scenedata->textured_floor_and_ceiling)
+		draw_textured_floor_and_ceiling(raycast, cub3d);
+	else
+		draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
 	while (raycast->phaser.x < cub3d->mlx->resolution.x)
 	{
 		raycast->hit = false;
@@ -427,17 +442,7 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		(raycast->phaser.x)++;
 	}
 
-	if (raycast->spritecount == 3)
-	{
-		printf("WEIRD:\n");
-		for (int i = 0; i < 3; i++)
-		{
-			printf("spr: %fx%f\n", raycast->sprites[i].pos.x, raycast->sprites[i].pos.y);
-		}
-		abort();
-	}
-
-
+	sort_sprites(raycast, cub3d);
 	draw_sprites(raycast, cub3d);
 	return (noerr);
 }

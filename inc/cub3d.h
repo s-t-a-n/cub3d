@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/06 17:02:04 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 17:57:04 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,17 @@
 /*
 ** texture defines
 */
-# define TEXTURE_COUNT 5
-# define TEXT_N 0
-# define TEXT_E 1
-# define TEXT_S 2
-# define TEXT_W 3
-# define TEXT_SP 4
+# define TEXTURE_CAP				50
+# define TEXTURE_STOCK				5
+
+# define TEXT_N						0
+# define TEXT_E						1
+# define TEXT_S						2
+# define TEXT_W						3
+# define TEXT_SP					4
+# define TEXT_FL					5
+# define TEXT_CE					6
+# define TEXT_SPE					7
 
 /*
 ** raycasting defines
@@ -217,7 +222,7 @@ typedef struct	s_texture_draw_op
 typedef struct	s_mlx
 {
 	t_mlx_image			images[IMAGE_COUNT];
-	t_mlx_text_image	textures[TEXTURE_COUNT];
+	t_mlx_text_image	textures[TEXTURE_CAP];
 	t_mlx_image			*image_act;
 	t_mlx_image			*image_nact;
 	int					image_nact_i;
@@ -231,7 +236,9 @@ typedef struct	s_mlx
 typedef struct	s_scenedata
 {
 	t_vector2	resolution;
-	char 		*f_textures[TEXTURE_COUNT];
+	char 		*f_textures[TEXTURE_CAP];
+	t_bool		textured_floor_and_ceiling;
+	int			extra_sprites;
 	t_color		floor_color;
 	t_color		ceiling_color;
 	int			floor_trgb;
@@ -264,6 +271,8 @@ void			dump_scenedata_map(t_scenedata *scenedata);
 t_bool			scenedesc_process_resolution(t_scenedata *scenedata,
 					char *line);
 t_bool			scenedesc_process_textures(t_scenedata *scenedata,
+					char *line);
+t_bool			scenedesc_process_textures_sprites(t_scenedata *scenedata,
 					char *line);
 t_bool			scenedesc_process_colors(t_scenedata *scenedata, char *line);
 t_bool			scenedesc_process_map(t_scenedata *scenedata, char *line);

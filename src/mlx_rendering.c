@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 19:59:13 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 12:47:06 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 18:09:33 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,6 @@ void	clear_image(t_mlx *mlx)
 	pos.x = 0;
 	pos.y = 0;
 	mlx_wrect(mlx->image_nact, pos, mlx->resolution, 0x00000000);
-}
-
-void	draw_colored_floors_and_ceiling(t_mlx *mlx, t_scenedata *scenedata)
-{
-	t_vector2 pos;
-	t_vector2 size;
-
-	size.x = mlx->resolution.x;
-	size.y = mlx->resolution.y / 2;
-	pos.x = 0;
-	pos.y = 0;
-	mlx_wrect(mlx->image_nact, pos, size, scenedata->ceiling_trgb);
-	pos.x = 0;
-	pos.y += size.y;
-	mlx_wrect(mlx->image_nact, pos, size, scenedata->floor_trgb);
 }
 
 void	swap_image_buffers(t_mlx *mlx)

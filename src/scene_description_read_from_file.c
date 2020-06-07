@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:06:25 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 17:59:07 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ void		init_scenedata(t_scenedata *scenedata)
 	int i;
 
 	i = 0;
-	while (i < TEXTURE_COUNT)
+	while (i < TEXTURE_CAP)
 	{
 		scenedata->f_textures[i] = NULL;
 		i++;
 	}
+	scenedata->textured_floor_and_ceiling = false;
 	scenedata->resolution.x = -1;
 	scenedata->resolution.y = -1;
 	scenedata->floor_color.r = -1;
@@ -37,12 +38,27 @@ void		init_scenedata(t_scenedata *scenedata)
 	scenedata->error = 0;
 }
 
+void		postprocess_scenedata(t_scenedata *scenedata)
+{
+	int i;
+
+	if (scenedata->f_textures[TEXT_FL] || scenedata->f_textures[TEXT_CE])
+		scenedata->textured_floor_and_ceiling = true;
+	scenedata->extra_sprites = 0;
+	i = TEXT_SPE;
+	while (scenedata->f_textures[i])
+	{
+		scenedata->extra_sprites++;
+		i++;
+	}
+}
+
 void		destroy_scenedata(t_scenedata *scenedata)
 {
 	int i;
 
 	i = 0;
-	while (i < TEXTURE_COUNT)
+	while (i < TEXTURE_CAP)
 	{
 		free(scenedata->f_textures[i]);
 		i++;
@@ -105,7 +121,7 @@ void			dump_scenedata(t_scenedata *scenedata)
 	ft_printf("resolution:\t\t\t%i by %i\n", scenedata->resolution.x,
 				scenedata->resolution.y);
 	i = 0;
-	while (i < TEXTURE_COUNT)
+	while (i < TEXTURE_CAP)
 	{
 		ft_printf("texture[%i]: %s\n", i, scenedata->f_textures[i]);
 		i++;
@@ -121,12 +137,16 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 {
 	if (line[0] == '1' || line[0] == '0' || line[0] == '2')
 		return (scenedesc_process_map(scenedata, line));
-	else if (line[0] == 'R')
+	else if (ft_strncmp(line, "R ", 2) == 0)
 		return (scenedesc_process_resolution(scenedata, line));
-	else if (line[0] == 'N' || line[0] == 'S' || line[0] == 'W'
-			|| line[0] == 'E')
+	else if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
+			|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+			|| ft_strncmp(line, "FL ", 3) == 0 || ft_strncmp(line, "CE ", 3) == 0)
 		return (scenedesc_process_textures(scenedata, line));
-	else if (line[0] == 'F' || line[0] == 'C')
+	else if (ft_strncmp(line, "S ", 2) == 0
+			|| (ft_strncmp(line, "S", 1) == 0 && ft_isdigit(*(line + 1))))
+		return (scenedesc_process_textures_sprites(scenedata, line));
+	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
 		return (scenedesc_process_colors(scenedata, line));
 	else
 		crit_error("Scene description:", "bogus info on line:", line);
@@ -149,6 +169,7 @@ t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 			break ;
 	}
 	free(line);
+	postprocess_scenedata(scenedata);
 	dump_scenedata(scenedata);
 	return (verify_scenedata(scenedata));
 }

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/19 16:55:29 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 12:43:32 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/07 17:58:14 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	mlx_initialise_textures(t_mlx *mlx, t_scenedata *scenedata)
 	int		i;
 
 	i = 0;
-	while (i < TEXTURE_COUNT)
+	while (i < TEXTURE_STOCK + (scenedata->textured_floor_and_ceiling ? 2 : 0)
+			+ scenedata->extra_sprites)
 	{
 		mlx->textures[i].img = mlx_xpm_file_to_image(mlx->backend,
 			scenedata->f_textures[i], &mlx->textures[i].size.x,
