@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 17:59:07 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:36:15 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,19 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 	return (err);
 }
 
+int				until_nonnewline(char *s)
+{
+	int i;
+
+	i = 0;
+	while (*s && ft_isspace(*s))
+	{
+		i++;
+		s++;
+	}
+	return (i);
+}
+
 t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 {
 	char		*line;
@@ -163,7 +176,7 @@ t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line[0])
-			error = extract_scenedata_from_line(scenedata, line);
+			error = extract_scenedata_from_line(scenedata, line + until_nonnewline(line));
 		free(line);
 		if (error == err)
 			break ;

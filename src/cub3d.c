@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:15:38 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:22:56 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void		crit_error(char *head, char *body, char *tail)
 
 void		clean_shutdown(t_cub3d *cub3d)
 {
-	// clear cub3d
-	cub3d = NULL;
+	(void)cub3d;
 	exit(0);
 }
 
@@ -38,7 +37,6 @@ int			execute_rendering(t_cub3d *cub3d)
 
 	cub3d->mlx = &mlx;
 	mlx_initialise(cub3d->mlx, cub3d->scenedata, SELF_NAME);
-	//mlx_expose_hook(cub3d->mlx->window, &exposehook, &cub3d->mlx);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN,
 		&keydown, cub3d);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, X_MASK_KEYRELEASE,

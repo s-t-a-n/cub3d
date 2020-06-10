@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/24 14:50:46 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/10 19:20:46 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,14 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/game														\
 		$(SRC_D)/keyhandling												\
 		$(SRC_D)/raycaster_initialisation									\
+		$(SRC_D)/raycaster_initialisation1									\
 		$(SRC_D)/raycaster_keyhandling										\
-		$(SRC_D)/raycaster													\
+		$(SRC_D)/raycaster_keyhandling1										\
+		$(SRC_D)/raycaster5													\
+		$(SRC_D)/raycaster4													\
+		$(SRC_D)/raycaster3													\
+		$(SRC_D)/raycaster2													\
+		$(SRC_D)/raycaster1													\
 
 
 SRC := $(SRC:%=%.c)

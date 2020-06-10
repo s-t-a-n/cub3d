@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 15:55:32 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 12:46:14 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:21:54 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,3 @@ unsigned int	mlx_rpixel(t_vector2 pos, t_mlx_text_image *texture)
 	return (*(unsigned int *)(texture->addr + (pos.x * (texture->bpp / 8)
 				+ pos.y * texture->line_size)));
 }
-
-/*
- ** write texture to image
- */
-/*
-void	mlx_wrect_texture(t_mlx_image *mlximage, t_mlx_text_image *texture, t_texture_draw_op draw_op)
-{
-	int xctr;
-
-	while (size.y > 0)
-	{
-		xctr = 0;
-		while (xctr < size.x)
-		{
-			mlx_wpixel(mlximage, pos, mlx_rpixel_texture(pos, texture));
-			pos.x++;
-			xctr++;
-		}
-		pos.x -= xctr;
-		pos.y++;
-		size.y--;
-	}
-}
-*/

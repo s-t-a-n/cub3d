@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_isupper.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/05 17:34:31 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:01:49 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:53 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:55 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

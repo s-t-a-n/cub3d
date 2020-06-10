@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_isalnum.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/29 20:00:50 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:03:21 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:10 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:13 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

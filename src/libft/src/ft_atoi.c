@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/29 18:27:29 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/19 20:42:24 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:28:41 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:28:42 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

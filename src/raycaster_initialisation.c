@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 16:47:47 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:13:38 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,11 @@ static t_flvector2	calculate_initial_camplane(t_direction dir)
 	return (camplane);
 }
 
-void				insert_sprite(t_raycast *raycast, int x, int y, int item)
-{
-	t_sprite sprite;
-
-	sprite.pos.x = x + 0.5;
-	sprite.pos.y = y + 0.5;
-	sprite.item = item;
-	raycast->sprites[raycast->spritecount] = sprite;
-	raycast->spritecount++;
-}
-
 void				setup_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
-	int y;
-	int x;
-	unsigned char *s;
+	int				y;
+	int				x;
+	unsigned char	*s;
 
 	raycast->spritecount = 0;
 	y = 0;
@@ -94,7 +83,7 @@ void				setup_sprites(t_raycast *raycast, t_cub3d *cub3d)
 			if (s[x] == MAP_ITEM)
 			{
 				insert_sprite(raycast, x, y, s[x]);
-				printf("found sprite in map @ %ix%i\n", x ,y);
+				ft_printf("found sprite in map @ %ix%i\n", x, y);
 			}
 			x++;
 		}

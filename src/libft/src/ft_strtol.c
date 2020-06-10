@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/18 00:17:15 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/01/03 17:49:48 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:30:26 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ long		ft_strtol(const char *str, char **endptr, int base)
 	while (nbr >= 0)
 	{
 		retval = (nbr >= 0 ? retval * base + nbr : retval);
-		if (retval > cutoff 
+		if (retval > cutoff
 				&& ft_numeric_value_for_base(*(str + 1), base) >= 0)
 		{
 			return (ft_strtol_handle_sign_and_overflow(ULONG_MAX, sign, endptr,

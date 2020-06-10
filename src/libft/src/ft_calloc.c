@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_calloc.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/31 20:51:00 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:09:02 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:28:50 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:28:52 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

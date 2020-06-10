@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 17:57:04 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:11:14 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -352,6 +352,7 @@ void			draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d);
 ** raycaster_initialisation.c
 */
 void			init_raycast(t_raycast *raycast, t_cub3d *cub3d);
+void			insert_sprite(t_raycast *raycast, int x, int y, int item);
 
 /*
 ** raycaster_keyhandling.c
@@ -374,5 +375,84 @@ void			keystate_unsetflag(unsigned int *keystate, int keycode);
 */
 void			crit_error(char *head, char *body, char *tail);
 void			clean_shutdown(t_cub3d *cub3d);
+/*
+** raycaster.c norminette slaughter
+*/
+typedef struct	s_draw_sprites
+{
+	int			i;
+	double		spritex;
+	double		spritey;
+	double		invdet;
+	double		transformx;
+	double		transformy;
+	int			spritescreenx;
+	int			spriteheight;
+	int			drawstartx;
+	int			drawstarty;
+	int			drawendx;
+	int			drawendy;
+	int			texx;
+	int			texy;
+	int			spritewidth;
+	int			d;
+	t_vector2	pos;
+	t_vector2	tex_pos;
+	unsigned int color;
+	int			x;
+	int			y;
+	t_mlx_text_image	*texture;
+}				t_draw_sprite;
+typedef struct			s_draw_tex_line
+{
+	double				tj_step;
+	double				tj;
+	t_flvector2			wp;
+	t_vector2			tp;
+	t_vector2			ip;
+	t_mlx_text_image	*te;
+	int					yctr;
+}						t_draw_tex_line;
+typedef struct		s_draw_tex_floor_ceiling
+{
+	t_vector2			ctr;
+	t_vector2			nctr;
+	t_flvector2			ray_dir_left;
+	t_flvector2			ray_dir_right;
+	int					cur_y;
+	double				camera_y;
+	double				camera_y_rel;
+	t_flvector2			floor_step;
+	t_flvector2			floor;
+	t_vector2			text_pos;
+	t_mlx_text_image	*floor_texture;
+	t_mlx_text_image	*ceiling_texture;
+}					t_draw_tex_floor_ceiling;
 
+void	dump_raycast(t_raycast *raycast);
+void	calc_ray_position_and_direction(t_raycast *raycast, t_player *player);
+void	calc_pos_in_cameraplane(t_raycast *raycast, t_cub3d *cub3d);
+void	calc_tilestep_and_intercept(t_raycast *raycast, t_cub3d *cub3d);
+void	calc_delta_intercept(t_raycast *raycast);
+void	calc_distance(t_raycast *raycast, t_cub3d *cub3d);
+void	perform_dda(t_raycast *raycast, t_cub3d *cub3d);
+int		select_texture_for_wall(t_raycast *raycast);
+t_mlx_text_image	*select_texture(t_cub3d *cub3d, t_raycast *raycast, int num);
+void	draw_colored_floors_and_ceiling(t_mlx *mlx, t_scenedata *scenedata);
+void	draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
+				t_cub3d *cub3d, t_draw_tex_floor_ceiling *q);
+void	draw_textured_floor_and_ceiling(t_raycast *raycast, t_cub3d *cub3d);
+void	draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d, t_vector2 pos, double lh);
+void	draw_textured_line(t_raycast *raycast, t_cub3d *cub3d, t_vector2 pos, double lh);
+void	draw_colored_line(t_raycast *raycast, t_cub3d *cub3d, t_vector2 pos, double lineheight);
+void	draw_line(t_raycast *raycast, t_cub3d *cub3d);
+void	swap_sprites(t_raycast *raycast, int a, int b);
+int		playerdistance_sprites(t_player *player, t_flvector2 pos);
+void	update_sprites(t_raycast *raycast, t_cub3d *cub3d);
+void	sort_sprites(t_raycast *raycast, t_cub3d *cub3d);
+void	draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d, t_draw_sprite *s);
+void	draw_sprites_norm1(t_raycast *raycast, t_cub3d *cub3d, t_draw_sprite *s);
+void	draw_sprites_norm0(t_raycast *raycast, t_cub3d *cub3d, t_draw_sprite *s);
+void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d);
+t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d);
 #endif

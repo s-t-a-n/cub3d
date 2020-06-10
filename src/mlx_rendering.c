@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 19:59:13 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 18:09:33 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:21:38 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,7 @@ void	swap_image_buffers(t_mlx *mlx)
 
 int		render_frame(t_cub3d *cub3d)
 {
-	//draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
-	//draw_textured_floor_and_ceiling(cub3d->raycast, cub3d);
-	//clear_image(cub3d->mlx);
 	raycaster(cub3d->raycast, cub3d);
-	//if (cub3d->mlx->image_act == &cub3d->mlx->image_b)
-	//{
-	//	cub3d->mlx->image_act = &cub3d->mlx->image_a;
-	//	cub3d->mlx->image_nact = &cub3d->mlx->image_c;
-	//}
-	//else if (cub3d->mlx->image_act == &cub3d->mlx->image_a)
-	//{
-	//	cub3d->mlx->image_act = &cub3d->mlx->image_c;
-	//	cub3d->mlx->image_nact = &cub3d->mlx->image_b;
-	//}
-	//else if (cub3d->mlx->image_act == &cub3d->mlx->image_c)
-	//{
-	//	cub3d->mlx->image_act = &cub3d->mlx->image_b;
-	//	cub3d->mlx->image_nact = &cub3d->mlx->image_a;
-	//}
-	//ft_pswap((void **)&cub3d->mlx->image_act, (void **)&cub3d->mlx->image_nact);
-	//mlx_clear_window(cub3d->mlx->backend, cub3d->mlx->window);
 	swap_image_buffers(cub3d->mlx);
 	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window,
 			cub3d->mlx->image_act->img, 0, 0);

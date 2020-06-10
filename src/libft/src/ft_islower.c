@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_islower.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/05 17:35:14 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:01:33 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:31 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:33 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

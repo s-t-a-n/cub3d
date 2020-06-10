@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_isdigit.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/29 19:09:12 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:02:14 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:24 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:25 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

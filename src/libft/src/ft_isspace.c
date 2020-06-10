@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_isspace.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/13 11:34:05 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 12:54:24 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:40 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:42 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

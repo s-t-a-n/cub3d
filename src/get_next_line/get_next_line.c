@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/27 17:42:15 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/12/02 15:41:17 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/10 19:25:35 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int						get_next_line(int fd, char **line)
 				break ;
 			if (!buffer_actual->next)
 				return (ft_fork_buffer(fd, line, &buffer,
-					(t_buffer **)&buffer_actual->next));
-			buffer_actual = buffer_actual->next;
+						(t_buffer **)&buffer_actual->next));
+				buffer_actual = buffer_actual->next;
 		}
 	buffer_actual->fd = fd;
 	if (buffer_actual->store[0] > 0)

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_issymbol.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/13 20:05:03 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:05:10 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:45 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:50 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

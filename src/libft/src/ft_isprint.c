@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_isprint.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/30 14:26:28 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/13 20:06:14 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/10 19:29:36 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/10 19:29:37 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
