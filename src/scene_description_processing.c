@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 17:51:59 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/11 18:43:37 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,16 @@ t_bool	scenedesc_process_colors(t_scenedata *scenedata, char *line)
 	return (err);
 }
 
+static void	preprocess_mapline(char *line)
+{
+	while (*line)
+	{
+		if (ft_isspace(*line))
+			*line = '0';
+		line++;
+	}
+}
+
 t_bool	scenedesc_process_map(t_scenedata *scenedata, char *line)
 {
 	if (!scenedata->map)
@@ -170,6 +180,7 @@ t_bool	scenedesc_process_map(t_scenedata *scenedata, char *line)
 		crit_error("MALLOC", strerror(errno), NULL);
 		return (err);
 	}
+	preprocess_mapline(line);
 	return (dynmem_pushback(&scenedata->map,
 			(unsigned char *)ft_strfdup(line, ' ')));
 }

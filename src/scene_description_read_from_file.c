@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   read_scene_description_file.c                      :+:    :+:            */
+/*   scene_description_read_from_file.c                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/06 17:21:07 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 19:36:15 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/11 18:40:06 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,19 @@ void			dump_scenedata(t_scenedata *scenedata)
 	dump_scenedata_map(scenedata);
 }
 
+t_bool			lineismap(char *line)
+{
+	while (*line && ft_isspace(*line))
+		line++;
+	if (!*line)
+		return (false);
+	return (line[0] == '1' || line[0] == '0' || line[0] == '2');
+}
+
+
 t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 {
-	if (line[0] == '1' || line[0] == '0' || line[0] == '2')
-		return (scenedesc_process_map(scenedata, line));
-	else if (ft_strncmp(line, "R ", 2) == 0)
+	if (ft_strncmp(line, "R ", 2) == 0)
 		return (scenedesc_process_resolution(scenedata, line));
 	else if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
 			|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
@@ -148,22 +156,11 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 		return (scenedesc_process_textures_sprites(scenedata, line));
 	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
 		return (scenedesc_process_colors(scenedata, line));
+	else if (lineismap(line))
+		return (scenedesc_process_map(scenedata, line));
 	else
 		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);
-}
-
-int				until_nonnewline(char *s)
-{
-	int i;
-
-	i = 0;
-	while (*s && ft_isspace(*s))
-	{
-		i++;
-		s++;
-	}
-	return (i);
 }
 
 t_bool			build_scenedata(t_scenedata *scenedata, int fd)
@@ -176,7 +173,7 @@ t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line[0])
-			error = extract_scenedata_from_line(scenedata, line + until_nonnewline(line));
+			error = extract_scenedata_from_line(scenedata, line);
 		free(line);
 		if (error == err)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 19:11:14 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/11 19:15:29 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,8 +203,8 @@ typedef struct	s_mlx_image
 
 typedef struct	s_mlx_text_image
 {
-	void			*img;
-	char			*addr;
+	void		*img;
+	char		*addr;
 	int			bpp;
 	int			line_size;
 	int			endian;
@@ -403,6 +403,7 @@ typedef struct	s_draw_sprites
 	int			y;
 	t_mlx_text_image	*texture;
 }				t_draw_sprite;
+
 typedef struct			s_draw_tex_line
 {
 	double				tj_step;
@@ -413,6 +414,7 @@ typedef struct			s_draw_tex_line
 	t_mlx_text_image	*te;
 	int					yctr;
 }						t_draw_tex_line;
+
 typedef struct		s_draw_tex_floor_ceiling
 {
 	t_vector2			ctr;

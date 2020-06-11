@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/10 19:20:46 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/11 19:58:37 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,11 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/raycaster3													\
 		$(SRC_D)/raycaster2													\
 		$(SRC_D)/raycaster1													\
+		$(SRC_D)/file														\
+		$(SRC_D)/bmp														\
+		$(SRC_D)/bmp_wrapper
+
+
 
 
 SRC := $(SRC:%=%.c)
@@ -53,7 +58,9 @@ INC =	$(INC_D)/libft.h													\
 		$(INC_D)/get_next_line.h											\
 		$(INC_D)/ft_printf.h												\
 		$(INC_D)/mlx.h														\
-		$(INC_D)/cub3d.h
+		$(INC_D)/cub3d.h													\
+		$(INC_D)/file.h														\
+		$(INC_D)/bmp.h
 OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
 
 
