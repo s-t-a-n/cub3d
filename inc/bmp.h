@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:47:58 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/12 17:50:03 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/12 21:28:07 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 */
 
 # define BMPHEADER_SIZE			54
+
+/*
+** pragma pack needed to disable byte alignment optimisation (to make sure it is actually 54 and not 56 bytes)
+*/
+#pragma pack(push, 1)
 
 typedef struct					s_bmpheader {		// Total: 54 bytes
 	uint16_t					type;				// Magic identifier: 0x4d42
@@ -48,6 +53,8 @@ typedef struct					s_bmpimage {
 	size_t						datasize;
 	int							padding;
 }								t_bmpimage;
+
+#pragma pack(pop)
 
 /*
 ** bmp.c
