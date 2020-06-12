@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/11 19:15:29 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/12 16:33:25 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 */
 # define SELF_NAME "Stan's Cub3d"
 # define SELF_ERROR 1
+
+/*
+** --save
+*/
+# define SAVE_FILE					"./screenshot.bmp"
 
 /*
 ** graphical defines
@@ -193,12 +198,13 @@ typedef struct	s_color
 
 typedef struct	s_mlx_image
 {
-	void			*img;
-	char			*addr;
+	void		*img;
+	char		*addr;
 	int			bpp;
 	int			line_size;
 	int			endian;
-	t_bool			active;
+	t_bool		active;
+	t_vector2	resolution;
 }				t_mlx_image;
 
 typedef struct	s_mlx_text_image

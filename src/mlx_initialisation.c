@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/19 16:55:29 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/07 17:58:14 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/12 17:15:52 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 	{
 		mlx->images[i].img = mlx_new_image(mlx->backend,
 				scenedata->resolution.x, scenedata->resolution.y);
+		mlx->images[i].resolution = scenedata->resolution;
 		if (mlx->images[i].img)
 		{
 			mlx->images[i].addr = mlx_get_data_addr(mlx->images[i].img,
