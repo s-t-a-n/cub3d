@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:49:17 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/12 22:29:43 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 15:19:06 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void			destruct_bmpimage(t_bmpimage *image)
 
 t_bool			write_bmpimage(int fd, t_bmpimage *image)
 {
-	return (write(fd, &image->header, 54) != -1 && write(fd, image->data, image->datasize) != -1);
+	return (write(fd, &image->header, 54) != -1
+			&& write(fd, image->data, image->datasize) != -1);
 }
 
 t_bmpheader		construct_bmpheader(t_bmpimage *image, t_mlx_image *mlx_image)
@@ -49,7 +50,8 @@ static unsigned int		rpixel_rev(t_vector2 pos, t_mlx_image *image)
 	return (p);
 }
 
-static void				wpixel(unsigned char *data, int line_size, t_vector2 pos, unsigned int color)
+static void				wpixel(unsigned char *data, int line_size,
+							t_vector2 pos, unsigned int color)
 {
 	*(unsigned int *)(data + (pos.x * 4 + pos.y * line_size)) = color;
 }
@@ -59,12 +61,12 @@ static void			conv_to_bmpformat(unsigned char *dst, t_mlx_image *image)
 	t_vector2	pos;
 	t_vector2	wpos;
 
-	pos.y = image->resolution.y-1;
+	pos.y = image->resolution.y - 1;
 	wpos.y = 0;
-	while (pos.y > 0 )
+	while (pos.y > 0)
 	{
-		pos.x = image->resolution.x-1;
-		wpos.x = image->resolution.x-1;
+		pos.x = image->resolution.x - 1;
+		wpos.x = image->resolution.x - 1;
 		while (pos.x > 0)
 		{
 			wpixel(dst, image->line_size, wpos, rpixel_rev(pos, image));
@@ -80,7 +82,8 @@ unsigned char	*construct_bmpdata(t_bmpimage *image, t_mlx_image *mlx_image)
 {
 	unsigned char *data;
 
-	image->datasize = (mlx_image->resolution.x * mlx_image->resolution.y) * (mlx_image->bpp/8);
+	image->datasize = (mlx_image->resolution.x * mlx_image->resolution.y)
+		* (mlx_image->bpp / 8);
 	ft_printf("construct_bmpdata: datasize: %lu\n", image->datasize);
 	data = malloc(image->datasize);
 	if (data)
