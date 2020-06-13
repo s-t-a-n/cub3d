@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 19:13:38 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 18:54:00 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ void				setup_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		while (s[x])
 		{
 			if (s[x] == MAP_ITEM)
-			{
 				insert_sprite(raycast, x, y, s[x]);
-				ft_printf("found sprite in map @ %ix%i\n", x, y);
-			}
 			x++;
 		}
 		y++;

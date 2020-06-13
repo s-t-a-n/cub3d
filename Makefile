@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/13 17:21:53 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/13 18:58:05 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,11 +56,7 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 
 SRC := $(SRC:%=%.c)
 
-INC =	$(INC_D)/libft.h													\
-		$(INC_D)/get_next_line.h											\
-		$(INC_D)/ft_printf.h												\
-		$(INC_D)/mlx.h														\
-		$(INC_D)/cub3d.h													\
+INC =	$(INC_D)/cub3d.h													\
 		$(INC_D)/file.h														\
 		$(INC_D)/bmp.h
 OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
@@ -179,10 +175,14 @@ clean:
 fclean: clean
 	@$(RM) $(NAME)
 	@$(RM) bonus
+	@$(RM) ./screenshot.bmp
 	@make -C $(SRC_D)/ft_printf fclean
 	@make -C $(SRC_D)/libft fclean
 	@make -C $(SRC_D)/$(MINILIBX_D)/ clean
 	@$(RM) -f $(MINILIBX)
+
+bonus:
+	@touch bonus
 
 lre:
 	@$(RM) $(NAME)
@@ -192,7 +192,7 @@ lre:
 	@make
 
 norm:
-	@norminette $(SRC)
+	@norminette $(SRC) $(INC)
 
 re: fclean all
 

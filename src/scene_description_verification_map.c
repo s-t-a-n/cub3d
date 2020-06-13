@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/10 22:02:25 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/02 13:08:00 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 18:53:30 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,9 @@ t_bool				check_if_player_is_enclosed(t_scenedata *scenedata)
 {
 	t_vector2 pos;
 
-	ft_printf("player position : %i,%i\n", scenedata->player_position.x,
-			scenedata->player_position.y);
 	pos = scenedata->player_position;
 	if (breachfinder((char **)scenedata->map->mem,
 				scenedata->map->element_count, pos, nodir))
 		crit_error("Scene validation, map:", "breach in wall found!", NULL);
-	dump_scenedata_map(scenedata);
 	return (true);
 }

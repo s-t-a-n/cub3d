@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 17:18:22 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 18:53:03 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,5 @@ t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 	}
 	free(line);
 	postprocess_scenedata(scenedata);
-	dump_scenedata(scenedata);
 	return (verify_scenedata(scenedata));
 }

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 19:22:56 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 19:03:05 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@ void		clean_shutdown(t_cub3d *cub3d)
 	exit(0);
 }
 
+int			shutdown_click(void)
+{
+	exit(0);
+}
+
 int			execute_rendering(t_cub3d *cub3d)
 {
 	t_mlx	mlx;
 
 	cub3d->mlx = &mlx;
 	mlx_initialise(cub3d->mlx, cub3d->scenedata, SELF_NAME);
+	mlx_hook(cub3d->mlx->window, X_EVENT_EXIT, 1L << 2, shutdown_click, NULL);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYDOWN, X_MASK_KEYDOWN,
 		&keydown, cub3d);
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, X_MASK_KEYRELEASE,
@@ -59,6 +65,13 @@ int			main(int argc, char **argv)
 	cub3d.scenedata = &scenedata;
 	cub3d.raycast = &raycast;
 	cub3d.save_frame = false;
+	ft_printf("Terms of use:\n");
+	ft_printf("* Duplicate configs (except map) in .cub files are \
+at user's discretion (last one will be used).\n");
+	ft_printf("* Diagonal lines in map are not processed.\n");
+	ft_printf("* Empty lines in map are ignored.\n");
+	ft_printf("By continuing you agree to the terms as stated.\n");
+	ft_printf("FTP\n");
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7) == 0)
 		cub3d.save_frame = true;
 	else if (argc != 2)
