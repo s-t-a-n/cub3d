@@ -6,15 +6,15 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:51:53 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/11 19:01:28 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 17:02:44 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "file.h"
+#include "file.h"
 
 t_bool	open_file(char *path, int *fd)
 {
-	*fd = open(path, O_RDWR|O_CREAT|O_APPEND);
+	*fd = open(path, O_RDWR | O_CREAT | O_APPEND | O_TRUNC);
 	return (*fd > -1);
 }
 

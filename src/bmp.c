@@ -6,25 +6,14 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:49:17 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 15:19:06 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 17:12:39 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bmp.h"
 
-void			destruct_bmpimage(t_bmpimage *image)
-{
-	free(image->data);
-	free(image);
-}
-
-t_bool			write_bmpimage(int fd, t_bmpimage *image)
-{
-	return (write(fd, &image->header, 54) != -1
-			&& write(fd, image->data, image->datasize) != -1);
-}
-
-t_bmpheader		construct_bmpheader(t_bmpimage *image, t_mlx_image *mlx_image)
+t_bmpheader			construct_bmpheader(t_bmpimage *image,
+						t_mlx_image *mlx_image)
 {
 	t_bmpheader bmpheader;
 
@@ -41,7 +30,7 @@ t_bmpheader		construct_bmpheader(t_bmpimage *image, t_mlx_image *mlx_image)
 	return (bmpheader);
 }
 
-static unsigned int		rpixel_rev(t_vector2 pos, t_mlx_image *image)
+static unsigned int	rpixel_rev(t_vector2 pos, t_mlx_image *image)
 {
 	unsigned int	p;
 
@@ -50,7 +39,7 @@ static unsigned int		rpixel_rev(t_vector2 pos, t_mlx_image *image)
 	return (p);
 }
 
-static void				wpixel(unsigned char *data, int line_size,
+static void			wpixel(unsigned char *data, int line_size,
 							t_vector2 pos, unsigned int color)
 {
 	*(unsigned int *)(data + (pos.x * 4 + pos.y * line_size)) = color;
@@ -78,7 +67,8 @@ static void			conv_to_bmpformat(unsigned char *dst, t_mlx_image *image)
 	}
 }
 
-unsigned char	*construct_bmpdata(t_bmpimage *image, t_mlx_image *mlx_image)
+unsigned char		*construct_bmpdata(t_bmpimage *image,
+						t_mlx_image *mlx_image)
 {
 	unsigned char *data;
 

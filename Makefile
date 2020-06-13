@@ -6,11 +6,11 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/11 19:58:37 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/13 17:21:53 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 
 # build variables
 BUFFER_SIZE=10 # buffer size used when using 'read' syscall
@@ -26,8 +26,12 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/get_next_line/get_next_line_utils							\
 		$(SRC_D)/cub3d														\
 		$(SRC_D)/scene_description_read_from_file							\
+		$(SRC_D)/scene_description_read_from_file1							\
+		$(SRC_D)/scene_description_read_from_file2							\
 		$(SRC_D)/scene_description_processing								\
+		$(SRC_D)/scene_description_processing1								\
 		$(SRC_D)/scene_description_verification								\
+		$(SRC_D)/scene_description_verification1							\
 		$(SRC_D)/scene_description_verification_map							\
 		$(SRC_D)/mlx_interface												\
 		$(SRC_D)/mlx_hooks													\
@@ -47,10 +51,8 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/raycaster1													\
 		$(SRC_D)/file														\
 		$(SRC_D)/bmp														\
+		$(SRC_D)/bmp1														\
 		$(SRC_D)/bmp_wrapper
-
-
-
 
 SRC := $(SRC:%=%.c)
 
@@ -188,6 +190,9 @@ lre:
 	@$(RM) $(OBJ)
 	@$(RM) -r $(OBJ_D)
 	@make
+
+norm:
+	@norminette $(SRC)
 
 re: fclean all
 

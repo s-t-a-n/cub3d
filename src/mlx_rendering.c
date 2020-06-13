@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 19:59:13 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/12 16:32:37 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 16:48:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		render_frame(t_cub3d *cub3d)
 	raycaster(cub3d->raycast, cub3d);
 	swap_image_buffers(cub3d->mlx);
 	if (cub3d->save_frame)
-		exit (1 ^ write_bmp_from_mlx_image(cub3d->mlx->image_act, SAVE_FILE));
+		exit(1 ^ write_bmp_from_mlx_image(cub3d->mlx->image_act, SAVE_FILE));
 	mlx_put_image_to_window(cub3d->mlx->backend, cub3d->mlx->window,
 			cub3d->mlx->image_act->img, 0, 0);
 	return (noerr);

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/12 16:33:25 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/13 17:19:29 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,16 @@ typedef struct	s_cub3d
 */
 t_bool			construct_scenedata(t_scenedata *scenedata, char *filename);
 void			dump_scenedata_map(t_scenedata *scenedata);
+void			init_scenedata(t_scenedata *scenedata);
+void			postprocess_scenedata(t_scenedata *scenedata);
+void			destroy_scenedata(t_scenedata *scenedata);
+t_bool			verify_scenedata(t_scenedata *scenedata);
+void			dump_scenedata_map_printl(char *line);
+void			dump_scenedata(t_scenedata *scenedata);
+t_bool			lineismap(char *line);
+t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line);
+t_bool			build_scenedata(t_scenedata *scenedata, int fd);
+
 
 /*
 **  scene_description_processing.c
@@ -282,6 +292,8 @@ t_bool			scenedesc_process_textures_sprites(t_scenedata *scenedata,
 					char *line);
 t_bool			scenedesc_process_colors(t_scenedata *scenedata, char *line);
 t_bool			scenedesc_process_map(t_scenedata *scenedata, char *line);
+void			destroy_elements(char **elements);
+int				count_elements(char **elements);
 
 /*
 ** scene_description_verification.c
