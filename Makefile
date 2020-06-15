@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/13 18:58:05 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/15 16:36:05 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/scene_description_verification								\
 		$(SRC_D)/scene_description_verification1							\
 		$(SRC_D)/scene_description_verification_map							\
+		$(SRC_D)/scene_description_verification_map1						\
 		$(SRC_D)/mlx_interface												\
 		$(SRC_D)/mlx_hooks													\
 		$(SRC_D)/mlx_generic												\
@@ -117,7 +118,7 @@ ifeq ($(UNAME_S),Linux)
 endif
 ifeq ($(UNAME_S),Darwin)
     OS = OSX
-    CC_FLAGS += -D OSX 
+    CC_FLAGS += -D OSX
     CCL_FLAGS += -framework AppKit -framework OpenGL
     MINILIBX = libmlx.dylib
     MINILIBX_D = minilibx
@@ -128,7 +129,8 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
+	@$(CC) $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
+	2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
 	elif test -s $(CC_LOG); then											\
@@ -193,6 +195,7 @@ lre:
 
 norm:
 	@norminette $(SRC) $(INC)
+	@python ~/norminette+/run.py $(SRC) $(INC)
 
 re: fclean all
 

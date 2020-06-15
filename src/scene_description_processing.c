@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 18:05:55 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/15 16:31:40 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ t_bool		scenedesc_process_colors(t_scenedata *scenedata, char *line)
 
 static void	preprocess_mapline(char *line)
 {
-	const char *line_org = line;
-	size_t spacecount;
+	const char	*line_org = line;
+	size_t		spacecount;
 
 	spacecount = 0;
 	while (*line)

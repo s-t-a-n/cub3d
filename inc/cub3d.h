@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 18:38:39 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/15 16:33:41 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,11 @@ t_bool					scan_map_and_find_player_position(
 							t_scenedata *scenedata);
 t_bool					check_if_player_is_enclosed(
 							t_scenedata *scenedata);
-
+t_bool					breachfinder(char **map, int ymax, t_vector2 pos,
+							t_direction dir);
+t_bool					breachfinder_norm0(char **map, int ymax,
+							t_vector2 pos);
+t_vector2				adjust_position(t_direction dir, t_vector2 pos);
 /*
 ** game.c
 */
