@@ -65,13 +65,6 @@ int			main(int argc, char **argv)
 	cub3d.scenedata = &scenedata;
 	cub3d.raycast = &raycast;
 	cub3d.save_frame = false;
-	ft_printf("Terms of use:\n");
-	ft_printf("* Duplicate configs (except map) in .cub files are \
-at user's discretion (last one will be used).\n");
-	ft_printf("* Diagonal lines in map are not processed.\n");
-	ft_printf("* Empty lines in map are ignored.\n");
-	ft_printf("By continuing you agree to the terms as stated.\n");
-	ft_printf("FTP\n");
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7) == 0)
 		cub3d.save_frame = true;
 	else if (argc != 2)

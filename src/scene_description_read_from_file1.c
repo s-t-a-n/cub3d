@@ -48,13 +48,15 @@ void			dump_scenedata(t_scenedata *scenedata)
 	dump_scenedata_map(scenedata);
 }
 
-t_bool			lineismap(char *line)
+int				lineismap_orempty(char *line)
 {
-	while (*line && ft_isspace(*line))
+	while (*line && (ft_isspace(*line) || *line == '\n'))
 		line++;
 	if (*line == '\0')
-		return (false);
-	return (line[0] == '1' || line[0] == '0' || line[0] == '2');
+		return (2);
+	if (*line == '1' || *line == '0' || *line == '2')
+		return (1);
+	return (0);
 }
 
 t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
@@ -73,8 +75,13 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 		return (scenedesc_process_textures_sprites(scenedata, line));
 	else if (ft_strncmp(line, "F ", 2) == 0 || ft_strncmp(line, "C ", 2) == 0)
 		return (scenedesc_process_colors(scenedata, line));
-	else if (lineismap(line))
+	else if (lineismap_orempty(line) == 1)
+	{
+		scenedata->map_started = true;
 		return (scenedesc_process_map(scenedata, line));
+	}
+	else if (lineismap_orempty(line) == 2 && !scenedata->map_started)
+		return(noerr);
 	else
 		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);
@@ -89,8 +96,7 @@ t_bool			build_scenedata(t_scenedata *scenedata, int fd)
 	init_scenedata(scenedata);
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (line[0])
-			error = extract_scenedata_from_line(scenedata, line);
+		error = extract_scenedata_from_line(scenedata, line);
 		free(line);
 		if (error == err)
 			break ;

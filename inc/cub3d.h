@@ -139,7 +139,11 @@ typedef enum			e_direction
 	east = 1,
 	south = 2,
 	west = 3,
-	nodir = 4
+	northeast = 4,
+	northwest = 5,
+	southeast = 6,
+	southwest = 7,
+	nodir = 8
 }						t_direction;
 
 typedef struct			s_sprite
@@ -249,6 +253,7 @@ typedef struct			s_scenedata
 	t_vector2			player_position;
 	t_direction			player_orientation;
 	int					error;
+	t_bool				map_started;
 }						t_scenedata;
 
 typedef struct			s_cub3d

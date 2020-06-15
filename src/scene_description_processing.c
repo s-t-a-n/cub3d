@@ -95,12 +95,21 @@ t_bool		scenedesc_process_colors(t_scenedata *scenedata, char *line)
 
 static void	preprocess_mapline(char *line)
 {
+	const char *line_org = line;
+	size_t spacecount;
+
+	spacecount = 0;
 	while (*line)
 	{
-		if (ft_isspace(*line))
+		if (ft_isspace(*line) || *line == '\n')
+		{
 			*line = '0';
+			spacecount++;
+		}
 		line++;
 	}
+	if (spacecount == ft_strlen(line_org))
+		crit_error("Scene description:", "empty line in map!", NULL);
 }
 
 t_bool		scenedesc_process_map(t_scenedata *scenedata, char *line)

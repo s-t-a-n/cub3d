@@ -83,8 +83,28 @@ static t_vector2	adjust_position(t_direction dir, t_vector2 pos)
 		pos.x += 1;
 	else if (dir == south)
 		pos.y += 1;
-	else
+	else if (dir == west)
 		pos.x -= 1;
+	else if (dir == northeast)
+	{
+		pos.y -= 1;
+		pos.x += 1;
+	}
+	else if (dir == northwest)
+	{
+		pos.y -= 1;
+		pos.x -= 1;
+	}
+	else if (dir == southeast)
+	{
+		pos.y += 1;
+		pos.x += 1;
+	}
+	else if (dir == southwest)
+	{
+		pos.y += 1;
+		pos.x -= 1;
+	}
 	return (pos);
 }
 
@@ -94,7 +114,9 @@ static t_bool		breachfinder(char **map, int ymax,
 	if (dir != nodir)
 	{
 		pos = adjust_position(dir, pos);
-		if (pos.y < 0 || pos.y >= ymax || pos.x < 0
+		if (pos.y < 0
+				|| pos.y >= ymax
+				|| pos.x < 0
 				|| pos.x >= (int)ft_strlen(map[pos.y]))
 			return (true);
 		else if (map[pos.y][pos.x] == '1'
@@ -102,16 +124,21 @@ static t_bool		breachfinder(char **map, int ymax,
 			return (false);
 		else if (map[pos.y][pos.x] == '0')
 			map[pos.y][pos.x] = MAP_WALKABLE;
+		else if (pos.y != 0
+				&& pos.y != ymax-1
+				&& pos.x != 0
+				&& pos.x != (int)ft_strlen(map[pos.y])-1
+				&& map[pos.y][pos.x] == '2')
+			return (false);
 	}
-	if (breachfinder(map, ymax, pos, north))
-		return (true);
-	if (breachfinder(map, ymax, pos, east))
-		return (true);
-	if (breachfinder(map, ymax, pos, south))
-		return (true);
-	if (breachfinder(map, ymax, pos, west))
-		return (true);
-	return (false);
+	return (breachfinder(map, ymax, pos, north)
+	|| breachfinder(map, ymax, pos, northeast)
+	|| breachfinder(map, ymax, pos, east)
+	|| breachfinder(map, ymax, pos, southeast)
+	|| breachfinder(map, ymax, pos, south)
+	|| breachfinder(map, ymax, pos, southwest)
+	|| breachfinder(map, ymax, pos, west)
+	|| breachfinder(map, ymax, pos, northwest));
 }
 
 /*
@@ -126,6 +153,9 @@ t_bool				check_if_player_is_enclosed(t_scenedata *scenedata)
 	pos = scenedata->player_position;
 	if (breachfinder((char **)scenedata->map->mem,
 				scenedata->map->element_count, pos, nodir))
+	{
+		dump_scenedata_map(scenedata);
 		crit_error("Scene validation, map:", "breach in wall found!", NULL);
+	}
 	return (true);
 }

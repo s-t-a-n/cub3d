@@ -36,6 +36,7 @@ void		init_scenedata(t_scenedata *scenedata)
 	scenedata->ceiling_color.b = -1;
 	scenedata->map = NULL;
 	scenedata->error = 0;
+	scenedata->map_started = false;
 }
 
 void		postprocess_scenedata(t_scenedata *scenedata)
