@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 17:18:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 17:39:59 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bool			construct_scenedata(t_scenedata *scenedata, char *filename)
 	t_bool	error;
 
 	fd = open(filename, O_RDONLY);
-	if (fd < 0)
+	if (fd < 0 || read(fd, NULL, 0) == -1)
 	{
 		crit_error("Scene description:", "file open error:", strerror(errno));
 		return (err);

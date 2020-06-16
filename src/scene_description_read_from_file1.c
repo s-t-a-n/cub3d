@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/15 16:27:55 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 18:22:56 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,17 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 		return (scenedesc_process_colors(scenedata, line));
 	else if (lineismap_orempty(line) == 1)
 	{
+		if (scenedata->map_started_and_empty)
+			crit_error("Scene description:", "empty line in map!", NULL);
 		scenedata->map_started = true;
 		return (scenedesc_process_map(scenedata, line));
 	}
-	else if (lineismap_orempty(line) == 2 && !scenedata->map_started)
+	else if (lineismap_orempty(line) == 2)
+	{
+		if (scenedata->map_started)
+			scenedata->map_started_and_empty = true;
 		return (noerr);
+	}
 	else
 		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);

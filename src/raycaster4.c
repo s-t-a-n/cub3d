@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 19:00:15 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 19:07:35 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 17:47:49 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void				perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 		}
 		raycast->item = cub3d->scenedata->map->mem[raycast->pos.y]
 			[raycast->pos.x];
-		if (raycast->item != MAP_WALKABLE && raycast->item != MAP_ITEM)
+		if (raycast->item != MAP_WALKABLE
+				&& raycast->item != MAP_ITEM_WALKABLE)
 			raycast->hit = true;
 	}
 }
@@ -68,7 +69,7 @@ t_mlx_text_image	*select_texture(t_cub3d *cub3d, t_raycast *raycast,
 {
 	if (num == MAP_WALL)
 		return (&cub3d->mlx->textures[select_texture_for_wall(raycast)]);
-	else if (num == MAP_ITEM)
+	else if (num == MAP_ITEM_WALKABLE)
 		return (&cub3d->mlx->textures[TEXT_SP]);
 	else
 		return (NULL);

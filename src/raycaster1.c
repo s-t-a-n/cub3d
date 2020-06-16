@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:54:26 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/10 18:55:30 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 20:01:45 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d,
 		s->tex_pos.x = s->texx;
 		s->tex_pos.y = s->texy;
 		s->color = mlx_rpixel(s->tex_pos, s->texture);
-		if (s->color != 0x00000000)
+		if (s->color != 0x00000000 && (s->color ^ 0xFF000000))
 			mlx_wpixel(cub3d->mlx->image_nact, s->pos, s->color);
 		s->y++;
 	}
@@ -65,7 +65,7 @@ void	draw_sprites_norm0(t_raycast *raycast, t_cub3d *cub3d,
 	s->spritescreenx = (int)((cub3d->scenedata->resolution.x / 2)
 			* (1 + s->transformx / s->transformy));
 	s->spriteheight = abs((int)(cub3d->scenedata->resolution.y
-				/ (s->transformy)));
+				/ (s->transformy))) * 0.8;
 	s->drawstarty = -s->spriteheight / 2
 		+ cub3d->scenedata->resolution.y / 2;
 }
@@ -74,7 +74,7 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	t_draw_sprite		s;
 
-	s.texture = select_texture(cub3d, raycast, MAP_ITEM);
+	s.texture = select_texture(cub3d, raycast, MAP_ITEM_WALKABLE);
 	s.i = 0;
 	while (s.i < raycast->spritecount)
 	{
@@ -85,7 +85,7 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		if (s.drawendy >= cub3d->scenedata->resolution.y)
 			s.drawendy = cub3d->scenedata->resolution.y - 1;
 		s.spritewidth = abs((int)(cub3d->scenedata->resolution.y
-					/ (s.transformy)));
+					/ (s.transformy))) * 0.8;
 		s.drawstartx = -s.spritewidth / 2 + s.spritescreenx;
 		if (s.drawstartx < 0)
 			s.drawstartx = 0;
@@ -116,7 +116,9 @@ t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		draw_line(raycast, cub3d);
 		(raycast->phaser.x)++;
 	}
-	sort_sprites(raycast, cub3d);
+	raycast->sprite_update++;
+	if (raycast->sprite_update % 1 == 0)
+		sort_sprites(raycast, cub3d);
 	draw_sprites(raycast, cub3d);
 	return (noerr);
 }

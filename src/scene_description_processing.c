@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/15 16:31:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 18:51:50 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static void	verify_color_bogus(char **colors)
 
 t_bool		scenedesc_process_colors_norm0(t_scenedata *scenedata,
 										char *line,
-										char *elements,
+										char **elements,
 										char **colors)
 {
 	if (count_elements(colors) == 3)
 	{
 		verify_color_bogus(colors);
-		if (elements[0] == 'C')
+		if (elements[0][0] == 'C')
 		{
 			scenedata->ceiling_color.r = ft_atoi(colors[0]);
 			scenedata->ceiling_color.g = ft_atoi(colors[1]);
@@ -66,15 +66,15 @@ t_bool		scenedesc_process_colors_norm0(t_scenedata *scenedata,
 
 t_bool		scenedesc_process_colors(t_scenedata *scenedata, char *line)
 {
-	char *elements;
+	char **elements;
 	char **colors;
 
-	elements = ft_strfdup(line, ' ');
+	elements = ft_strsplit(line, ' ');
 	if (elements)
 	{
-		if (elements[0] == 'C' || elements[0] == 'F')
+		if ((elements[0][0] == 'C' || elements[0][0] == 'F') && elements[1] && !elements[2])
 		{
-			colors = ft_strsplit(elements + 1, ',');
+			colors = elements[1] ? ft_strsplit(elements[1], ',') : NULL;
 			if (colors)
 			{
 				if (scenedesc_process_colors_norm0(scenedata, line, elements,

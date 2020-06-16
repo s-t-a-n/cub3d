@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/13 19:40:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 18:54:00 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 19:09:18 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void				setup_sprites(t_raycast *raycast, t_cub3d *cub3d)
 	unsigned char	*s;
 
 	raycast->spritecount = 0;
+	raycast->sprite_update = 0;
 	y = 0;
 	while (y < (int)cub3d->scenedata->map->element_count)
 	{
@@ -80,7 +81,7 @@ void				setup_sprites(t_raycast *raycast, t_cub3d *cub3d)
 		x = 0;
 		while (s[x])
 		{
-			if (s[x] == MAP_ITEM)
+			if (s[x] == MAP_ITEM_WALKABLE)
 				insert_sprite(raycast, x, y, s[x]);
 			x++;
 		}

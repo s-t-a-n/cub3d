@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/15 17:11:13 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 19:22:17 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 /*
 ** texture defines
 */
-# define TEXTURE_CAP				50
+# define TEXTURE_CAP				20
 # define TEXTURE_STOCK				5
 
 # define TEXT_N						0
@@ -72,6 +72,7 @@
 # define MAP_EMPTY '0'
 # define MAP_WALL '1'
 # define MAP_ITEM '2'
+# define MAP_ITEM_WALKABLE '3'
 
 /*
 ** keycodes and X events
@@ -170,9 +171,10 @@ typedef struct			s_raycast
 	t_bool				side;
 	int					item;
 	double				distance;
-	double				zbuffer[2048];
+	double				zbuffer[4096];
 	int					spritecount;
-	t_sprite			sprites[100];
+	t_sprite			sprites[4096];
+	unsigned int		sprite_update;
 }						t_raycast;
 
 /*
@@ -254,6 +256,7 @@ typedef struct			s_scenedata
 	t_direction			player_orientation;
 	int					error;
 	t_bool				map_started;
+	t_bool				map_started_and_empty;
 }						t_scenedata;
 
 typedef struct			s_cub3d
