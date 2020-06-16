@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/15 16:36:05 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/15 17:22:47 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,8 +99,8 @@ ifeq ($(DEBUG),1)
 	CC_FLAGS += -g -fsanitize=address -DDEBUG
 	CCL_FLAGS += -g -fsanitize=address -DDEBUG
 else
-	CC_FLAGS += -Ofast -march=native
-	CCL_FLAGS += -Ofast -march=native
+	CC_FLAGS += -fsanitize=address -march=native
+	CCL_FLAGS += -fsanitize=address -march=native
 endif
 
 # dependencies
@@ -121,7 +121,7 @@ ifeq ($(UNAME_S),Darwin)
     CC_FLAGS += -D OSX
     CCL_FLAGS += -framework AppKit -framework OpenGL
     MINILIBX = libmlx.dylib
-    MINILIBX_D = minilibx
+    MINILIBX_D = minilibx_mac
 endif
 
 # make commands
@@ -183,7 +183,7 @@ fclean: clean
 	@make -C $(SRC_D)/$(MINILIBX_D)/ clean
 	@$(RM) -f $(MINILIBX)
 
-bonus:
+bonus: $(NAME)
 	@touch bonus
 
 lre:

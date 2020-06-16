@@ -1,1 +1,1 @@
-../src/minilibx/mlx.h
+../src/minilibx_mac/mlx.h

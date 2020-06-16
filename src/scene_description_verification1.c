@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/13 17:07:57 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 17:08:34 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/15 17:20:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 
 t_bool			scenedesc_verify_resolution(t_scenedata *scenedata)
 {
-	t_bool error;
+	t_bool		error;
 
+	if (scenedata->resolution.x > 5120)
+		scenedata->resolution.x = 5120;
+	if (scenedata->resolution.y > 2880)
+		scenedata->resolution.y = 2880;
 	error = (!(scenedata->resolution.x <= 0
 			|| scenedata->resolution.x > 5120
 			|| scenedata->resolution.y <= 0
