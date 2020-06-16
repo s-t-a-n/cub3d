@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/16 17:51:25 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/16 21:31:31 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,10 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/scene_description_read_from_file							\
 		$(SRC_D)/scene_description_read_from_file1							\
 		$(SRC_D)/scene_description_read_from_file2							\
-		$(SRC_D)/scene_description_processing								\
+		$(SRC_D)/scene_description_read_from_file3							\
 		$(SRC_D)/scene_description_processing1								\
+		$(SRC_D)/scene_description_processing2								\
+		$(SRC_D)/scene_description_processing3								\
 		$(SRC_D)/scene_description_verification								\
 		$(SRC_D)/scene_description_verification1							\
 		$(SRC_D)/scene_description_verification_map							\

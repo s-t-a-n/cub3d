@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:57:04 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 19:05:54 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 21:16:11 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	swap_sprites(t_raycast *raycast, int a, int b)
 
 int		playerdistance_sprites(t_player *player, t_flvector2 pos)
 {
-	return (fabs(player->pos.x - pos.x) + 
-				+ fabs(player->pos.y - pos.y));
+	return (fabs(player->pos.x - pos.x) +
+				fabs(player->pos.y - pos.y));
 }
 
 void	update_sprites(t_raycast *raycast, t_cub3d *cub3d)

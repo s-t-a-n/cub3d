@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 19:22:17 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 21:13:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 /*
 ** raycasting defines
 */
-# define PLAYER_DEF_ROT_SPEED 0.1
+# define PLAYER_DEF_ROT_SPEED 0.15
 # define PLAYER_DEF_MOVE_SPEED 0.2
 # define WALL_SIZE_MP 1.0
 # define COLLISION_WALL_MP 1.7

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 18:22:56 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 21:23:15 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "cub3d.h"
-
-void			dump_scenedata_map(t_scenedata *scenedata)
-{
-	size_t	ctr;
-
-	ft_printf("---------------------------------------\n");
-	ctr = 0;
-	while (ctr < scenedata->map->element_count)
-	{
-		dump_scenedata_map_printl((char *)scenedata->map->mem[ctr]);
-		ctr++;
-	}
-	ft_printf("---------------------------------------\n");
-}
 
 void			dump_scenedata(t_scenedata *scenedata)
 {
@@ -59,16 +45,28 @@ int				lineismap_orempty(char *line)
 	return (0);
 }
 
+t_bool			extract_scenedata_from_line_norm0(t_scenedata *scenedata,
+					char *line)
+{
+	if (lineismap_orempty(line) == 2)
+	{
+		if (scenedata->map_started)
+			scenedata->map_started_and_empty = true;
+		return (noerr);
+	}
+	else
+		crit_error("Scene description:", "bogus info on line:", line);
+	return (err);
+}
+
 t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 {
 	if (ft_strncmp(line, "R ", 2) == 0)
 		return (scenedesc_process_resolution(scenedata, line));
-	else if (ft_strncmp(line, "NO ", 3) == 0
-			|| ft_strncmp(line, "SO ", 3) == 0
-			|| ft_strncmp(line, "WE ", 3) == 0
-			|| ft_strncmp(line, "EA ", 3) == 0
-			|| ft_strncmp(line, "FL ", 3) == 0
-			|| ft_strncmp(line, "CE ", 3) == 0)
+	else if (ft_strncmp(line, "NO ", 3) == 0 || ft_strncmp(line, "SO ", 3) == 0
+		|| ft_strncmp(line, "WE ", 3) == 0 || ft_strncmp(line, "EA ", 3) == 0
+		|| ft_strncmp(line, "FL ", 3) == 0
+		|| ft_strncmp(line, "CE ", 3) == 0)
 		return (scenedesc_process_textures(scenedata, line));
 	else if (ft_strncmp(line, "S ", 2) == 0
 			|| (ft_strncmp(line, "S", 1) == 0 && ft_isdigit(*(line + 1))))
@@ -82,14 +80,8 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 		scenedata->map_started = true;
 		return (scenedesc_process_map(scenedata, line));
 	}
-	else if (lineismap_orempty(line) == 2)
-	{
-		if (scenedata->map_started)
-			scenedata->map_started_and_empty = true;
+	else if (extract_scenedata_from_line_norm0(scenedata, line) == noerr)
 		return (noerr);
-	}
-	else
-		crit_error("Scene description:", "bogus info on line:", line);
 	return (err);
 }
 

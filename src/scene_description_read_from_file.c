@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:07:22 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 18:22:20 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/16 21:09:22 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void		init_scenedata(t_scenedata *scenedata)
 	scenedata->floor_color.r = -1;
 	scenedata->floor_color.g = -1;
 	scenedata->floor_color.b = -1;
-	scenedata->ceiling_color.b = -1;
-	scenedata->ceiling_color.b = -1;
+	scenedata->ceiling_color.r = -1;
+	scenedata->ceiling_color.g = -1;
 	scenedata->ceiling_color.b = -1;
 	scenedata->map = NULL;
 	scenedata->error = 0;
