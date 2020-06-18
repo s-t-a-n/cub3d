@@ -103,18 +103,3 @@ void			draw_textured_line(t_raycast *raycast, t_cub3d *cub3d,
 	s.yctr = pos.y;
 	draw_textured_line_norm0(&s, cub3d, pos, lh);
 }
-
-void			draw_colored_line(t_raycast *raycast, t_cub3d *cub3d,
-					t_vector2 pos, double lineheight)
-{
-	t_vector2 size;
-
-	if (lineheight > cub3d->mlx->resolution.y)
-		lineheight = cub3d->mlx->resolution.y;
-	size.y = lineheight;
-	size.x = 1;
-	if (raycast->side)
-		mlx_wrect(cub3d->mlx->image_nact, pos, size, 0x00C74D0F);
-	else
-		mlx_wrect(cub3d->mlx->image_nact, pos, size, 0x00A9410D);
-}

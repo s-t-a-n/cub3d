@@ -494,8 +494,6 @@ void					draw_textured_line_norm0(t_draw_tex_line *s,
 							t_cub3d *cub3d, t_vector2 pos, double lh);
 void					draw_textured_line(t_raycast *raycast, t_cub3d *cub3d,
 		t_vector2 pos, double lh);
-void					draw_colored_line(t_raycast *raycast, t_cub3d *cub3d,
-		t_vector2 pos, double lineheight);
 void					draw_line(t_raycast *raycast, t_cub3d *cub3d);
 void					swap_sprites(t_raycast *raycast, int a, int b);
 int						playerdistance_sprites(t_player *player,
