@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/16 21:31:31 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/19 00:54:06 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -199,7 +199,7 @@ lre:
 	@make
 
 norm:
-	@/usr/local/bin/norminette $(SRC) $(INC)
+	@norminette $(SRC) $(INC)
 	@python ~/norminette+/run.py $(SRC) $(INC)
 
 re: fclean all
