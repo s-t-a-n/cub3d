@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-t_bool		breachfinder(char **map, int ymax,
+t_bool			breachfinder(char **map, int ymax,
 		t_vector2 pos, t_direction dir)
 {
 	if (dir != nodir)
@@ -39,7 +39,7 @@ t_bool		breachfinder(char **map, int ymax,
 	return (breachfinder_norm0(map, ymax, pos));
 }
 
-t_bool		breachfinder_norm0(char **map, int ymax,
+inline t_bool	breachfinder_norm0(char **map, int ymax,
 		t_vector2 pos)
 {
 	return (breachfinder(map, ymax, pos, north)

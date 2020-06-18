@@ -24,8 +24,7 @@ static t_bool		smafpp_sub(t_scenedata *scenedata, size_t xctr, size_t yctr,
 			|| ch == 'S' || ch == 'W')
 	{
 		if (scenedata->player_position.x != -1)
-			crit_error("Scene description, map:",
-					"multiple player positions!", NULL);
+			crit_error("Map:", "multiple player positions!", NULL);
 		scenedata->player_position.x = xctr;
 		scenedata->player_position.y = yctr;
 		if (ch == 'N')
@@ -64,14 +63,14 @@ t_bool				scan_map_and_find_player_position(t_scenedata *scenedata)
 			if (!(smafpp_sub(scenedata, xctr, yctr, xhead[xctr])
 						|| xhead[xctr] == '0' || xhead[xctr] == '1'
 						|| xhead[xctr] == '2'))
-				crit_error("Scene description, map:", "bogus map entry:",
+				crit_error("Map:", "bogus map entry:",
 						(char *)&xhead[xctr]);
 			xctr++;
 		}
 		yctr++;
 	}
 	if (scenedata->player_position.x == -1)
-		crit_error("Scene description, map", "no player position found!", NULL);
+		crit_error("Map:", "no player position found!", NULL);
 	return (noerr);
 }
 
@@ -129,7 +128,7 @@ t_bool				check_if_player_is_enclosed(t_scenedata *scenedata)
 				scenedata->map->element_count, pos, nodir))
 	{
 		dump_scenedata_map(scenedata);
-		crit_error("Scene validation, map:", "breach in wall found!", NULL);
+		crit_error("Map:", "breach in wall found!", NULL);
 	}
 	return (true);
 }

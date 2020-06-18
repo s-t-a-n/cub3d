@@ -199,7 +199,7 @@ lre:
 	@make
 
 norm:
-	@norminette $(SRC) $(INC)
+	@/usr/local/bin/norminette $(SRC) $(INC)
 	@python ~/norminette+/run.py $(SRC) $(INC)
 
 re: fclean all

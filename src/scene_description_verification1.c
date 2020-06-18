@@ -22,7 +22,7 @@ t_bool			scenedesc_verify_resolution(t_scenedata *scenedata)
 	error = (!(scenedata->resolution.x <= 0
 			|| scenedata->resolution.y <= 0));
 	if (error == err)
-		crit_error("Scene description:",
+		crit_error("Resolution:",
 				"resolution was not set or is malformed!", NULL);
 	return (error);
 }

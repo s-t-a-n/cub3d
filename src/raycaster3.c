@@ -12,8 +12,8 @@
 
 #include "cub3d.h"
 
-void	draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
-				t_cub3d *cub3d, t_draw_tex_floor_ceiling *q)
+inline void		draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
+					t_cub3d *cub3d, t_draw_tex_floor_ceiling *q)
 {
 	while (q->ctr.x < cub3d->mlx->resolution.x)
 	{
@@ -38,8 +38,8 @@ void	draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
 	(void)raycast;
 }
 
-void	draw_textured_floor_and_ceiling(t_raycast *raycast,
-				t_cub3d *cub3d)
+void			draw_textured_floor_and_ceiling(t_raycast *raycast,
+					t_cub3d *cub3d)
 {
 	t_draw_tex_floor_ceiling q;
 
@@ -67,8 +67,8 @@ void	draw_textured_floor_and_ceiling(t_raycast *raycast,
 	}
 }
 
-void	draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d,
-				t_vector2 pos, double lh)
+inline void		draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d,
+					t_vector2 pos, double lh)
 {
 	while (s->yctr < pos.y + ((lh > cub3d->mlx->resolution.y)
 				? cub3d->mlx->resolution.y : (int)lh))
@@ -82,8 +82,8 @@ void	draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d,
 	}
 }
 
-void	draw_textured_line(t_raycast *raycast, t_cub3d *cub3d,
-				t_vector2 pos, double lh)
+void			draw_textured_line(t_raycast *raycast, t_cub3d *cub3d,
+					t_vector2 pos, double lh)
 {
 	t_draw_tex_line		s;
 
@@ -104,8 +104,8 @@ void	draw_textured_line(t_raycast *raycast, t_cub3d *cub3d,
 	draw_textured_line_norm0(&s, cub3d, pos, lh);
 }
 
-void	draw_colored_line(t_raycast *raycast, t_cub3d *cub3d,
-				t_vector2 pos, double lineheight)
+void			draw_colored_line(t_raycast *raycast, t_cub3d *cub3d,
+					t_vector2 pos, double lineheight)
 {
 	t_vector2 size;
 

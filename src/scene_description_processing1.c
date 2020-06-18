@@ -94,13 +94,13 @@ t_bool		scenedesc_process_colors(t_scenedata *scenedata, char *line)
 					return (noerr);
 			}
 			else
-				crit_error("MALLOC", strerror(errno), NULL);
+				crit_error("Colors:", "cant split elements:", strerror(errno));
 		}
 		else
 			crit_error("Scene description:", "bogus info on line:", line);
 		free(elements);
 	}
 	else
-		crit_error("MALLOC", strerror(errno), NULL);
+		crit_error("Colors:", "bogus info: (or malloc failure)", line);
 	return (err);
 }

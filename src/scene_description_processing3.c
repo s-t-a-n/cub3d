@@ -31,7 +31,7 @@ static void	preprocess_mapline(char *line)
 		line++;
 	}
 	if (spacecount == ft_strlen(line_org))
-		crit_error("Scene description:", "empty line in map!", NULL);
+		crit_error("Map:", "empty line in map!", NULL);
 }
 
 t_bool		scenedesc_process_map(t_scenedata *scenedata, char *line)
@@ -54,7 +54,7 @@ t_bool		scenedesc_process_textures_sprites(t_scenedata *scenedata,
 	char	**elements;
 
 	if (line[0] == 'S' && scenedata->f_textures[TEXT_SP])
-		crit_error("Scene description:", "Double entry:", line);
+		crit_error("Sprites:", "Double entry:", line);
 	elements = ft_strsplit(line, ' ');
 	if (elements && count_elements(elements) == 2)
 	{
@@ -67,11 +67,12 @@ t_bool		scenedesc_process_textures_sprites(t_scenedata *scenedata,
 				ft_strdup(elements[1]);
 		}
 		else
-			crit_error("Scene description:", "bogus info on line:", line);
+			crit_error("Sprites:", "bogus info on line:", line);
 		destroy_elements(elements);
 		return (noerr);
 	}
 	else
-		crit_error("MALLOC", strerror(errno), NULL);
+		crit_error("Sprites:", "wrong number of elements (or malloc failure):",
+			line);
 	return (err);
 }

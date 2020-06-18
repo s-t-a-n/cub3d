@@ -12,10 +12,6 @@
 
 #include "cub3d.h"
 
-/*
-** Thank you Lode, Jesus of Raycasting
-*/
-
 void	move_backward(char **map, t_player *player)
 {
 	if (map[(int)(player->pos.y - player->vdir.y * player->mov_speed

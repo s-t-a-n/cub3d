@@ -20,7 +20,7 @@ static t_bool	file_exists(char *filename)
 	int fd;
 
 	fd = open(filename, O_RDONLY);
-	if (fd <= 0)
+	if (fd < 0 || read(fd, NULL, 0) < 0)
 	{
 		crit_error("Scene description:", filename, strerror(errno));
 		return (err);
@@ -57,7 +57,7 @@ static t_bool	check_colorcode(int colorcode)
 
 	error = (colorcode >= 0 && colorcode <= 255);
 	if (error == err)
-		crit_error("Scene description:", "colorcode invalid:",
+		crit_error("Color:", "colorcode invalid:",
 				ft_itoa(colorcode));
 	return (error);
 }
