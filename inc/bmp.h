@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/13 18:41:31 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 18:43:49 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 21:23:17 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct					s_bmpimage
 	unsigned char				*data;
 	size_t						datasize;
 	int							padding;
+	int							linesize;
 }								t_bmpimage;
 
 # pragma pack(pop)

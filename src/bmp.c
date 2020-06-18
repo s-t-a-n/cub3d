@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:49:17 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 17:12:39 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 22:41:45 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,45 +25,43 @@ t_bmpheader			construct_bmpheader(t_bmpimage *image,
 	bmpheader.width_px = mlx_image->resolution.x;
 	bmpheader.height_px = mlx_image->resolution.y;
 	bmpheader.num_planes = 1;
-	bmpheader.bits_per_pixel = mlx_image->bpp;
+	bmpheader.bits_per_pixel = 24;
 	bmpheader.image_size_bytes = image->datasize;
 	return (bmpheader);
 }
 
-static unsigned int	rpixel_rev(t_vector2 pos, t_mlx_image *image)
+static unsigned int	rpixel(t_vector2 pos, t_mlx_image *image)
 {
-	unsigned int	p;
-
-	p = *(unsigned int *)(image->addr + (pos.x * (image->bpp / 8)
-		+ pos.y * image->line_size));
-	return (p);
+	return (*(unsigned int *)(image->addr + (pos.x * (image->bpp / 8)
+		+ pos.y * image->line_size)));
 }
 
 static void			wpixel(unsigned char *data, int line_size,
 							t_vector2 pos, unsigned int color)
 {
-	*(unsigned int *)(data + (pos.x * 4 + pos.y * line_size)) = color;
+	ft_memcpy(data + (pos.x * 3 + pos.y * line_size), &color, 3);
 }
 
-static void			conv_to_bmpformat(unsigned char *dst, t_mlx_image *image)
+static void			conv_to_bmpformat(unsigned char *dst, t_mlx_image *image,
+							int linesize)
 {
-	t_vector2	pos;
+	t_vector2	rpos;
 	t_vector2	wpos;
 
-	pos.y = image->resolution.y - 1;
+	rpos.y = image->resolution.y;
 	wpos.y = 0;
-	while (pos.y > 0)
+	while (rpos.y >= 0)
 	{
-		pos.x = image->resolution.x - 1;
-		wpos.x = image->resolution.x - 1;
-		while (pos.x > 0)
+		rpos.x = image->resolution.x;
+		wpos.x = image->resolution.x;
+		while (rpos.x >= 0)
 		{
-			wpixel(dst, image->line_size, wpos, rpixel_rev(pos, image));
-			pos.x--;
+			wpixel(dst, linesize, wpos, rpixel(rpos, image));
+			rpos.x--;
 			wpos.x--;
 		}
 		wpos.y++;
-		pos.y--;
+		rpos.y--;
 	}
 }
 
@@ -72,18 +70,18 @@ unsigned char		*construct_bmpdata(t_bmpimage *image,
 {
 	unsigned char *data;
 
-	image->datasize = (mlx_image->resolution.x * mlx_image->resolution.y)
-		* (mlx_image->bpp / 8);
-	ft_printf("construct_bmpdata: datasize: %lu\n", image->datasize);
+	image->padding = mlx_image->resolution.x % 4;
+	image->linesize = mlx_image->resolution.x * 3 + image->padding;
+	image->datasize = (mlx_image->resolution.y * image->linesize * 5);
 	data = malloc(image->datasize);
 	if (data)
 	{
-		conv_to_bmpformat(data, mlx_image);
+		conv_to_bmpformat(data, mlx_image, image->linesize);
 		return (data);
 	}
 	else
 	{
-		return (NULL);
 		crit_error("MALLOC", strerror(errno), NULL);
+		return (NULL);
 	}
 }

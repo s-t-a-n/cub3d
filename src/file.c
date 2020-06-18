@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:51:53 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 17:02:44 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 18:20:43 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool	open_file(char *path, int *fd)
 {
-	*fd = open(path, O_RDWR | O_CREAT | O_APPEND | O_TRUNC);
+	*fd = open(path, O_RDWR | O_CREAT | O_APPEND | O_TRUNC, 0644);
 	return (*fd > -1);
 }
 

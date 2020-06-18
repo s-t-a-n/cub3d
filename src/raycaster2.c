@@ -6,13 +6,13 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:57:04 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 21:16:11 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 22:51:42 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_line(t_raycast *raycast, t_cub3d *cub3d)
+void			draw_line(t_raycast *raycast, t_cub3d *cub3d)
 {
 	double		lineheight;
 	t_vector2	pos;
@@ -26,7 +26,7 @@ void	draw_line(t_raycast *raycast, t_cub3d *cub3d)
 	draw_textured_line(raycast, cub3d, pos, lineheight);
 }
 
-void	swap_sprites(t_raycast *raycast, int a, int b)
+inline void		swap_sprites(t_raycast *raycast, int a, int b)
 {
 	t_sprite tmp;
 
@@ -35,13 +35,13 @@ void	swap_sprites(t_raycast *raycast, int a, int b)
 	raycast->sprites[b] = tmp;
 }
 
-int		playerdistance_sprites(t_player *player, t_flvector2 pos)
+inline int		playerdistance_sprites(t_player *player, t_flvector2 pos)
 {
 	return (fabs(player->pos.x - pos.x) +
 				fabs(player->pos.y - pos.y));
 }
 
-void	update_sprites(t_raycast *raycast, t_cub3d *cub3d)
+void			update_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	int			i;
 	t_sprite	*sprite;
@@ -55,7 +55,7 @@ void	update_sprites(t_raycast *raycast, t_cub3d *cub3d)
 	}
 }
 
-void	sort_sprites(t_raycast *raycast, t_cub3d *cub3d)
+void			sort_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	int		i;
 	t_bool	changed;

@@ -6,13 +6,13 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:54:26 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 20:01:45 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 22:48:41 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d,
+inline void	draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d,
 			t_draw_sprite *s)
 {
 	while (s->y < s->drawendy)
@@ -32,7 +32,7 @@ void	draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d,
 	(void)raycast;
 }
 
-void	draw_sprites_norm1(t_raycast *raycast, t_cub3d *cub3d,
+inline void	draw_sprites_norm1(t_raycast *raycast, t_cub3d *cub3d,
 			t_draw_sprite *s)
 {
 	s->x = s->drawstartx;
@@ -51,7 +51,7 @@ void	draw_sprites_norm1(t_raycast *raycast, t_cub3d *cub3d,
 	}
 }
 
-void	draw_sprites_norm0(t_raycast *raycast, t_cub3d *cub3d,
+inline void	draw_sprites_norm0(t_raycast *raycast, t_cub3d *cub3d,
 			t_draw_sprite *s)
 {
 	s->spritex = raycast->sprites[s->i].pos.x - cub3d->player->pos.x;
@@ -70,7 +70,7 @@ void	draw_sprites_norm0(t_raycast *raycast, t_cub3d *cub3d,
 		+ cub3d->scenedata->resolution.y / 2;
 }
 
-void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
+void		draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 {
 	t_draw_sprite		s;
 
@@ -97,7 +97,7 @@ void	draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 	}
 }
 
-t_bool	raycaster(t_raycast *raycast, t_cub3d *cub3d)
+t_bool		raycaster(t_raycast *raycast, t_cub3d *cub3d)
 {
 	init_raycast(raycast, cub3d);
 	if (cub3d->scenedata->textured_floor_and_ceiling)

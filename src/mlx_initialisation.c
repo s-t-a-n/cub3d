@@ -6,18 +6,18 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/19 16:55:29 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/12 17:15:52 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/18 22:42:33 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_mlx	*mlx_destruct(t_mlx *mlx)
+t_mlx		*mlx_destruct(t_mlx *mlx)
 {
 	return (mlx);
 }
 
-void	mlx_initialise_textures(t_mlx *mlx, t_scenedata *scenedata)
+void		mlx_initialise_textures(t_mlx *mlx, t_scenedata *scenedata)
 {
 	int		i;
 
@@ -44,7 +44,7 @@ void	mlx_initialise_textures(t_mlx *mlx, t_scenedata *scenedata)
 	}
 }
 
-void	mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
+void		mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 {
 	int		i;
 
@@ -84,7 +84,8 @@ static void	check_resolution_overflow(t_mlx *mlx, t_vector2 *res)
 	mlx->resolution = *res;
 }
 
-void	mlx_initialise(t_mlx *mlx, t_scenedata *scenedata, char *window_name)
+void		mlx_initialise(t_mlx *mlx, t_scenedata *scenedata,
+				char *window_name)
 {
 	mlx->backend = mlx_init();
 	mlx->resolution = scenedata->resolution;
