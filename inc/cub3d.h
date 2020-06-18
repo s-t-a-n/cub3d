@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*                                                                              
-** Thank you Lode, Jesus of Raycasting                                          
+/*
+** Thank you Lode, Jesus of Raycasting
 */
 
 #ifndef CUB3D_H
