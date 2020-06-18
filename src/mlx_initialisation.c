@@ -72,6 +72,18 @@ void	mlx_initialise_images(t_mlx *mlx, t_scenedata *scenedata)
 	mlx->image_nact = &mlx->images[mlx->image_nact_i];
 }
 
+static void	check_resolution_overflow(t_mlx *mlx, t_vector2 *res)
+{
+	t_vector2 max_res;
+
+	mlx_get_screen_size(mlx->backend, &max_res.x, &max_res.y);
+	if (res->x > max_res.x)
+		res->x = max_res.x;
+	if (res->y > max_res.y)
+		res->y = max_res.y;
+	mlx->resolution = *res;
+}
+
 void	mlx_initialise(t_mlx *mlx, t_scenedata *scenedata, char *window_name)
 {
 	mlx->backend = mlx_init();
@@ -79,6 +91,7 @@ void	mlx_initialise(t_mlx *mlx, t_scenedata *scenedata, char *window_name)
 	mlx->keystate = KB_DEFAULT;
 	if (mlx->backend)
 	{
+		check_resolution_overflow(mlx, &scenedata->resolution);
 		mlx->window = mlx_new_window(mlx->backend, scenedata->resolution.x,
 				scenedata->resolution.y, window_name);
 		if (mlx->window)

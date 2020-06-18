@@ -127,7 +127,10 @@ ifeq ($(UNAME_S),Darwin)
 endif
 
 # make commands
-all: $(NAME)
+all: submodule $(NAME)
+
+submodule:
+	@git submodule update --init --remote --recursive
 
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."

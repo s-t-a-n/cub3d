@@ -19,14 +19,8 @@ t_bool			scenedesc_verify_resolution(t_scenedata *scenedata)
 {
 	t_bool		error;
 
-	if (scenedata->resolution.x > 5120)
-		scenedata->resolution.x = 5120;
-	if (scenedata->resolution.y > 2880)
-		scenedata->resolution.y = 2880;
 	error = (!(scenedata->resolution.x <= 0
-			|| scenedata->resolution.x > 5120
-			|| scenedata->resolution.y <= 0
-			|| scenedata->resolution.y > 2880));
+			|| scenedata->resolution.y <= 0));
 	if (error == err)
 		crit_error("Scene description:",
 				"resolution was not set or is malformed!", NULL);
