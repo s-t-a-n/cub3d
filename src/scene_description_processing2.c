@@ -66,11 +66,11 @@ void	scenedesc_process_textures_norm0(t_scenedata *scenedata, char *line,
 		char ***elements)
 {
 	if ((ft_strncmp(line, "NO", 2) == 0 && scenedata->f_textures[TEXT_N])
-	 || (ft_strncmp(line, "EA", 2) == 0 && scenedata->f_textures[TEXT_E])
-	 || (ft_strncmp(line, "SO", 2) == 0 && scenedata->f_textures[TEXT_S])
-	 || (ft_strncmp(line, "WE", 2) == 0 && scenedata->f_textures[TEXT_W])
-	 || (ft_strncmp(line, "FL", 2) == 0 && scenedata->f_textures[TEXT_FL])
-	 || (ft_strncmp(line, "CE", 2) == 0 && scenedata->f_textures[TEXT_CE]))
+	|| (ft_strncmp(line, "EA", 2) == 0 && scenedata->f_textures[TEXT_E])
+	|| (ft_strncmp(line, "SO", 2) == 0 && scenedata->f_textures[TEXT_S])
+	|| (ft_strncmp(line, "WE", 2) == 0 && scenedata->f_textures[TEXT_W])
+	|| (ft_strncmp(line, "FL", 2) == 0 && scenedata->f_textures[TEXT_FL])
+	|| (ft_strncmp(line, "CE", 2) == 0 && scenedata->f_textures[TEXT_CE]))
 		crit_error("Textures:", "Double entry:", line);
 	*elements = ft_strsplit(line, ' ');
 }
