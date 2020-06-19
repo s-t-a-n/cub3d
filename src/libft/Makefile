@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile2                                          :+:    :+:             #
+#    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
-#    Created: 2020/02/10 00:13:08 by sverschu      #+#    #+#                  #
-#    Updated: 2020/02/24 17:21:23 by sverschu      ########   odam.nl          #
+#    Created: 2020/06/19 17:16:57 by sverschu      #+#    #+#                  #
+#    Updated: 2020/06/19 17:29:27 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,11 +107,28 @@ CC = clang
 # compile flags
 CC_FLAGS = -Werror -Wextra -Wall
 
-# debugging or optimization flags
+# debugging or optimilization flags
+CC_OPT_FLAGS = -Ofast													\
+			   -march=native
+
+ifeq ($(ASAN),1)
+	CC_FLAGS += -fsanitize=address										\
+				-fno-optimize-sibling-calls
+	LD_FLAGS += -fsanitize=address										\
+				 -fno-optimize-sibling-calls
+	DEBUG = 1
+endif
+
 ifeq ($(DEBUG),1)
-    CC_FLAGS += -g -fsanitize=address -DDEBUG
+	CC_FLAGS += -g 														\
+				-O0														\
+				-fno-omit-frame-pointer									\
+				-fstack-protector-all									\
+				-DDEBUG
+	LD_FLAGS += -g -O0 -DDEBUG
 else
-    CC_FLAGS += -Ofast -march=native
+	CC_FLAGS += $(CC_OPT_FLAGS)
+	LD_FLAGS += $(CC_OPT_FLAGS)
 endif
 
 # make commands

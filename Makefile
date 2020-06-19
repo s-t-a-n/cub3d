@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/19 00:54:06 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/19 17:45:40 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME = cub3D
 
 # build variables
 BUFFER_SIZE=10 # buffer size used when using 'read' syscall
-
 
 # directories
 SRC_D = src
@@ -87,22 +86,30 @@ CC = clang
 
 # compile flags
 CC_FLAGS = -Werror -Wextra -Wall
-CCL_FLAGS = -Werror -Wextra -Wall
-#CC_FLAGS =	-Werror -Wextra -Wall	\
-			-ftrapv					\
-			-Wunreachable-code		\
-			-fsanitize=undefined	\
-			-fsanitize=address		\
-			-fno-omit-frame-pointer	\
-			-fstack-protector-all	\
-			-fstack-check
+LD_FLAGS = $(CC_FLAGS)
+
+# debugging or optimilization flags
+CC_OPT_FLAGS = -Ofast													\
+			   -march=native
+
+ifeq ($(ASAN),1)
+	CC_FLAGS += -fsanitize=address										\
+				-fno-optimize-sibling-calls
+	LD_FLAGS += -fsanitize=address										\
+				 -fno-optimize-sibling-calls
+	DEBUG = 1
+endif
 
 ifeq ($(DEBUG),1)
-	CC_FLAGS += -g -fsanitize=address -DDEBUG
-	CCL_FLAGS += -g -fsanitize=address -DDEBUG
+	CC_FLAGS += -g 														\
+				-O0														\
+				-fno-omit-frame-pointer									\
+				-fstack-protector-all									\
+				-DDEBUG
+	LD_FLAGS += -g -O0 -DDEBUG
 else
-	CC_FLAGS += -Ofast -march=native
-	CCL_FLAGS += -Ofast -march=native
+	CC_FLAGS += $(CC_OPT_FLAGS)
+	LD_FLAGS += $(CC_OPT_FLAGS)
 endif
 
 # dependencies
@@ -114,14 +121,14 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
     CC_FLAGS += -D LINUX
-    CCL_FLAGS += -lXext -lX11 -lm
+    LD_FLAGS += -lXext -lX11 -lm
     MINILIBX = libmlx.a
     MINILIBX_D = minilibx_linux
 endif
 ifeq ($(UNAME_S),Darwin)
     OS = OSX
     CC_FLAGS += -D OSX
-    CCL_FLAGS += -framework AppKit -framework OpenGL
+    LD_FLAGS += -framework AppKit -framework OpenGL
     MINILIBX = libmlx.dylib
     MINILIBX_D = minilibx_mac
 endif
@@ -134,7 +141,7 @@ submodule:
 
 $(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) $(CCL_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
+	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
 	2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
@@ -174,6 +181,7 @@ $(MINILIBX):
 
 clean:
 	@$(RM) $(OBJ)
+	@$(RM) -r $(NAME).dSYM
 	@$(RM) -r $(OBJ_D)
 	@make -C $(SRC_D)/ft_printf clean
 	@make -C $(SRC_D)/libft clean

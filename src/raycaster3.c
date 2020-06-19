@@ -6,13 +6,13 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:58:45 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 18:59:40 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 17:27:33 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-inline void		draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
+void			draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
 					t_cub3d *cub3d, t_draw_tex_floor_ceiling *q)
 {
 	while (q->ctr.x < cub3d->mlx->resolution.x)
@@ -67,7 +67,7 @@ void			draw_textured_floor_and_ceiling(t_raycast *raycast,
 	}
 }
 
-inline void		draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d,
+void			draw_textured_line_norm0(t_draw_tex_line *s, t_cub3d *cub3d,
 					t_vector2 pos, double lh)
 {
 	while (s->yctr < pos.y + ((lh > cub3d->mlx->resolution.y)
