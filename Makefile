@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/19 17:45:40 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/19 22:07:31 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -207,8 +207,13 @@ lre:
 	@make
 
 norm:
+	@norminette $(SRC_D)/ft_printf/src
+	@norminette $(SRC_D)/ft_printf/inc
+	@norminette $(SRC_D)/get_next_line/src
+	@norminette $(SRC_D)/get_next_line/inc
+	@norminette $(SRC_D)/libft/src
+	@norminette $(SRC_D)/libft/inc
 	@norminette $(SRC) $(INC)
-	@python ~/norminette+/run.py $(SRC) $(INC)
 
 re: fclean all
 

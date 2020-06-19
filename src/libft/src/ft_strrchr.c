@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_strrchr.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/28 17:46:23 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/16 19:35:52 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/19 22:00:31 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/19 22:00:33 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

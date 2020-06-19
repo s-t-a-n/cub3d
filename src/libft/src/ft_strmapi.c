@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_strmapi.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/03 16:47:34 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/23 21:37:37 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/19 22:00:08 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/19 22:00:10 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

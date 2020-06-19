@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   libft.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/30 16:11:44 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/09 23:50:43 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/19 22:05:39 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/19 22:05:51 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_memset.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/30 15:32:49 by sverschu      #+#    #+#                 */
-/*   Updated: 2019/11/15 18:54:38 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/19 21:58:39 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/19 21:58:41 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/18 22:46:09 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 21:54:12 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@
 # define SELF_ERROR 1
 
 /*
-** --save
+** environmentals
 */
 # define SAVE_FILE					"./screenshot.bmp"
+# define EXTENSION					".cub"
 
 /*
 ** graphical defines

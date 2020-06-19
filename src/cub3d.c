@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/06 17:16:16 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/13 19:03:05 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 21:25:59 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,6 @@ int			main(int argc, char **argv)
 			&& construct_game(&cub3d) == noerr)
 		return (execute_rendering(&cub3d));
 	else
-		return (SELF_ERROR);
+		crit_error("Cube3d:", "Come back later with better arguments", NULL);
+	return (0);
 }

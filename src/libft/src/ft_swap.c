@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_swap.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: sverschu </var/mail/sverschu>                +#+                     */
+/*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/07/05 13:33:56 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/02/17 19:41:14 by sverschu      ########   odam.nl         */
+/*   Created: 2020/06/19 22:01:42 by sverschu      #+#    #+#                 */
+/*   Updated: 2020/06/19 22:01:43 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
