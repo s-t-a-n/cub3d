@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/15 16:32:21 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 17:49:15 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 17:50:03 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_bool			breachfinder(char **map, int ymax,
 	return (breachfinder_norm0(map, ymax, pos));
 }
 
-inline t_bool	breachfinder_norm0(char **map, int ymax,
+t_bool			breachfinder_norm0(char **map, int ymax,
 		t_vector2 pos)
 {
 	return (breachfinder(map, ymax, pos, north)
