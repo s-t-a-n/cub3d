@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:54:26 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/19 18:13:44 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 18:16:39 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void		draw_sprites_norm2(t_raycast *raycast, t_cub3d *cub3d,
 		s->tex_pos.x = s->texx;
 		s->tex_pos.y = s->texy;
 		s->tex_pos.y = s->tex_pos.y < 0 ? 0 : s->tex_pos.y;
-		s->tex_pos.y = s->tex_pos.y > s->texture->size.y ? s->texture->size.y : s->tex_pos.y;
+		s->tex_pos.y = s->tex_pos.y > s->texture->size.y ? s->texture->size.y
+			: s->tex_pos.y;
 		s->tex_pos.x = s->tex_pos.x < 0 ? 0 : s->tex_pos.x;
-		s->tex_pos.x = s->tex_pos.x > s->texture->size.x ? s->texture->size.x : s->tex_pos.x;
+		s->tex_pos.x = s->tex_pos.x > s->texture->size.x ? s->texture->size.x
+			: s->tex_pos.x;
 		s->color = mlx_rpixel(s->tex_pos, s->texture);
 		if (s->color != 0x00000000 && (s->color ^ 0xFF000000))
 			mlx_wpixel(cub3d->mlx->image_nact, s->pos, s->color);
