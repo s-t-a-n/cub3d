@@ -113,3 +113,5 @@ tags
 cub3D
 obj
 *.log
+*.swiftdoc
+*.swiftmodule

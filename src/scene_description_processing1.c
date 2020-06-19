@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/08 20:41:55 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/16 21:31:14 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/19 20:59:18 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_bool		scenedesc_process_colors_norm0(t_scenedata *scenedata,
 			scenedata->floor_color.b = ft_atoi(colors[2]);
 		}
 		destroy_elements(colors);
-		free(elements);
+		destroy_elements(elements);
 		return (noerr);
 	}
 	else
