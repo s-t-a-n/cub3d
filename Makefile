@@ -143,11 +143,10 @@ LIB_INC += -I$(LIB_D)/$(MINILIBX_D)/
 all: $(NAME)
 
 $(TEXT_D):
-	@xz -d $(TEXT_D).tar.xz
+	@tar -xf $(TEXT_D).tar.xz
 
 $(TEXT_D).tar.xz:
-	tar -cf - $(TEXT_D) | xz -9 -c - > $(TEXT_D).tar.xz 
-	$(RM) -r $(TEXT_D)
+	tar -cf - $(TEXT_D) | xz -9 -c - > $(TEXT_D).tar.xz && $(RM) -r $(TEXT_D)
 
 submodule:
 	@git submodule update --init --remote --recursive
