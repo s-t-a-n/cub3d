@@ -208,6 +208,7 @@ fclean: clean
 	@$(RM) -r $(NAME).dSYM
 	@$(RM) bonus
 	@$(RM) ./screenshot.bmp
+	@$(RM) -rf textures
 	@make -C $(LIB_D)/get_next_line fclean
 	@make -C $(LIB_D)/libprintf fclean
 	@make -C $(LIB_D)/libft fclean
