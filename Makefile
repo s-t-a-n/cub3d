@@ -233,6 +233,9 @@ norm:
 	@norminette $(LIB_D)/libft/inc
 	@norminette $(SRC) $(INC)
 
+run: $(NAME)
+	nice "-20" ./$(NAME) tests/test.cub
+
 re: fclean all
 
 .PHONY = all clean fclean re bonus
