@@ -19,11 +19,11 @@ BUFFER_SIZE=10 # buffer size used when using 'read' syscall
 SRC_D = src
 OBJ_D = obj
 INC_D = inc
+LIB_D = lib
+TEXT_D = textures
 
 # C source and header files
-SRC =	$(SRC_D)/get_next_line/get_next_line								\
-		$(SRC_D)/get_next_line/get_next_line_utils							\
-		$(SRC_D)/cub3d														\
+SRC =	$(SRC_D)/cub3d														\
 		$(SRC_D)/scene_description_read_from_file							\
 		$(SRC_D)/scene_description_read_from_file1							\
 		$(SRC_D)/scene_description_read_from_file2							\
@@ -55,16 +55,22 @@ SRC =	$(SRC_D)/get_next_line/get_next_line								\
 		$(SRC_D)/bmp														\
 		$(SRC_D)/bmp1														\
 		$(SRC_D)/bmp_wrapper
-
 SRC := $(SRC:%=%.c)
-
 INC =	$(INC_D)/cub3d.h													\
 		$(INC_D)/file.h														\
 		$(INC_D)/bmp.h
 OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
 
+# dependencies
+LIBFT = $(LIB_D)/libft/libft.a
+LIBPRINTF = $(LIB_D)/libprintf/libftprintf.a
+GET_NEXT_LINE = $(LIB_D)/get_next_line/get_next_line.a
 
-# outputting
+LIB_INC = -I$(LIB_D)/libprintf/inc/											\
+		  -I$(LIB_D)/libft/inc/												\
+		  -I$(LIB_D)/get_next_line/inc/										\
+
+# output format
 CC_LOG=./.cc.log
 CC_ERROR=./.cc.error
 
@@ -77,19 +83,20 @@ OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
 ERROR_STRING=$(ERROR_COLOR)[ERRORS]$(NO_COLOR)
 WARN_STRING=$(WARN_COLOR)[WARNINGS]$(NO_COLOR)
 
+# warriors of choice
 ECHO=printf
 CAT=cat
 
 # compiler and linker
 CC = clang
-#CC = gcc
+LD = clang
 
 # compile flags
 CC_FLAGS = -Werror -Wextra -Wall
 LD_FLAGS = $(CC_FLAGS)
 
 # debugging or optimilization flags
-CC_OPT_FLAGS = -Ofast													\
+CC_OPT_FLAGS = -O3													\
 			   -march=native
 
 ifeq ($(ASAN),1)
@@ -112,10 +119,6 @@ else
 	LD_FLAGS += $(CC_OPT_FLAGS)
 endif
 
-# dependencies
-LIBFT = $(SRC_D)/libft/libft.a
-LIBPRINTF = $(SRC_D)/ft_printf/libftprintf.a
-
 # os variables
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -133,15 +136,25 @@ ifeq ($(UNAME_S),Darwin)
     MINILIBX_D = minilibx_mac
 endif
 
+# regressive dependencies
+LIB_INC += -I$(LIB_D)/$(MINILIBX_D)/
+
 # make commands
-all: submodule $(NAME)
+all: $(NAME)
+
+$(TEXT_D):
+	@xz -d $(TEXT_D).tar.xz
+
+$(TEXT_D).tar.xz:
+	tar -cf - $(TEXT_D) | xz -9 -c - > $(TEXT_D).tar.xz 
+	$(RM) -r $(TEXT_D)
 
 submodule:
 	@git submodule update --init --remote --recursive
 
-$(NAME): $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC)
+$(NAME): $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
+	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(GET_NEXT_LINE) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
 	2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
@@ -158,7 +171,7 @@ $(OBJ_D):
 
 $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	@$(ECHO) "Compiling $<..."
-	@$(CC) $(CC_FLAGS) -I$(INC_D) -I$(SRC_D)/libft -c $< -o $@ 2>$(CC_LOG) 	\
+	@$(CC) $(CC_FLAGS) -I$(INC_D) $(LIB_INC) -c $< -o $@ 2>$(CC_LOG) 	\
 		|| touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
@@ -169,32 +182,37 @@ $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	fi
 	@$(RM) -f $(CC_LOG) $(CC_ERROR)
 
+$(GET_NEXT_LINE):
+	@make -C $(LIB_D)/get_next_line
+
 $(LIBPRINTF):
-	@make -C $(SRC_D)/ft_printf
+	@make -C $(LIB_D)/libprintf
 
 $(LIBFT):
-	@make -C $(SRC_D)/libft
+	@make -C $(LIB_D)/libft
 
 $(MINILIBX):
-	@make -C $(SRC_D)/$(MINILIBX_D)
-	@ln -s $(SRC_D)/$(MINILIBX_D)/$(MINILIBX) ./
+	@make -C $(LIB_D)/$(MINILIBX_D)
+	@ln -s $(LIB_D)/$(MINILIBX_D)/$(MINILIBX) ./
 
 clean:
 	@$(RM) $(OBJ)
-	@$(RM) -r $(NAME).dSYM
 	@$(RM) -r $(OBJ_D)
-	@make -C $(SRC_D)/ft_printf clean
-	@make -C $(SRC_D)/libft clean
-	@make -C $(SRC_D)/$(MINILIBX_D) clean
+	@make -C $(LIB_D)/get_next_line clean
+	@make -C $(LIB_D)/libprintf clean
+	@make -C $(LIB_D)/libft clean
+	@make -C $(LIB_D)/$(MINILIBX_D) clean
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) -r $(NAME).dSYM
 	@$(RM) bonus
 	@$(RM) ./screenshot.bmp
-	@make -C $(SRC_D)/ft_printf fclean
-	@make -C $(SRC_D)/libft fclean
-	@make -C $(SRC_D)/$(MINILIBX_D)/ clean
-	@$(RM) -f $(MINILIBX)
+	@make -C $(LIB_D)/get_next_line fclean
+	@make -C $(LIB_D)/libprintf fclean
+	@make -C $(LIB_D)/libft fclean
+	@make -C $(LIB_D)/$(MINILIBX_D)/ clean
+	@$(RM) $(MINILIBX)
 
 bonus: $(NAME)
 	@touch bonus
@@ -202,17 +220,17 @@ bonus: $(NAME)
 lre:
 	@$(RM) $(NAME)
 	@$(RM) bonus
-	@$(RM) $(OBJ)
+	@$(RM) -f $(OBJ)
 	@$(RM) -r $(OBJ_D)
 	@make
 
 norm:
-	@norminette $(SRC_D)/ft_printf/src
-	@norminette $(SRC_D)/ft_printf/inc
-	@norminette $(SRC_D)/get_next_line/src
-	@norminette $(SRC_D)/get_next_line/inc
-	@norminette $(SRC_D)/libft/src
-	@norminette $(SRC_D)/libft/inc
+	@norminette $(LIB_D)/libprintf/src
+	@norminette $(LIB_D)/libprintf/inc
+	@norminette $(LIB_D)/get_next_line/src
+	@norminette $(LIB_D)/get_next_line/inc
+	@norminette $(LIB_D)/libft/src
+	@norminette $(LIB_D)/libft/inc
 	@norminette $(SRC) $(INC)
 
 re: fclean all

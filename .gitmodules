@@ -1,3 +1,12 @@
-[submodule "src/minilibx_linux"]
-	path = src/minilibx_linux
-	url = https://github.com/s-t-a-n/minilibx.git
+[submodule "lib/get_next_line"]
+	path = lib/get_next_line
+	url = git@github.com:s-t-a-n/get_next_line.git
+[submodule "lib/libft"]
+	path = lib/libft
+	url = git@github.com:s-t-a-n/libft.git
+[submodule "lib/libprintf"]
+	path = lib/libprintf
+	url = git@github.com:s-t-a-n/libprintf.git
+[submodule "lib/minilibx_linux"]
+	path = lib/minilibx_linux
+	url = git@github.com:s-t-a-n/minilibx.git
