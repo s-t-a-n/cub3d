@@ -48,7 +48,7 @@ SRC =	$(SRC_D)/cub3d														\
 		$(SRC_D)/raycaster_keyhandling1										\
 		$(SRC_D)/raycaster5													\
 		$(SRC_D)/raycaster4													\
-		$(SRC_D)/raycaster3													\
+		$(SRC_D)/raycaster3_mt												\
 		$(SRC_D)/raycaster2													\
 		$(SRC_D)/raycaster1													\
 		$(SRC_D)/file														\
@@ -124,7 +124,7 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
     CC_FLAGS += -D LINUX
-    LD_FLAGS += -lXext -lX11 -lm
+    LD_FLAGS += -lXext -lX11 -lm -lpthread
     MINILIBX = libmlx.a
     MINILIBX_D = minilibx_linux
 endif
@@ -151,7 +151,7 @@ $(TEXT_D).tar.xz:
 submodule:
 	@git submodule update --init --remote --recursive
 
-$(NAME): submodule $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
+$(NAME): $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
 	@$(ECHO) "Linking $(NAME)..."
 	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(GET_NEXT_LINE) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
 	2>$(CC_LOG) || touch $(CC_ERROR)
