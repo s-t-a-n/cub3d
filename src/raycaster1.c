@@ -125,7 +125,7 @@ t_bool		raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		(raycast->phaser.x)++;
 	}
 	raycast->sprite_update++;
-	if (raycast->sprite_update % 1 == 0)
+	if (raycast->sprite_update % 10 == 0)
 		sort_sprites(raycast, cub3d);
 	draw_sprites(raycast, cub3d);
 	return (noerr);
