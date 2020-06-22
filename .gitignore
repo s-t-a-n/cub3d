@@ -110,8 +110,9 @@ tags
 
 # End of https://www.gitignore.io/api/c,vim,macos
 
-cub3D
 obj
 *.log
 *.swiftdoc
 *.swiftmodule
+cub3D
+textures

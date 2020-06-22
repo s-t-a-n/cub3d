@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/19 22:07:31 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/22 19:09:46 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC =	$(SRC_D)/cub3d														\
 		$(SRC_D)/scene_description_processing1								\
 		$(SRC_D)/scene_description_processing2								\
 		$(SRC_D)/scene_description_processing3								\
+		$(SRC_D)/scene_description_processing4								\
 		$(SRC_D)/scene_description_verification								\
 		$(SRC_D)/scene_description_verification1							\
 		$(SRC_D)/scene_description_verification_map							\

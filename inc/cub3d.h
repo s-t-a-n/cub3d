@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/19 21:54:12 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/22 19:09:28 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,7 @@ t_bool					scenedesc_process_map(
 							t_scenedata *scenedata, char *line);
 void					destroy_elements(char **elements);
 int						count_elements(char **elements);
+t_bool					element_only_has_numbers(char **elements);
 
 /*
 ** scene_description_verification.c
