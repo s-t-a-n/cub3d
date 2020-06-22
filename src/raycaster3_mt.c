@@ -6,13 +6,13 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:58:45 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/19 17:27:33 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/22 13:28:37 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include <pthread.h>
-#include "cub3d_mt.h"
+#include "cub3d.h"
 
 void			draw_textured_floor_and_ceiling_norm1(t_raycast *raycast,
 					t_cub3d *cub3d, t_draw_tex_floor_ceiling *q)

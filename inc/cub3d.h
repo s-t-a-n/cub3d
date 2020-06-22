@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/12 16:14:10 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/19 21:54:12 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/22 13:22:42 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <pthread.h>
 # include <stdlib.h>
 # include <errno.h>
 # include <math.h>
@@ -120,6 +121,11 @@
 # endif
 
 /*
+** prototyes
+*/
+typedef struct  s_cub3d t_cub3d;
+
+/*
 ** keyhandling related datatypes
 */
 
@@ -180,6 +186,9 @@ typedef struct			s_raycast
 	int					spritecount;
 	t_sprite			sprites[4096];
 	unsigned int		sprite_update;
+	pthread_t			thread;
+	t_cub3d				*cub3d;
+	t_vector2			limit;
 }						t_raycast;
 
 /*
@@ -469,6 +478,10 @@ typedef struct			s_draw_tex_floor_ceiling
 	t_vector2			text_pos;
 	t_mlx_text_image	*floor_texture;
 	t_mlx_text_image	*ceiling_texture;
+	t_cub3d				*cub3d;
+	t_vector2			res;
+	pthread_t			thread_id;
+	int					upper;
 }						t_draw_tex_floor_ceiling;
 
 void					dump_raycast(t_raycast *raycast);

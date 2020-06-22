@@ -6,7 +6,7 @@
 /*   By: sverschu <sverschu@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/10 18:54:26 by sverschu      #+#    #+#                 */
-/*   Updated: 2020/06/19 18:16:39 by sverschu      ########   odam.nl         */
+/*   Updated: 2020/06/22 13:31:21 by sverschu      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,30 +105,23 @@ void		draw_sprites(t_raycast *raycast, t_cub3d *cub3d)
 	}
 }
 
-typedef struct	s_raycast_mt
-{
-	t_cub3d		*cub3d;
-	t_raycast	*raycast;
-	int			phaser;
-	int			limit;
-	pthread_t	thread_id;
-}				t_raycast_mt;
-
 void		*raycaster_mt(void *arg)
 {
-	t_raycast_mt *r = (t_raycast_mt *)arg;
+	t_raycast *r = (t_raycast *)arg;
 
-	while (r->phaser < r->limit)
+	//ft_printf("phaser.x : %i, limit.x : %i\n", r->phaser.x, r->limit.x);
+
+	while (r->phaser.x < r->limit.x)
 	{
-		r->raycast->hit = false;
-		calc_pos_in_cameraplane(r->raycast, r->cub3d);
-		calc_ray_position_and_direction(r->raycast, r->cub3d->player);
-		calc_delta_intercept(r->raycast);
-		calc_tilestep_and_intercept(r->raycast, r->cub3d);
-		perform_dda(r->raycast, r->cub3d);
-		calc_distance(r->raycast, r->cub3d);
-		draw_line(r->raycast, r->cub3d);
-		(r->phaser)++;
+		r->hit = false;
+		calc_pos_in_cameraplane(r, r->cub3d);
+		calc_ray_position_and_direction(r, r->cub3d->player);
+		calc_delta_intercept(r);
+		calc_tilestep_and_intercept(r, r->cub3d);
+		perform_dda(r, r->cub3d);
+		calc_distance(r, r->cub3d);
+		draw_line(r, r->cub3d);
+		(r->phaser.x)++;
 	}
 	return (NULL);	
 }
@@ -142,32 +135,32 @@ t_bool		raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
 	
 
-	t_raycast_mt r0;
-	r0.cub3d = cub3d;
-	r0.raycast = raycast;
-	r0.phaser = 0;
-	r0.limit = cub3d->mlx->resolution.x;
-
-	t_raycast_mt r1;
-	t_raycast_mt r2;
-	t_raycast_mt r3;
-	ft_memcpy(&r1, &r0, sizeof(t_raycast_mt));
-	ft_memcpy(&r2, &r0, sizeof(t_raycast_mt));
-	ft_memcpy(&r3, &r0, sizeof(t_raycast_mt));
+	raycast->cub3d = cub3d;
+	raycast->phaser.x = 0;
+	raycast->limit.x = cub3d->mlx->resolution.x;
+	t_raycast r1;
+	t_raycast r2;
+	t_raycast r3;
+	ft_memcpy(&r1, raycast, sizeof(t_raycast));
+	ft_memcpy(&r2, raycast, sizeof(t_raycast));
+	ft_memcpy(&r3, raycast, sizeof(t_raycast));
 	
-	r1.limit = cub3d->mlx->resolution.x / 3;
-	r2.phaser = r1.limit;
-	r2.limit = 2 * (cub3d->mlx->resolution.x / 3);
-	r3.phaser = r2.limit;
+	r1.limit.x = cub3d->mlx->resolution.x / 3;
+	r2.phaser.x = r1.limit.x;
+	r2.limit.x = 2 * (cub3d->mlx->resolution.x / 3);
+	r3.phaser.x = r2.limit.x;
 
-	pthread_create(&r0.thread_id, NULL, raycaster_mt, &r1);
-	pthread_create(&r1.thread_id, NULL, raycaster_mt, &r2);
-	pthread_create(&r2.thread_id, NULL, raycaster_mt, &r3);
-	pthread_join(r1.thread_id, NULL);
-	pthread_join(r2.thread_id, NULL);
-	pthread_join(r3.thread_id, NULL);
+	pthread_create(&r1.thread, NULL, raycaster_mt, &r1);
+	pthread_create(&r2.thread, NULL, raycaster_mt, &r2);
+	pthread_create(&r3.thread, NULL, raycaster_mt, &r3);
+	pthread_join(r1.thread, NULL);
+	pthread_join(r2.thread, NULL);
+	pthread_join(r3.thread, NULL);
 
-	ft_printf("hallo?\n");
+	//ft_memcpy(raycast, &r3, sizeof(t_raycast));
+	//ft_printf("hallo?\n");
+
+	//raycaster_mt(raycast);
 
 	raycast->sprite_update++;
 	if (raycast->sprite_update % 10 == 0)

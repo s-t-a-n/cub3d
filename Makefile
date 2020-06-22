@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/19 22:07:31 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/22 13:23:14 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ SRC =	$(SRC_D)/cub3d														\
 		$(SRC_D)/raycaster4													\
 		$(SRC_D)/raycaster3_mt												\
 		$(SRC_D)/raycaster2													\
-		$(SRC_D)/raycaster1													\
+		$(SRC_D)/raycaster1_mt													\
 		$(SRC_D)/file														\
 		$(SRC_D)/bmp														\
 		$(SRC_D)/bmp1														\
