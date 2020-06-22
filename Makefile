@@ -6,7 +6,7 @@
 #    By: sverschu <sverschu@student.codam.n>          +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/10 00:10:28 by sverschu      #+#    #+#                  #
-#    Updated: 2020/06/22 19:09:46 by sverschu      ########   odam.nl          #
+#    Updated: 2020/06/22 19:12:39 by sverschu      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,10 +152,11 @@ $(TEXT_D).tar.xz:
 submodule:
 	@git submodule update --init --remote --recursive
 
-$(NAME): submodule $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX) $(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
+$(NAME): submodule $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX)		\
+	$(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
 	@$(ECHO) "Linking $(NAME)..."
-	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(GET_NEXT_LINE) $(LIBPRINTF) $(LIBFT) $(MINILIBX)	\
-	2>$(CC_LOG) || touch $(CC_ERROR)
+	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(GET_NEXT_LINE) $(LIBPRINTF)		\
+		$(LIBFT) $(MINILIBX) 2>$(CC_LOG) || touch $(CC_ERROR)
 	@if test -e $(CC_ERROR); then											\
 		$(ECHO) "$(ERROR_STRING)\n" && $(CAT) $(CC_LOG);					\
 	elif test -s $(CC_LOG); then											\
