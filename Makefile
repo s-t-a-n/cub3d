@@ -152,7 +152,7 @@ $(TEXT_D).tar.xz:
 submodule:
 	@git submodule update --init --remote --recursive
 
-$(NAME): submodule $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX)		\
+$(NAME): $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX)		\
 	$(OBJ_D) $(OBJ) $(INC_D) $(INC) $(TEXT_D)
 	@$(ECHO) "Linking $(NAME)..."
 	@$(CC) $(LD_FLAGS) -o $(NAME) $(OBJ) $(GET_NEXT_LINE) $(LIBPRINTF)		\
