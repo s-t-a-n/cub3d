@@ -65,11 +65,11 @@ OBJ :=	$(SRC:$(SRC_D)/%.c=$(OBJ_D)/%.o)
 # dependencies
 LIBFT = $(LIB_D)/libft/libft.a
 LIBPRINTF = $(LIB_D)/libprintf/libftprintf.a
-GET_NEXT_LINE = $(LIB_D)/get_next_line/get_next_line.a
+GET_NEXT_LINE = $(LIB_D)/libgnl/libgnl.a
 
 LIB_INC = -I$(LIB_D)/libprintf/inc/											\
 		  -I$(LIB_D)/libft/inc/												\
-		  -I$(LIB_D)/get_next_line/inc/										\
+		  -I$(LIB_D)/libgnl/inc/											\
 
 # output format
 CC_LOG=./.cc.log
@@ -168,7 +168,7 @@ $(NAME): $(GET_NEXT_LINE) $(LIBFT) $(LIBPRINTF) $(MINILIBX)		\
 
 $(OBJ_D):
 	@mkdir -p $(OBJ_D)/libft
-	@mkdir -p $(OBJ_D)/get_next_line
+	@mkdir -p $(OBJ_D)/libgnl
 
 $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	@$(ECHO) "Compiling $<..."
@@ -184,9 +184,11 @@ $(OBJ): $(OBJ_D)/%.o: $(SRC_D)/%.c
 	@$(RM) -f $(CC_LOG) $(CC_ERROR)
 
 $(GET_NEXT_LINE):
-	@make -C $(LIB_D)/get_next_line
+	@make -C $(LIB_D)/libgnl
 
 $(LIBPRINTF):
+	@rm -rf $(LIB_D)/libprintf/lib/libft
+	@(cd $(LIB_D)/libprintf/lib/; ln -s ../../libft ./)
 	@make -C $(LIB_D)/libprintf
 
 $(LIBFT):
@@ -199,7 +201,7 @@ $(MINILIBX):
 clean:
 	@$(RM) $(OBJ)
 	@$(RM) -r $(OBJ_D)
-	@make -C $(LIB_D)/get_next_line clean
+	@make -C $(LIB_D)/libgnl clean
 	@make -C $(LIB_D)/libprintf clean
 	@make -C $(LIB_D)/libft clean
 	@make -C $(LIB_D)/$(MINILIBX_D) clean
@@ -210,7 +212,7 @@ fclean: clean
 	@$(RM) bonus
 	@$(RM) ./screenshot.bmp
 	@$(RM) -rf textures
-	@make -C $(LIB_D)/get_next_line fclean
+	@make -C $(LIB_D)/libgnl fclean
 	@make -C $(LIB_D)/libprintf fclean
 	@make -C $(LIB_D)/libft fclean
 	@make -C $(LIB_D)/$(MINILIBX_D)/ clean

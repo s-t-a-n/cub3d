@@ -45,7 +45,7 @@ t_bool		scenedesc_process_map(t_scenedata *scenedata, char *line)
 	}
 	preprocess_mapline(line);
 	return (dynmem_pushback(&scenedata->map,
-			(unsigned char *)ft_strfdup(line, ' ')));
+			(unsigned char *)ft_strstrip(line, ' ')));
 }
 
 t_bool		scenedesc_process_textures_sprites(t_scenedata *scenedata,

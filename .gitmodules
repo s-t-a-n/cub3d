@@ -1,5 +1,5 @@
 [submodule "lib/get_next_line"]
-	path = lib/get_next_line
+	path = lib/libgnl
 	url = git@github.com:s-t-a-n/get_next_line.git
 [submodule "lib/libft"]
 	path = lib/libft
