@@ -61,10 +61,10 @@ void	sort_sprites(t_raycast *raycast, t_cub3d *cub3d)
 	t_bool	changed;
 
 	update_sprites(raycast, cub3d);
-	changed = true;
+	changed = TRUE;
 	while (changed)
 	{
-		changed = false;
+		changed = FALSE;
 		i = 0;
 		while (i + 1 < raycast->spritecount)
 		{
@@ -72,7 +72,7 @@ void	sort_sprites(t_raycast *raycast, t_cub3d *cub3d)
 					< raycast->sprites[i + 1].distance)
 			{
 				swap_sprites(raycast, i, i + 1);
-				changed = true;
+				changed = TRUE;
 			}
 			i++;
 		}

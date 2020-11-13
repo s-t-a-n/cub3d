@@ -16,7 +16,6 @@
 # include <string.h>
 # include <stdint.h>
 # include "cub3d.h"
-# include "ft_std.h"
 
 /*
 ** Source: https://engineering.purdue.edu/

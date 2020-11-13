@@ -25,7 +25,7 @@ void		init_scenedata(t_scenedata *scenedata)
 		scenedata->f_textures[i] = NULL;
 		i++;
 	}
-	scenedata->textured_floor_and_ceiling = false;
+	scenedata->textured_floor_and_ceiling = FALSE;
 	scenedata->resolution.x = -1;
 	scenedata->resolution.y = -1;
 	scenedata->floor_color.r = -1;
@@ -36,8 +36,8 @@ void		init_scenedata(t_scenedata *scenedata)
 	scenedata->ceiling_color.b = -1;
 	scenedata->map = NULL;
 	scenedata->error = 0;
-	scenedata->map_started = false;
-	scenedata->map_started_and_empty = false;
+	scenedata->map_started = FALSE;
+	scenedata->map_started_and_empty = FALSE;
 }
 
 void		postprocess_scenedata(t_scenedata *scenedata)
@@ -45,7 +45,7 @@ void		postprocess_scenedata(t_scenedata *scenedata)
 	int i;
 
 	if (scenedata->f_textures[TEXT_FL] || scenedata->f_textures[TEXT_CE])
-		scenedata->textured_floor_and_ceiling = true;
+		scenedata->textured_floor_and_ceiling = TRUE;
 	scenedata->extra_sprites = 0;
 	i = TEXT_SPE;
 	while (scenedata->f_textures[i])

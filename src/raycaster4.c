@@ -43,7 +43,7 @@ void				perform_dda(t_raycast *raycast, t_cub3d *cub3d)
 			[raycast->pos.x];
 		if (raycast->item != MAP_WALKABLE
 				&& raycast->item != MAP_ITEM_WALKABLE)
-			raycast->hit = true;
+			raycast->hit = TRUE;
 	}
 }
 

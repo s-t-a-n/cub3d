@@ -36,9 +36,9 @@ static t_bool		smafpp_sub(t_scenedata *scenedata, size_t xctr, size_t yctr,
 		if (ch == 'W')
 			scenedata->player_orientation = west;
 		scenedata->map->mem[yctr][xctr] = '0';
-		return (true);
+		return (TRUE);
 	}
-	return (false);
+	return (FALSE);
 }
 
 /*
@@ -130,5 +130,5 @@ t_bool				check_if_player_is_enclosed(t_scenedata *scenedata)
 		dump_scenedata_map(scenedata);
 		crit_error("Map:", "breach in wall found!", NULL);
 	}
-	return (true);
+	return (TRUE);
 }

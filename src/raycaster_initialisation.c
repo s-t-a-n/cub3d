@@ -107,6 +107,6 @@ void				init_raycast(t_raycast *raycast, t_cub3d *cub3d)
 	if (cub3d->first_render)
 	{
 		first_init_raycast(raycast, cub3d);
-		cub3d->first_render = false;
+		cub3d->first_render = FALSE;
 	}
 }

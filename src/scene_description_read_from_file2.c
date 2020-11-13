@@ -21,7 +21,7 @@ static t_bool	extension_isvalid(char *filename)
 	const size_t ext_len = ft_strlen(EXTENSION);
 
 	if (ext_len >= len)
-		return (false);
+		return (FALSE);
 	else
 		return (ft_strncmp(&filename[len - ext_len], EXTENSION, ext_len) == 0);
 }

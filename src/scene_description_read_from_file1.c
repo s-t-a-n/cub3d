@@ -51,7 +51,7 @@ t_bool			extract_scenedata_from_line_norm0(t_scenedata *scenedata,
 	if (lineismap_orempty(line) == 2)
 	{
 		if (scenedata->map_started)
-			scenedata->map_started_and_empty = true;
+			scenedata->map_started_and_empty = TRUE;
 		return (noerr);
 	}
 	else
@@ -77,7 +77,7 @@ t_bool			extract_scenedata_from_line(t_scenedata *scenedata, char *line)
 	{
 		if (scenedata->map_started_and_empty)
 			crit_error("Map:", "empty line in map!", NULL);
-		scenedata->map_started = true;
+		scenedata->map_started = TRUE;
 		return (scenedesc_process_map(scenedata, line));
 	}
 	else if (extract_scenedata_from_line_norm0(scenedata, line) == noerr)

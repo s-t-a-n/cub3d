@@ -73,7 +73,7 @@ t_bool		scenedesc_process_colors_norm1(t_scenedata *scenedata,
 	if (line[0] == 'F' && scenedata->floor_color.r != -1)
 		crit_error("Scene description:", "Double entry:", line);
 	*elements = ft_strsplit(line, ' ');
-	return (true);
+	return (TRUE);
 }
 
 t_bool		scenedesc_process_colors(t_scenedata *scenedata, char *line)

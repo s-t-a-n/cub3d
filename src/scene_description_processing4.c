@@ -50,10 +50,10 @@ t_bool	element_only_has_numbers(char **elements)
 		while (elements[i][j])
 		{
 			if (!ft_isdigit(elements[i][j]))
-				return (false);
+				return (FALSE);
 			j++;
 		}
 		i++;
 	}
-	return (true);
+	return (TRUE);
 }

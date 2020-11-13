@@ -26,7 +26,7 @@ t_bool	keyhandler(int keystate, t_cub3d *cub3d)
 		rotate_left(cub3d->raycast, cub3d->player);
 	else if (keystate & kb_arr_right_flag)
 		rotate_right(cub3d->raycast, cub3d->player);
-	return (true);
+	return (TRUE);
 }
 
 void	keystate_setflag(unsigned int *keystate, int keycode)

@@ -22,11 +22,11 @@ t_bool			breachfinder(char **map, int ymax,
 				|| pos.y >= ymax
 				|| pos.x < 0
 				|| pos.x >= (int)ft_strlen(map[pos.y]))
-			return (true);
+			return (TRUE);
 		else if (map[pos.y][pos.x] == MAP_WALL
 				|| map[pos.y][pos.x] == MAP_WALKABLE
 				|| map[pos.y][pos.x] == MAP_ITEM_WALKABLE)
-			return (false);
+			return (FALSE);
 		else if (map[pos.y][pos.x] == MAP_EMPTY)
 			map[pos.y][pos.x] = MAP_WALKABLE;
 		else if (pos.y != 0

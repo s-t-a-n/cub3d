@@ -33,7 +33,7 @@ t_bool		write_bmp_from_mlx_image_norm0(t_mlx_image *mlx_image,
 		{
 			destruct_bmpimage(image);
 			close_file(*fd);
-			return (true);
+			return (TRUE);
 		}
 	}
 	else
@@ -42,7 +42,7 @@ t_bool		write_bmp_from_mlx_image_norm0(t_mlx_image *mlx_image,
 		crit_error("write_bmp_from_mlx_image",
 				"couldnt open file for writing", NULL);
 	}
-	return (false);
+	return (FALSE);
 }
 
 t_bool		write_bmp_from_mlx_image(t_mlx_image *mlx_image, char *fname)
@@ -54,12 +54,12 @@ t_bool		write_bmp_from_mlx_image(t_mlx_image *mlx_image, char *fname)
 	if (image)
 	{
 		if (write_bmp_from_mlx_image_norm0(mlx_image, fname, image, &fd))
-			return (true);
+			return (TRUE);
 	}
 	else
 	{
 		crit_error("MALLOC", strerror(errno), NULL);
-		return (false);
+		return (FALSE);
 	}
-	return (false);
+	return (FALSE);
 }

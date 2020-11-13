@@ -48,7 +48,7 @@ int			execute_rendering(t_cub3d *cub3d)
 	mlx_hook(cub3d->mlx->window, X_EVENT_KEYRELEASE, X_MASK_KEYRELEASE,
 		&keyrelease, cub3d);
 	mlx_loop_hook(cub3d->mlx->backend, &game_update, cub3d);
-	cub3d->first_render = true;
+	cub3d->first_render = TRUE;
 	render_frame(cub3d);
 	mlx_loop(cub3d->mlx->backend);
 	return (noerr);
@@ -64,9 +64,9 @@ int			main(int argc, char **argv)
 	cub3d.player = &player;
 	cub3d.scenedata = &scenedata;
 	cub3d.raycast = &raycast;
-	cub3d.save_frame = false;
+	cub3d.save_frame = FALSE;
 	if (argc == 3 && ft_strncmp(argv[2], "--save", 7) == 0)
-		cub3d.save_frame = true;
+		cub3d.save_frame = TRUE;
 	else if (argc != 2)
 		crit_error("Cube3d:", "Come back later with better arguments", NULL);
 	if (construct_scenedata(&scenedata, argv[1]) == noerr

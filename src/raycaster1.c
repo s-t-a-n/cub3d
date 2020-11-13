@@ -114,7 +114,7 @@ t_bool		raycaster(t_raycast *raycast, t_cub3d *cub3d)
 		draw_colored_floors_and_ceiling(cub3d->mlx, cub3d->scenedata);
 	while (raycast->phaser.x < cub3d->mlx->resolution.x)
 	{
-		raycast->hit = false;
+		raycast->hit = FALSE;
 		calc_pos_in_cameraplane(raycast, cub3d);
 		calc_ray_position_and_direction(raycast, cub3d->player);
 		calc_delta_intercept(raycast);
