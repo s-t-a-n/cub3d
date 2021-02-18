@@ -2,6 +2,7 @@
 # Cub3D
 
 A simple raycaster engine I wrote for the Cub3D project in the 42 programme.
+It is based on the great tutorial by [Lode](https://lodev.org/cgtutor/raycasting.html)
 
 ### Features:
 
